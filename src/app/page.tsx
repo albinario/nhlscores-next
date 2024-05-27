@@ -1,95 +1,54 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+import { useState } from 'react'
+import Header from '@/components/Header'
+import { Footer } from '@/components/Footer'
+import { Games } from '@/components/Games'
+import useFetchData from '@/hooks/useFetchData'
+import moment from 'moment'
+import Alert from 'react-bootstrap/Alert'
+import Container from 'react-bootstrap/Container'
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+	const dateFormat = 'YYYY-MM-DD'
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+	const [date, setDate] = useState(
+		moment().subtract(1, 'days').format(dateFormat)
+	)
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+	const {
+		data: games,
+		error,
+		isLoading
+	} = useFetchData<TGame[]>('/api/schedule/' + date)
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+	const dateDecrease = () => {
+		setDate(moment(date).subtract(1, 'days').format(dateFormat))
+	}
+	const dateIncrease = () => {
+		setDate(moment(date).add(1, 'days').format(dateFormat))
+	}
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+	return (
+		<Container className='d-flex flex-column justify-content-between'>
+			<div>
+				<Header
+					date={date}
+					dateFormat={dateFormat}
+					dateDecrease={dateDecrease}
+					dateIncrease={dateIncrease}
+					isLoading={isLoading}
+				/>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+				{error && <Alert variant='warning'>Error loading games</Alert>}
+
+				{!isLoading && !error && !games?.length && (
+					<Alert variant='secondary'>No games on this day</Alert>
+				)}
+
+				{!error && !!games?.length && <Games games={games} />}
+			</div>
+
+			<Footer />
+		</Container>
+	)
 }

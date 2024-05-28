@@ -14,7 +14,7 @@ const get = async <T>(endpoint: string) => {
 	return response.data
 }
 
-export const getGame = async (gameId: number) => {
+export const getGameDetails = async (gameId: number) => {
 	const boxscore = await get<TGameBoxscore>(
 		'/gamecenter/' + gameId + '/boxscore'
 	)
@@ -23,9 +23,18 @@ export const getGame = async (gameId: number) => {
 	return gameDetails
 }
 
-export const getGames = async (date: string) => {
+export const getGamesDate = async (date: string) => {
 	const response = await get<TGamesResponse>('/schedule/' + date)
 	return response.gameWeek[0].games
+}
+
+export const getGamesTeam = async (teamAbbrev: string) => {
+	const response = await get<TGamesResponse>(
+		'/club-schedule-season/' + teamAbbrev + '/now'
+	)
+	console.log(response)
+
+	return response
 }
 
 export const getTeamRecords = async () => {

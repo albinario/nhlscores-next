@@ -18,7 +18,7 @@ export default function Home() {
 	const {
 		data: games,
 		error,
-		isLoading
+		isLoading,
 	} = useFetchData<TGame[]>('games/' + date)
 
 	const dateDecrease = () => {

@@ -14,7 +14,7 @@ export function Goalie({
 }) {
 	return goalie.toi !== '00:00' ? (
 		<tr>
-			<td className='text-start'>
+			<td className={`text-start text-nowrap ${pickedBy}`}>
 				<Image alt={teamAbbrev} className='me-1' src={getLogoUrl(teamAbbrev)} />
 				<span className='small'>{goalie.sweaterNumber} </span>
 				{goalie.name.default}

@@ -1,25 +1,16 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-body {
-	font-size: 0.75em;
+html {
 	scrollbar-width: none;
 }
 
-body::-webkit-scrollbar {
-	width: 0;
-}
-
-body::-webkit-scrollbar-thumb {
-	background-color: transparent;
-}
-
-body::-webkit-scrollbar-track {
-	background-color: transparent;
+body {
+	font-size: 0.75em;
 }
 
 .btn,
 .btn:hover {
-	background: transparent !important;
+	background: transparent;
 	border: none;
 }
 
@@ -29,6 +20,7 @@ img {
 
 .container {
 	height: 100vh;
+	max-width: 750px;
 }
 
 #games .text-bg-warning {
@@ -41,16 +33,16 @@ img {
 }
 
 .A {
-	color: #20c997;
+	color: #20c997 !important;
 }
 .J {
-	color: #dc3545;
+	color: #dc3545 !important;
 }
 .S {
-	color: #0d6efd;
+	color: #0d6efd !important;
 }
 .V {
-	color: #ffc107;
+	color: #ffc107 !important;
 }
 
 .table-sm td {

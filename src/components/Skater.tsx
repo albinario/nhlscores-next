@@ -10,11 +10,11 @@ export function Skater({
 
 	return (
 		<tr>
-			<td className='text-start text-nowrap'>
+			<td className={`text-start text-nowrap ${pickedBy}`}>
 				<span className='small me-1'>{skater.sweaterNumber}</span>
 				<span className='d-none d-sm-inline'>{fullName}</span>
 				<span className='d-sm-none'>{lastName}</span>
-				{pickedBy && <span className={`small ${pickedBy}`}> {pickedBy}</span>}
+				{pickedBy && <span className='small'> {pickedBy}</span>}
 			</td>
 			<td>{skater.goals}</td>
 			<td>{skater.assists}</td>

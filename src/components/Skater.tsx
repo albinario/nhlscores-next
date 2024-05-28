@@ -1,21 +1,20 @@
-import type { SkaterStats } from '../types'
-
-interface IProps {
-	skater: SkaterStats
+export function Skater({
+	skater,
+	pickedBy,
+}: {
+	skater: TSkaterStats
 	pickedBy?: string
-}
-
-const Skater: React.FC<IProps> = ({ skater, pickedBy }) => {
+}) {
 	const fullName = skater.name.default
 	const lastName = fullName.replace(/^[A-Z]\. /, '')
 
 	return (
-		<tr className={pickedBy}>
+		<tr>
 			<td className='text-start text-nowrap'>
 				<span className='small me-1'>{skater.sweaterNumber}</span>
 				<span className='d-none d-sm-inline'>{fullName}</span>
 				<span className='d-sm-none'>{lastName}</span>
-				{pickedBy && <span className='small'> {pickedBy}</span>}
+				{pickedBy && <span className={`small ${pickedBy}`}> {pickedBy}</span>}
 			</td>
 			<td>{skater.goals}</td>
 			<td>{skater.assists}</td>
@@ -33,5 +32,3 @@ const Skater: React.FC<IProps> = ({ skater, pickedBy }) => {
 		</tr>
 	)
 }
-
-export default Skater

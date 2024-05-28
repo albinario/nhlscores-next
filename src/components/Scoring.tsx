@@ -1,38 +1,35 @@
-import Goal from './Goal'
-import { getPeriodType } from '../helpers/getPeriodType'
-import type { TPlayerPicked, Scoring } from '../types'
+import { Goal } from '@/components/Goal'
+import { getPeriodType } from '@/helpers/getPeriodType'
 
-interface IProps {
-	losingScore: number
-	playersPicked?: TPlayerPicked[]
-	scoring: Scoring
-	teamAbbrevAway: string
-	winningGoalScorerId?: number
-}
-
-const Scoring: React.FC<IProps> = ({
+export function Scoring({
 	losingScore,
 	playersPicked,
 	scoring,
 	teamAbbrevAway,
-	winningGoalScorerId
-}) => (
-	<div className='period mb-1'>
-		<div className='d-flex justify-content-center small text-muted'>
-			{getPeriodType(scoring.periodDescriptor)}
+	winningGoalScorerId,
+}: {
+	losingScore: number
+	playersPicked?: TPlayerPicked[]
+	scoring: TScoring
+	teamAbbrevAway: string
+	winningGoalScorerId?: number
+}) {
+	return (
+		<div className='period mb-1'>
+			<div className='d-flex justify-content-center small text-muted'>
+				{getPeriodType(scoring.periodDescriptor)}
+			</div>
+			{scoring.goals.map((goal, index) => (
+				<Goal
+					key={index}
+					away={goal.teamAbbrev.default === teamAbbrevAway}
+					goal={goal}
+					isSo={scoring.periodDescriptor.periodType === 'SO'}
+					losingScore={losingScore}
+					players={playersPicked}
+					winningGoalScorerId={winningGoalScorerId}
+				/>
+			))}
 		</div>
-		{scoring.goals.map((goal, index) => (
-			<Goal
-				key={index}
-				away={goal.teamAbbrev.default === teamAbbrevAway}
-				goal={goal}
-				isSo={scoring.periodDescriptor.periodType === 'SO'}
-				losingScore={losingScore}
-				players={playersPicked}
-				winningGoalScorerId={winningGoalScorerId}
-			/>
-		))}
-	</div>
-)
-
-export default Scoring
+	)
+}

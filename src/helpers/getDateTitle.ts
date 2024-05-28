@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-const getDateTitle = (date: string, dateFormat: string) => {
+export const getDateTitle = (date: string, dateFormat: string) => {
 	const now = new Date()
 	switch (date) {
 		case moment(now).format(dateFormat):
@@ -13,5 +13,3 @@ const getDateTitle = (date: string, dateFormat: string) => {
 			return date
 	}
 }
-
-export default getDateTitle

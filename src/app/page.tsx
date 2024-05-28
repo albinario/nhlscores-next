@@ -19,7 +19,7 @@ export default function Home() {
 		data: games,
 		error,
 		isLoading
-	} = useFetchData<TGame[]>('/api/schedule/' + date)
+	} = useFetchData<TGame[]>('games/' + date)
 
 	const dateDecrease = () => {
 		setDate(moment(date).subtract(1, 'days').format(dateFormat))
@@ -39,7 +39,7 @@ export default function Home() {
 					isLoading={isLoading}
 				/>
 
-				{error && <Alert variant='warning'>Error loading games</Alert>}
+				{error && <Alert variant='warning'>{error}</Alert>}
 
 				{!isLoading && !error && !games?.length && (
 					<Alert variant='secondary'>No games on this day</Alert>

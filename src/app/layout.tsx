@@ -3,11 +3,15 @@ import './globals.css'
 
 export const metadata: Metadata = {
 	title: 'NHL Scores',
-	description: 'NextJS application'
+	description: 'Next14 application',
+	openGraph: {
+		title: 'NHL Scores',
+		images: ['/apple-touch-icon-114x114.png'],
+	},
 }
 
 export default function RootLayout({
-	children
+	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {

@@ -1,11 +1,10 @@
-import Game from './Game'
-import { useGetPlayersPicked } from '../hooks/useGetPlayersPicked'
-import { useGetTeamRecords } from '../hooks/useGetTeamRecords'
+import { Game } from '@/components/Game'
+import useFetchData from '@/hooks/useFetchData'
 import Row from 'react-bootstrap/Row'
 
 export function Games({ games }: { games: TGame[] }) {
-	// const { data: playersPicked } = useGetPlayersPicked()
-	// const { data: teamRecords } = useGetTeamRecords()
+	const { data: playersPicked } = useFetchData<TPlayerPicked[]>('players')
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
 
 	return (
 		<Row xs={1} className='g-2'>
@@ -13,17 +12,17 @@ export function Games({ games }: { games: TGame[] }) {
 				<Game
 					key={game.id}
 					game={game}
-					// playersPicked={playersPicked?.filter(
-					// 	(player) =>
-					// 		player.teamAbbrev === game.awayTeam.abbrev ||
-					// 		player.teamAbbrev === game.homeTeam.abbrev
-					// )}
-					// teamRecordsAway={teamRecords?.find(
-					// 	(team) => team.teamAbbrev.default === game.awayTeam.abbrev
-					// )}
-					// teamRecordsHome={teamRecords?.find(
-					// 	(team) => team.teamAbbrev.default === game.homeTeam.abbrev
-					// )}
+					playersPicked={playersPicked?.filter(
+						(player) =>
+							player.teamAbbrev === game.awayTeam.abbrev ||
+							player.teamAbbrev === game.homeTeam.abbrev
+					)}
+					teamRecordAway={teamRecords?.find(
+						(team) => team.teamAbbrev.default === game.awayTeam.abbrev
+					)}
+					teamRecordHome={teamRecords?.find(
+						(team) => team.teamAbbrev.default === game.homeTeam.abbrev
+					)}
 				/>
 			))}
 		</Row>

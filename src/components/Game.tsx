@@ -1,8 +1,8 @@
 'use client'
-// import GameDetails from './GameDetails'
-import Team from './Team'
-import { getStartTime } from '../helpers/getStartTime'
 import { useState } from 'react'
+import { GameDetails } from '@/components/GameDetails'
+import { Team } from '@/components/Team'
+import { getStartTime } from '@/helpers/getStartTime'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
@@ -12,13 +12,13 @@ import Row from 'react-bootstrap/Row'
 export function Game({
 	game,
 	playersPicked,
-	teamRecordsAway,
-	teamRecordsHome
+	teamRecordAway,
+	teamRecordHome,
 }: {
 	game: TGame
 	playersPicked?: TPlayerPicked[]
-	teamRecordsAway?: TTeamRecord
-	teamRecordsHome?: TTeamRecord
+	teamRecordAway?: TTeamRecord
+	teamRecordHome?: TTeamRecord
 }) {
 	const [showResults, setShowResults] = useState(false)
 
@@ -77,7 +77,7 @@ export function Game({
 							)}
 							showResults={showResults}
 							team={game.awayTeam}
-							teamRecord={teamRecordsAway}
+							teamRecord={teamRecordAway}
 						/>
 						<Team
 							away={false}
@@ -86,21 +86,19 @@ export function Game({
 							)}
 							showResults={showResults}
 							team={game.homeTeam}
-							teamRecord={teamRecordsHome}
+							teamRecord={teamRecordHome}
 						/>
 					</Row>
 
-					{/* {started && showResults && (
+					{started && showResults && (
 						<GameDetails
 							key={game.id}
 							game={game}
 							playersPicked={playersPicked}
 						/>
-					)} */}
+					)}
 				</Card.Body>
 			</Card>
 		</Col>
 	)
 }
-
-export default Game

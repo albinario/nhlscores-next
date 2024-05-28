@@ -8,7 +8,7 @@ export function Team({
 	playersPicked,
 	showResults,
 	team,
-	teamRecord
+	teamRecord,
 }: {
 	away: boolean
 	playersPicked?: TPlayerPicked[]
@@ -65,5 +65,3 @@ export function Team({
 		</Col>
 	)
 }
-
-export default Team

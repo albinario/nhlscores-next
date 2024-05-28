@@ -1,6 +1,4 @@
-import type { Goal } from '../types'
-
-export const getGoalTypes = (goal: Goal, gameWinner: boolean) => {
+export const getGoalTypes = (goal: TGoal, gameWinner: boolean) => {
 	const goalTypes: string[] = []
 
 	goal.strength === 'pp'

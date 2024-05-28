@@ -1,27 +1,24 @@
-import { getLogoUrl } from '../helpers/getLogoUrl'
+import { getLogoUrl } from '@/helpers/getLogoUrl'
 import { Image } from 'react-bootstrap'
-import type { GoalieStats } from '../types'
 
-interface IProps {
-	goalie: GoalieStats
-	teamAbbrev: string
-	pickedBy?: string
-	winningGoalie: boolean
-}
-
-const Goalie: React.FC<IProps> = ({
+export function Goalie({
 	goalie,
-	teamAbbrev,
 	pickedBy,
+	teamAbbrev,
 	winningGoalie,
-}) =>
-	goalie.toi !== '00:00' ? (
-		<tr className={pickedBy}>
+}: {
+	goalie: TGoalieStats
+	pickedBy?: string
+	teamAbbrev: string
+	winningGoalie: boolean
+}) {
+	return goalie.toi !== '00:00' ? (
+		<tr>
 			<td className='text-start'>
-				<Image className='me-1' src={getLogoUrl(teamAbbrev)} />
+				<Image alt={teamAbbrev} className='me-1' src={getLogoUrl(teamAbbrev)} />
 				<span className='small'>{goalie.sweaterNumber} </span>
 				{goalie.name.default}
-				{pickedBy && <span className='small'> {pickedBy}</span>}
+				{pickedBy && <span className={`small ${pickedBy}`}> {pickedBy}</span>}
 				{winningGoalie && (
 					<span className='fst-italic opacity-75 small'> W</span>
 				)}
@@ -32,8 +29,5 @@ const Goalie: React.FC<IProps> = ({
 			<td>{goalie.pim}</td>
 			<td className='text-end'>{goalie.toi}</td>
 		</tr>
-	) : (
-		<></>
-	)
-
-export default Goalie
+	) : null
+}

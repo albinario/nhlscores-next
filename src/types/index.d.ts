@@ -12,12 +12,6 @@ type TGame = {
 	}
 }
 
-type TGameResponse = {
-	gameWeek: {
-		games: TGame[]
-	}[]
-}
-
 type TGameTeam = {
 	abbrev: string
 	placeName: TName
@@ -38,6 +32,12 @@ type TGameBoxscoreTeam = {
 	defense: TSkaterStats[]
 	goalies: TGoalieStats[]
 	forwards: TSkaterStats[]
+}
+
+type TGamesResponse = {
+	gameWeek: {
+		games: TGame[]
+	}[]
 }
 
 type TSkaterStats = {
@@ -131,11 +131,11 @@ type TGameDetails = {
 
 type TPlayerPicked = {
 	id: number
-	name: string
 	jersey: number
+	name: string
+	picker: string
 	pos: string
 	teamAbbrev: string
-	picker: string
 }
 
 type TTeamRecord = {
@@ -147,4 +147,8 @@ type TTeamRecord = {
 		default: string
 	}
 	wins: number
+}
+
+type TStandingsResponse = {
+	standings: TTeamRecord[]
 }

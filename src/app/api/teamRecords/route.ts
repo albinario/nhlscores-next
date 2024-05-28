@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
-import { instance } from '@/services/axios'
+import { getTeamRecords } from '@/services/nhlApi'
 
 export async function GET() {
 	try {
-		const response = await instance.get('/standings/now')
-		return NextResponse.json(response.data.standings)
+		return NextResponse.json(await getTeamRecords())
 	} catch (error) {
 		return NextResponse.json({
 			error: 'Server error when fetching standings'

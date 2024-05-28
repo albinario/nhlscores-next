@@ -1,26 +1,23 @@
-import Scorer from './Scorer'
-import { getGoalTypes } from '../helpers/getGoalTypes'
-import { getLogoUrl } from '../helpers/getLogoUrl'
+import { Scorer } from '@/components/Scorer'
+import { getGoalTypes } from '@/helpers/getGoalTypes'
+import { getLogoUrl } from '@/helpers/getLogoUrl'
 import Image from 'react-bootstrap/Image'
-import type { Goal as TGoal, TPlayerPicked } from '../types'
 
-interface IProps {
+export function Goal({
+	away,
+	goal,
+	isSo,
+	losingScore,
+	players,
+	winningGoalScorerId,
+}: {
 	away: boolean
 	goal: TGoal
 	isSo: boolean
 	losingScore: number
 	players?: TPlayerPicked[]
 	winningGoalScorerId?: number
-}
-
-const Goal: React.FC<IProps> = ({
-	away,
-	goal,
-	isSo,
-	losingScore,
-	players,
-	winningGoalScorerId
-}) => {
+}) {
 	const gameWinner =
 		goal.playerId === winningGoalScorerId &&
 		(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
@@ -31,6 +28,7 @@ const Goal: React.FC<IProps> = ({
 		<div className='mb-2'>
 			<div className={`d-flex ${!away && 'flex-row-reverse'}`}>
 				<Image
+					alt={goal.teamAbbrev.default}
 					className={away ? 'me-1' : 'ms-1'}
 					src={getLogoUrl(goal.teamAbbrev.default)}
 				/>
@@ -81,5 +79,3 @@ const Goal: React.FC<IProps> = ({
 		</div>
 	)
 }
-
-export default Goal

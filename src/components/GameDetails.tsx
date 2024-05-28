@@ -1,33 +1,36 @@
-import Players from './Players'
-import Scoring from './Scoring'
-import { useGetGame } from '../hooks/useGetGame'
+import { Players } from '@/components/Players'
+import { Scoring } from '@/components/Scoring'
+import useFetchData from '@/hooks/useFetchData'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
 
 export function GameDetails({
 	game,
-	playersPicked
+	playersPicked,
 }: {
 	game: TGame
 	playersPicked?: TPlayerPicked[]
 }) {
-	const { data: gameDetails, isError, isFetching } = useGetGame(game.id)
+	const {
+		data: gameDetails,
+		error,
+		isLoading,
+	} = useFetchData<TGameDetails>('game/' + game.id)
 
 	const losingScore =
 		game.awayTeam.score < game.homeTeam.score
 			? game.awayTeam.score
 			: game.homeTeam.score
 
-	if (isFetching)
+	if (isLoading)
 		return (
 			<div className='d-flex justify-content-center'>
 				<Spinner animation='grow' size='sm' variant='warning' />
 			</div>
 		)
 
-	if (isError)
-		return <Alert variant='warning'>Error loading game details</Alert>
+	if (error) return <Alert variant='warning'>Error loading game details</Alert>
 
 	if (!gameDetails)
 		return <Alert variant='secondary'>No game details available</Alert>

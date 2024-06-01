@@ -25,13 +25,13 @@ export default function Header({
 	return (
 		<header className='d-flex justify-content-between align-items-center my-1 position-relative'>
 			<div className='py-2 pe-3 ps-0 pointer' onClick={dateDecrease}>
-				<Arrow left={true} />
+				<Arrow left />
 			</div>
 
 			<div className='fs-5 opacity-75'>{dateTitle}</div>
 
 			<div className='py-2 ps-3 pe-0 pointer' onClick={dateIncrease}>
-				<Arrow left={false} />
+				<Arrow />
 			</div>
 
 			{isLoading && <Fetching />}

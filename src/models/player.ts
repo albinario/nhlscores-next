@@ -1,6 +1,6 @@
 import { model, models, Schema } from 'mongoose'
 
-const PlayerSchema: Schema = new Schema<TPlayerPicked>({
+const PlayerSchema: Schema = new Schema<TPlayer>({
 	id: {
 		type: Number,
 		required: true,
@@ -29,5 +29,4 @@ const PlayerSchema: Schema = new Schema<TPlayerPicked>({
 	},
 })
 
-export const Player =
-	models.Player || model<TPlayerPicked>('Player', PlayerSchema)
+export const Player = models.Player || model<TPlayer>('Player', PlayerSchema)

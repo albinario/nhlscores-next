@@ -3,7 +3,7 @@ import useFetchData from '@/hooks/useFetchData'
 import Row from 'react-bootstrap/Row'
 
 export function Games({ games }: { games: TGame[] }) {
-	const { data: playersPicked } = useFetchData<TPlayerPicked[]>('players')
+	const { data: playersPicked } = useFetchData<TPlayer[]>('players')
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
 
 	return (

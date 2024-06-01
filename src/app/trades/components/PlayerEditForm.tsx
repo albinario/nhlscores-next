@@ -1,17 +1,17 @@
-import { useUpdatePlayer } from '../hooks/usePlayers'
+// import { useUpdatePlayer } from '../hooks/usePlayers'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
-import type { Player, Team } from '../types'
 
-interface IProps {
-	playersAll?: Player[]
-	teams?: Team[]
-}
-
-const PlayerEditForm: React.FC<IProps> = ({ playersAll, teams }) => {
+export function PlayerEditForm({
+	playersAll,
+	teams,
+}: {
+	playersAll?: TPlayer[]
+	teams?: TTeamSchedule[]
+}) {
 	const [jersey, setJersey] = useState(0)
 	const [picker, setPicker] = useState('')
 	const [playerToEditId, setPlayerToEditId] = useState(0)
@@ -19,14 +19,14 @@ const PlayerEditForm: React.FC<IProps> = ({ playersAll, teams }) => {
 	const [searchInput, setSearchInput] = useState('')
 	const [teamAbbrev, setTeamAbbrev] = useState('')
 
-	const updatePlayer = useUpdatePlayer()
+	// const updatePlayer = useUpdatePlayer()
 
 	const playerEdit = (e: React.FormEvent) => {
 		e.preventDefault()
 
 		if (!playerToEditId) return alert('No player chosen')
 
-		const playerToEdit: Partial<Player> = {
+		const playerToEdit: Partial<TPlayer> = {
 			id: playerToEditId,
 			picker,
 			teamAbbrev,
@@ -34,7 +34,7 @@ const PlayerEditForm: React.FC<IProps> = ({ playersAll, teams }) => {
 			pos,
 		}
 
-		updatePlayer.mutate(playerToEdit)
+		// updatePlayer.mutate(playerToEdit)
 
 		setSearchInput('')
 		setPicker('')
@@ -60,12 +60,12 @@ const PlayerEditForm: React.FC<IProps> = ({ playersAll, teams }) => {
 					>
 						<option value={0}>Player</option>
 						{playersAll
-							?.filter((player: Player) =>
+							?.filter((player: TPlayer) =>
 								player.name
 									.toLowerCase()
 									.includes(searchInput.toLocaleLowerCase())
 							)
-							.map((player: Player) => (
+							.map((player: TPlayer) => (
 								<option key={player.id} value={player.id}>
 									{player.name}
 								</option>
@@ -115,8 +115,8 @@ const PlayerEditForm: React.FC<IProps> = ({ playersAll, teams }) => {
 
 				<Col>
 					<Button
-						type='submit'
 						className='form-control'
+						type='submit'
 						variant='outline-success'
 					>
 						+

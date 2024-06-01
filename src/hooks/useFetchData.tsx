@@ -1,4 +1,4 @@
-import useSWR from 'swr'
+import useSWRImmutable from 'swr/immutable'
 
 export default function useFetchData<T>(url: string) {
 	const fetcher = async (url: string) => {
@@ -7,9 +7,5 @@ export default function useFetchData<T>(url: string) {
 		return data as T
 	}
 
-	return useSWR(url, fetcher, {
-		revalidateIfStale: false,
-		revalidateOnFocus: false,
-		revalidateOnReconnect: false,
-	})
+	return useSWRImmutable(url, fetcher)
 }

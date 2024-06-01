@@ -11,7 +11,7 @@ export function Team({
 	teamRecord,
 }: {
 	away: boolean
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 	showResults: boolean
 	team: TGameTeam
 	teamRecord?: TTeamRecord

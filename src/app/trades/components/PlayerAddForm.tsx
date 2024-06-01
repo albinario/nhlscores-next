@@ -1,31 +1,26 @@
-import { useCreatePlayer } from '../hooks/usePlayers'
+// import { useCreatePlayer } from '../hooks/usePlayers'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
-import { searchPlayers } from '../services/SearchAPI'
-import type { Player, PlayerSearch } from '../types'
+// import { searchPlayers } from '../services/SearchAPI'
 
-interface IProps {
-	playersAll?: Player[]
-}
-
-const PlayerAdd: React.FC<IProps> = ({ playersAll }) => {
+export function PlayerAddForm({ playersAll }: { playersAll?: TPlayer[] }) {
 	const [jersey, setJersey] = useState(0)
 	const [name, setName] = useState('')
 	const [picker, setPicker] = useState('')
 	const [playerToAddId, setPlayerToAddId] = useState(0)
-	const [players, setPlayers] = useState<PlayerSearch[] | null>(null)
+	const [players, setPlayers] = useState<TPlayerSearch[] | null>(null)
 	const [pos, setPos] = useState('')
 	const [searchInput, setSearchInput] = useState('')
 	const [teamAbbrev, setTeamAbbrev] = useState('')
 
-	const createPlayer = useCreatePlayer()
+	// const createPlayer = useCreatePlayer()
 
 	const search = async () => {
-		const players = await searchPlayers(searchInput)
-		setPlayers(players.filter((player) => player.sweaterNumber))
+		// const players = await searchPlayers(searchInput)
+		// setPlayers(players.filter((player) => player.sweaterNumber))
 	}
 
 	const setPlayerToAddStates = (id: string) => {
@@ -50,7 +45,7 @@ const PlayerAdd: React.FC<IProps> = ({ playersAll }) => {
 		if (playersAll?.find((player) => player.id === playerToAddId))
 			return alert('Player already added')
 
-		const playerToAdd: Player = {
+		const playerToAdd: TPlayer = {
 			id: playerToAddId,
 			name,
 			jersey,
@@ -59,9 +54,7 @@ const PlayerAdd: React.FC<IProps> = ({ playersAll }) => {
 			picker,
 		}
 
-		console.log(playerToAdd)
-
-		createPlayer.mutate(playerToAdd)
+		// createPlayer.mutate(playerToAdd)
 
 		setJersey(0)
 		setName('')
@@ -129,5 +122,3 @@ const PlayerAdd: React.FC<IProps> = ({ playersAll }) => {
 		</Form>
 	)
 }
-
-export default PlayerAdd

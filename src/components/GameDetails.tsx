@@ -10,7 +10,7 @@ export function GameDetails({
 	playersPicked,
 }: {
 	game: TGame
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 }) {
 	const {
 		data: gameDetails,

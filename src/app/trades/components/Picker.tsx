@@ -1,16 +1,16 @@
-import Logo from './Logo'
-import Missing from './Missing'
-import { useUpdatePlayer } from '../hooks/usePlayers'
+import { Missing } from './Missing'
+// import { useUpdatePlayer } from '../hooks/usePlayers'
 import Col from 'react-bootstrap/Col'
-import type { Player } from '../types'
+import { Logo } from '@/components/Logo'
 
-interface IProps {
+export function Picker({
+	picker,
+	playersPicked,
+}: {
 	picker: string
-	playersPicked?: Player[]
-}
-
-const Picker: React.FC<IProps> = ({ picker, playersPicked }) => {
-	const updatePlayer = useUpdatePlayer()
+	playersPicked?: TPlayer[]
+}) {
+	// const updatePlayer = useUpdatePlayer()
 	const order = ['C', 'W', 'D', 'G']
 
 	return (
@@ -24,7 +24,7 @@ const Picker: React.FC<IProps> = ({ picker, playersPicked }) => {
 					<div key={player.id} className='mb-1'>
 						<a
 							className='cursor-pointer'
-							onClick={() => updatePlayer.mutate({ id: player.id })}
+							// onClick={() => updatePlayer.mutate({ id: player.id })}
 							role='button'
 						>
 							<Logo teamAbbrev={player.teamAbbrev} />
@@ -41,5 +41,3 @@ const Picker: React.FC<IProps> = ({ picker, playersPicked }) => {
 		</Col>
 	)
 }
-
-export default Picker

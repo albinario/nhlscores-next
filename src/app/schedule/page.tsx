@@ -1,13 +1,13 @@
 'use client'
-import TeamRow from './components/TeamRow'
+import { TeamRow } from './components/TeamRow'
 import useFetchData from '@/hooks/useFetchData'
 import moment from 'moment'
 import Table from 'react-bootstrap/Table'
-import type { Dates, TeamRecord } from './types'
+import { dateFormat } from '@/theme'
 
-export default function Trades() {
-	const { data: playersPicked } = useFetchData<TPlayerPicked[]>('players')
-	const { data: teamRecords } = useFetchData<TeamRecord[]>('teamRecords')
+export default function Schedule() {
+	const { data: playersPicked } = useFetchData<TPlayer[]>('players')
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
 
 	const teams = teamRecords?.map((teamRecord) => ({
 		abbrev: teamRecord.teamAbbrev.default,
@@ -15,8 +15,7 @@ export default function Trades() {
 		value: Number(teamRecord.leagueL10Sequence),
 	}))
 
-	const dateFormat = 'YYYY-MM-DD'
-	const dates: Dates = {
+	const dates: TDates = {
 		week1Start: moment().format(dateFormat),
 		week1End: moment().add(6, 'days').format(dateFormat),
 		week2Start: moment().add(7, 'days').format(dateFormat),

@@ -15,7 +15,7 @@ export function Goal({
 	goal: TGoal
 	isSo: boolean
 	losingScore: number
-	players?: TPlayerPicked[]
+	players?: TPlayer[]
 	winningGoalScorerId?: number
 }) {
 	const gameWinner =

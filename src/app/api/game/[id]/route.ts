@@ -9,7 +9,7 @@ export async function GET(
 		return NextResponse.json(await getGameDetails(params.id))
 	} catch (error) {
 		return NextResponse.json({
-			error: 'Server error when fetching game',
+			error: 'Server error when fetching game ' + params.id,
 		})
 	}
 }

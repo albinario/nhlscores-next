@@ -16,7 +16,7 @@ export function Game({
 	teamRecordHome,
 }: {
 	game: TGame
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 	teamRecordAway?: TTeamRecord
 	teamRecordHome?: TTeamRecord
 }) {

@@ -8,6 +8,10 @@ body {
 	font-size: 0.75em;
 }
 
+a {
+	all: unset;
+}
+
 img {
 	width: 2em;
 }
@@ -45,4 +49,17 @@ img {
 
 .table-sm td {
 	padding: 0;
+}
+
+.back {
+	border-left: 1px solid #dee2e6;
+}
+.first {
+	border-left: 1px dashed #dee2e6;
+}
+.last {
+	border-right: 1px dashed #dee2e6;
+}
+.home {
+	background-color: #0f5132;
 }

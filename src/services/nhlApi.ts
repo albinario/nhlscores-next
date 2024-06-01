@@ -29,26 +29,13 @@ export const getGamesDate = async (date: string) => {
 }
 
 export const getGamesTeam = async (teamAbbrev: string) => {
-	const response = await get<TGamesResponse>(
+	const response = await get<TScheduleResponse>(
 		'/club-schedule-season/' + teamAbbrev + '/now'
 	)
-	console.log(response)
-
-	return response
+	return response.games
 }
 
 export const getTeamRecords = async () => {
 	const response = await get<TStandingsResponse>('/standings/now')
-	return response.standings.map((teamRecord) => {
-		return {
-			losses: teamRecord.losses,
-			otLosses: teamRecord.otLosses,
-			streakCode: teamRecord.streakCode,
-			streakCount: teamRecord.streakCount,
-			teamAbbrev: {
-				default: teamRecord.teamAbbrev.default,
-			},
-			wins: teamRecord.wins,
-		}
-	})
+	return response.standings
 }

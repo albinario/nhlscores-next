@@ -9,7 +9,7 @@ export async function GET(
 		return NextResponse.json(await getGamesDate(params.date))
 	} catch (error) {
 		return NextResponse.json({
-			error: 'Server error when fetching games',
+			error: 'Server error when fetching games on ' + params.date,
 		})
 	}
 }

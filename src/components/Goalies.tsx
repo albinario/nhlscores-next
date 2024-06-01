@@ -11,7 +11,7 @@ export function Goalies({
 }: {
 	goaliesAway: TGoalieStats[]
 	goaliesHome: TGoalieStats[]
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 	teamAbbrevAway: string
 	teamAbbrevHome: string
 	winningGoalieId?: number

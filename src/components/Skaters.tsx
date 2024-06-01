@@ -12,7 +12,7 @@ export function Skaters({
 }: {
 	defenders: TSkaterStats[]
 	forwards: TSkaterStats[]
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 	teamAbbrev: string
 }) {
 	return (

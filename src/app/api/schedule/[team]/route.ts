@@ -9,7 +9,7 @@ export async function GET(
 		return NextResponse.json(await getGamesTeam(params.team))
 	} catch (error) {
 		return NextResponse.json({
-			error: 'Server error when fetching games',
+			error: 'Server error when fetching schedule for ' + params.team,
 		})
 	}
 }

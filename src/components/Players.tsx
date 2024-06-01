@@ -13,7 +13,7 @@ export function Players({
 }: {
 	playersAway: TGameBoxscoreTeam
 	playersHome: TGameBoxscoreTeam
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 	teamAbbrevAway: string
 	teamAbbrevHome: string
 	winningGoalieId?: number

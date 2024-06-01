@@ -7,10 +7,9 @@ import useFetchData from '@/hooks/useFetchData'
 import moment from 'moment'
 import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
+import { dateFormat } from '@/theme'
 
 export default function Home() {
-	const dateFormat = 'YYYY-MM-DD'
-
 	const [date, setDate] = useState(
 		moment().subtract(1, 'days').format(dateFormat)
 	)

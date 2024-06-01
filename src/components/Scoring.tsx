@@ -9,7 +9,7 @@ export function Scoring({
 	winningGoalScorerId,
 }: {
 	losingScore: number
-	playersPicked?: TPlayerPicked[]
+	playersPicked?: TPlayer[]
 	scoring: TScoring
 	teamAbbrevAway: string
 	winningGoalScorerId?: number

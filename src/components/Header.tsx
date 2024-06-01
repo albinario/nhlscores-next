@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import Fetching from '@/components/Fetching'
 import { getDateTitle } from '@/helpers/getDateTitle'
-import Button from 'react-bootstrap/Button'
-import Arrow from '@/icons/arrow'
+import Arrow from '@/icons/Arrow'
 
 export default function Header({
 	date,
@@ -25,15 +24,15 @@ export default function Header({
 
 	return (
 		<header className='d-flex justify-content-between align-items-center my-1 position-relative'>
-			<Button className='ps-0' onClick={dateDecrease}>
+			<div className='py-2 pe-3 ps-0 pointer' onClick={dateDecrease}>
 				<Arrow left={true} />
-			</Button>
+			</div>
 
 			<div className='fs-5 opacity-75'>{dateTitle}</div>
 
-			<Button className='pe-0' onClick={dateIncrease}>
+			<div className='py-2 ps-3 pe-0 pointer' onClick={dateIncrease}>
 				<Arrow left={false} />
-			</Button>
+			</div>
 
 			{isLoading && <Fetching />}
 		</header>

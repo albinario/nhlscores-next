@@ -8,12 +8,6 @@ body {
 	font-size: 0.75em;
 }
 
-.btn,
-.btn:hover {
-	background: transparent;
-	border: none;
-}
-
 img {
 	width: 2em;
 }
@@ -21,6 +15,10 @@ img {
 .container {
 	height: 100vh;
 	max-width: 750px;
+}
+
+.pointer {
+	cursor: pointer;
 }
 
 #games .text-bg-warning {

@@ -23,13 +23,13 @@ export default function Header({
 
 	return (
 		<header className='d-flex justify-content-between align-items-center my-1 position-relative'>
-			<div className='pe-3 ps-1 py-2 pointer' onClick={dateDecrease}>
+			<div className='pe-3 ps-1 py-2 pointer opacity-50' onClick={dateDecrease}>
 				←
 			</div>
 
 			<div className='fs-5 opacity-75'>{dateTitle}</div>
 
-			<div className='pe-1 ps-3 py-2 pointer' onClick={dateIncrease}>
+			<div className='pe-1 ps-3 py-2 pointer opacity-50' onClick={dateIncrease}>
 				→
 			</div>
 

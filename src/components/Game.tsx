@@ -30,7 +30,7 @@ export function Game({
 	return (
 		<Col>
 			<Card>
-				<Card.Body className='p-2'>
+				<Card.Body className='p-2 text-muted'>
 					{started && (
 						<Form.Switch
 							checked={showResults}

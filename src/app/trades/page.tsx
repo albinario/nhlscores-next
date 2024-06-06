@@ -1,47 +1,43 @@
-import { Fragment } from 'react'
+'use client'
 import { Missing } from './components/Missing'
 import { Picker } from './components/Picker'
 import { PlayerAddForm } from './components/PlayerAddForm'
 import { PlayerEditForm } from './components/PlayerEditForm'
+import useFetchData from '@/hooks/useFetchData'
+import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
-export function Trades({
-	playersAll,
-	teams,
-}: {
-	playersAll?: TPlayer[]
-	teams?: TTeamSchedule[]
-}) {
+export default function Trades() {
+	const { data: players, error } = useFetchData<TPlayer[]>('players')
+
 	return (
-		<Fragment>
-			<h4>Add</h4>
-			<PlayerAddForm playersAll={playersAll} />
+		<Container className='d-flex flex-column gap-3 mt-3' fluid>
+			<PlayerAddForm players={players} />
 
-			<h4 className='mt-4'>Edit</h4>
-			<PlayerEditForm playersAll={playersAll} teams={teams} />
+			<PlayerEditForm players={players} />
 
-			<Row className='mt-5'>
+			<Row>
 				<Picker
 					picker='Albin'
-					playersPicked={playersAll?.filter((player) => player.picker === 'A')}
+					playersPicked={players?.filter((player) => player.picker === 'A')}
 				/>
 				<Picker
 					picker='Jakob'
-					playersPicked={playersAll?.filter((player) => player.picker === 'J')}
+					playersPicked={players?.filter((player) => player.picker === 'J')}
 				/>
 				<Picker
 					picker='Sacke'
-					playersPicked={playersAll?.filter((player) => player.picker === 'S')}
+					playersPicked={players?.filter((player) => player.picker === 'S')}
 				/>
 				<Picker
 					picker='Ville'
-					playersPicked={playersAll?.filter((player) => player.picker === 'V')}
+					playersPicked={players?.filter((player) => player.picker === 'V')}
 				/>
 
-				{playersAll && playersAll.length < 48 && (
-					<Missing all={true} players={playersAll} />
+				{players && players.length < 48 && (
+					<Missing all={true} players={players} />
 				)}
 			</Row>
-		</Fragment>
+		</Container>
 	)
 }

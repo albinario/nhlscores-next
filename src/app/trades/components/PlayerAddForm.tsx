@@ -1,30 +1,29 @@
-// import { useCreatePlayer } from '../hooks/usePlayers'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
-// import { searchPlayers } from '../services/SearchAPI'
+import { searchPlayers } from '@/services/searchAPI'
 
-export function PlayerAddForm({ playersAll }: { playersAll?: TPlayer[] }) {
+export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 	const [jersey, setJersey] = useState(0)
 	const [name, setName] = useState('')
 	const [picker, setPicker] = useState('')
 	const [playerToAddId, setPlayerToAddId] = useState(0)
-	const [players, setPlayers] = useState<TPlayerSearch[] | null>(null)
+	const [playersSearched, setPlayersSearched] = useState<
+		TPlayerSearch[] | null
+	>(null)
 	const [pos, setPos] = useState('')
 	const [searchInput, setSearchInput] = useState('')
 	const [teamAbbrev, setTeamAbbrev] = useState('')
 
-	// const createPlayer = useCreatePlayer()
-
 	const search = async () => {
-		// const players = await searchPlayers(searchInput)
-		// setPlayers(players.filter((player) => player.sweaterNumber))
+		const players = await searchPlayers(searchInput)
+		setPlayersSearched(players.filter((player) => player.sweaterNumber))
 	}
 
 	const setPlayerToAddStates = (id: string) => {
-		const player = players?.find((player) => player.playerId === id)
+		const player = playersSearched?.find((player) => player.playerId === id)
 
 		if (player) {
 			setJersey(player.sweaterNumber)
@@ -39,10 +38,10 @@ export function PlayerAddForm({ playersAll }: { playersAll?: TPlayer[] }) {
 		}
 	}
 
-	const playerAdd = (e: React.FormEvent) => {
+	const playerAdd = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (playersAll?.find((player) => player.id === playerToAddId))
+		if (players?.find((player) => player.id === playerToAddId))
 			return alert('Player already added')
 
 		const playerToAdd: TPlayer = {
@@ -54,7 +53,14 @@ export function PlayerAddForm({ playersAll }: { playersAll?: TPlayer[] }) {
 			picker,
 		}
 
-		// createPlayer.mutate(playerToAdd)
+		try {
+			await fetch('/api/players', {
+				method: 'POST',
+				body: JSON.stringify(playerToAdd),
+			})
+		} catch (error) {
+			return alert(error || 'Something went wrong')
+		}
 
 		setJersey(0)
 		setName('')
@@ -89,7 +95,7 @@ export function PlayerAddForm({ playersAll }: { playersAll?: TPlayer[] }) {
 				<Col>
 					<Form.Select onChange={(e) => setPlayerToAddStates(e.target.value)}>
 						<option value={0}>Player</option>
-						{players?.map((player) => (
+						{playersSearched?.map((player) => (
 							<option key={player.playerId} value={player.playerId}>
 								{player.name}
 							</option>
@@ -108,11 +114,11 @@ export function PlayerAddForm({ playersAll }: { playersAll?: TPlayer[] }) {
 
 				<Col>
 					<Button
+						className='form-control'
 						disabled={
 							!teamAbbrev || !pos || !jersey || !picker || !playerToAddId
 						}
 						type='submit'
-						className='form-control'
 						variant='outline-success'
 					>
 						+

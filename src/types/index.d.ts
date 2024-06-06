@@ -124,9 +124,9 @@ type TPlayer = {
 	teamAbbrev: string
 }
 
-// type TPlayersResponse = {
-// 	data: Player[]
-// }
+type TPlayersResponse = {
+	data: Player[]
+}
 
 type TPlayerSearch = {
 	name: string

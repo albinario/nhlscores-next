@@ -1,17 +1,12 @@
-// import { useUpdatePlayer } from '../hooks/usePlayers'
 import { useState } from 'react'
+import useFetchData from '@/hooks/useFetchData'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
+import { mutate } from 'swr'
 
-export function PlayerEditForm({
-	playersAll,
-	teams,
-}: {
-	playersAll?: TPlayer[]
-	teams?: TTeamSchedule[]
-}) {
+export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 	const [jersey, setJersey] = useState(0)
 	const [picker, setPicker] = useState('')
 	const [playerToEditId, setPlayerToEditId] = useState(0)
@@ -19,12 +14,15 @@ export function PlayerEditForm({
 	const [searchInput, setSearchInput] = useState('')
 	const [teamAbbrev, setTeamAbbrev] = useState('')
 
-	// const updatePlayer = useUpdatePlayer()
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
+	const teamValues = teamRecords?.map((teamRecord) => ({
+		abbrev: teamRecord.teamAbbrev.default,
+		name: teamRecord.teamName.default,
+		value: Number(teamRecord.leagueL10Sequence),
+	}))
 
-	const playerEdit = (e: React.FormEvent) => {
+	const playerEdit = async (e: React.FormEvent) => {
 		e.preventDefault()
-
-		if (!playerToEditId) return alert('No player chosen')
 
 		const playerToEdit: Partial<TPlayer> = {
 			id: playerToEditId,
@@ -34,12 +32,24 @@ export function PlayerEditForm({
 			pos,
 		}
 
-		// updatePlayer.mutate(playerToEdit)
+		try {
+			await fetch('/api/players/', {
+				method: 'PATCH',
+				body: JSON.stringify(playerToEdit),
+			})
+		} catch (error) {
+			return alert(error || 'Something went wrong')
+		}
+
+		console.log('yysydydy')
+
+		mutate('players')
 
 		setSearchInput('')
 		setPicker('')
 		setJersey(0)
 		setPos('')
+		setTeamAbbrev('')
 	}
 
 	return (
@@ -59,7 +69,7 @@ export function PlayerEditForm({
 						onChange={(e) => setPlayerToEditId(Number(e.target.value))}
 					>
 						<option value={0}>Player</option>
-						{playersAll
+						{players
 							?.filter((player: TPlayer) =>
 								player.name
 									.toLowerCase()
@@ -85,7 +95,7 @@ export function PlayerEditForm({
 				<Col>
 					<Form.Select onChange={(e) => setTeamAbbrev(e.target.value)}>
 						<option value={''}>Team</option>
-						{teams
+						{teamValues
 							?.sort((a, b) => a.name.localeCompare(b.name))
 							.map((team, index) => (
 								<option key={index} value={team.abbrev}>
@@ -116,6 +126,7 @@ export function PlayerEditForm({
 				<Col>
 					<Button
 						className='form-control'
+						disabled={!playerToEditId}
 						type='submit'
 						variant='outline-success'
 					>

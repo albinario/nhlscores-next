@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Fetching from '@/components/Fetching'
 import { getDateTitle } from '@/helpers/getDateTitle'
-import Arrow from '@/icons/Arrow'
+import { Arrow } from '@/icons/Arrow'
 
 export default function Header({
 	date,

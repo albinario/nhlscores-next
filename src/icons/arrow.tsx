@@ -1,4 +1,4 @@
-export default function Arrow({ left }: { left?: boolean }) {
+export function Arrow({ left }: { left?: boolean }) {
 	return (
 		<svg
 			width='20px'

@@ -1,7 +1,7 @@
 import { Missing } from './Missing'
-// import { useUpdatePlayer } from '../hooks/usePlayers'
 import Col from 'react-bootstrap/Col'
 import { Logo } from '@/components/Logo'
+import { mutate } from 'swr'
 
 export function Picker({
 	picker,
@@ -10,8 +10,19 @@ export function Picker({
 	picker: string
 	playersPicked?: TPlayer[]
 }) {
-	// const updatePlayer = useUpdatePlayer()
 	const order = ['C', 'W', 'D', 'G']
+
+	const removePicker = async (id: number) => {
+		try {
+			await fetch('/api/players/', {
+				method: 'PATCH',
+				body: JSON.stringify({ id }),
+			})
+		} catch (error) {
+			return alert(error || 'Something went wrong')
+		}
+		mutate('players/picked')
+	}
 
 	return (
 		<Col>
@@ -24,7 +35,7 @@ export function Picker({
 					<div key={player.id} className='mb-1'>
 						<a
 							className='cursor-pointer'
-							// onClick={() => updatePlayer.mutate({ id: player.id })}
+							onClick={() => removePicker(player.id)}
 							role='button'
 						>
 							<Logo teamAbbrev={player.teamAbbrev} />
@@ -36,7 +47,7 @@ export function Picker({
 					</div>
 				))}
 			{playersPicked && playersPicked.length < 12 && (
-				<Missing all={false} players={playersPicked} />
+				<Missing isAll={false} playersPicked={playersPicked} />
 			)}
 		</Col>
 	)

@@ -8,7 +8,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
 export default function Trades() {
-	const { data: players, error } = useFetchData<TPlayer[]>('players')
+	const { data: players } = useFetchData<TPlayer[]>('players')
+	const { data: playersPicked } = useFetchData<TPlayer[]>('players/picked')
 
 	return (
 		<Container className='d-flex flex-column gap-3 mt-3' fluid>
@@ -19,23 +20,31 @@ export default function Trades() {
 			<Row>
 				<Picker
 					picker='Albin'
-					playersPicked={players?.filter((player) => player.picker === 'A')}
+					playersPicked={playersPicked?.filter(
+						(player) => player.picker === 'A'
+					)}
 				/>
 				<Picker
 					picker='Jakob'
-					playersPicked={players?.filter((player) => player.picker === 'J')}
+					playersPicked={playersPicked?.filter(
+						(player) => player.picker === 'J'
+					)}
 				/>
 				<Picker
 					picker='Sacke'
-					playersPicked={players?.filter((player) => player.picker === 'S')}
+					playersPicked={playersPicked?.filter(
+						(player) => player.picker === 'S'
+					)}
 				/>
 				<Picker
 					picker='Ville'
-					playersPicked={players?.filter((player) => player.picker === 'V')}
+					playersPicked={playersPicked?.filter(
+						(player) => player.picker === 'V'
+					)}
 				/>
 
-				{players && players.length < 48 && (
-					<Missing all={true} players={players} />
+				{playersPicked && playersPicked.length < 48 && (
+					<Missing isAll={true} playersPicked={playersPicked} />
 				)}
 			</Row>
 		</Container>

@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table'
 import { dateFormat } from '@/theme'
 
 export default function Schedule() {
-	const { data: playersPicked } = useFetchData<TPlayer[]>('players')
+	const { data: playersPicked } = useFetchData<TPlayer[]>('players/picked')
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
 
 	const teams = teamRecords?.map((teamRecord) => ({

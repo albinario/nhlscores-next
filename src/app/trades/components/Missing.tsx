@@ -1,14 +1,14 @@
 export function Missing({
-	all,
-	players,
+	isAll,
+	playersPicked,
 }: {
-	all: boolean
-	players: TPlayer[]
+	isAll: boolean
+	playersPicked: TPlayer[]
 }) {
-	const g = (all ? 8 : 2) - players.filter((p) => p.pos === 'G').length
-	const d = (all ? 12 : 3) - players.filter((p) => p.pos === 'D').length
-	const w = (all ? 16 : 4) - players.filter((p) => p.pos === 'W').length
-	const c = (all ? 12 : 3) - players.filter((p) => p.pos === 'C').length
+	const g = (isAll ? 8 : 2) - playersPicked.filter((p) => p.pos === 'G').length
+	const d = (isAll ? 12 : 3) - playersPicked.filter((p) => p.pos === 'D').length
+	const w = (isAll ? 16 : 4) - playersPicked.filter((p) => p.pos === 'W').length
+	const c = (isAll ? 12 : 3) - playersPicked.filter((p) => p.pos === 'C').length
 
 	return (
 		<div className='mt-2'>

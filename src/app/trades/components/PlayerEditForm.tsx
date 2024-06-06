@@ -18,7 +18,6 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 	const teamValues = teamRecords?.map((teamRecord) => ({
 		abbrev: teamRecord.teamAbbrev.default,
 		name: teamRecord.teamName.default,
-		value: Number(teamRecord.leagueL10Sequence),
 	}))
 
 	const playerEdit = async (e: React.FormEvent) => {
@@ -26,10 +25,10 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 
 		const playerToEdit: Partial<TPlayer> = {
 			id: playerToEditId,
-			picker,
-			teamAbbrev,
 			jersey,
+			picker,
 			pos,
+			teamAbbrev,
 		}
 
 		try {
@@ -41,9 +40,7 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 			return alert(error || 'Something went wrong')
 		}
 
-		console.log('yysydydy')
-
-		mutate('players')
+		mutate('players/picked')
 
 		setSearchInput('')
 		setPicker('')

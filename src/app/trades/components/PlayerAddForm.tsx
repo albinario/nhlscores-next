@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import { searchPlayers } from '@/services/searchAPI'
+import { mutate } from 'swr'
 
 export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 	const [jersey, setJersey] = useState(0)
@@ -61,6 +62,8 @@ export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 		} catch (error) {
 			return alert(error || 'Something went wrong')
 		}
+
+		mutate('players/picked')
 
 		setJersey(0)
 		setName('')

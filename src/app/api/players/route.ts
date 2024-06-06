@@ -27,10 +27,12 @@ export async function PATCH(req: NextRequest) {
 			)
 		}
 
-		const noValues =
-			!reqBody.picker && !reqBody.jersey && !reqBody.pos && !reqBody.teamAbbrev
-
-		if (noValues) {
+		if (
+			!reqBody.picker &&
+			!reqBody.jersey &&
+			!reqBody.pos &&
+			!reqBody.teamAbbrev
+		) {
 			await player.updateOne({ picker: '' })
 		} else {
 			if (reqBody.picker) await player.updateOne({ picker: reqBody.picker })

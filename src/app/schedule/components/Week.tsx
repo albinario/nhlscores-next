@@ -1,8 +1,8 @@
-import { Fragment } from 'react'
+import { dateFormat } from '@/app/lib/globals'
 import classNames from 'classnames'
 import { Logo } from '@/components/Logo'
 import moment from 'moment'
-import { dateFormat } from '@/theme'
+import { Fragment } from 'react'
 import type { TGame, TTeamSchedule } from '@/types'
 
 export function Week({

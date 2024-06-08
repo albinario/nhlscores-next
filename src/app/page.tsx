@@ -1,14 +1,14 @@
 'use client'
-import { useState } from 'react'
+import { dateFormat } from '@/app/lib/globals'
 import Header from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { Games } from '@/components/Games'
 import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
 import moment from 'moment'
+import { useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
-import { dateFormat } from '@/theme'
 import type { TGame } from '@/types'
 
 export default function Home() {

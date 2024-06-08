@@ -1,10 +1,10 @@
 'use client'
+import { dateFormat } from '@/app/lib/globals'
 import { TeamRow } from './components/TeamRow'
 import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
 import moment from 'moment'
 import Table from 'react-bootstrap/Table'
-import { dateFormat } from '@/theme'
 import type { TDates, TPlayer, TTeamRecord } from '@/types'
 
 export default function Schedule() {

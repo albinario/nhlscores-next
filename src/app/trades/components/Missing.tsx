@@ -1,3 +1,5 @@
+import type { TPlayer } from '@/types'
+
 export function Missing({
 	isAll,
 	playersPicked,

@@ -1,13 +1,19 @@
 'use client'
 import { TeamRow } from './components/TeamRow'
+import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
 import moment from 'moment'
 import Table from 'react-bootstrap/Table'
 import { dateFormat } from '@/theme'
+import type { TDates, TPlayer, TTeamRecord } from '@/types'
 
 export default function Schedule() {
-	const { data: playersPicked } = useFetchData<TPlayer[]>('players/picked')
-	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
+	const { data: playersPicked } = useFetchData<TPlayer[]>(
+		EQueryKey.playersPicked
+	)
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>(
+		EQueryKey.teamRecords
+	)
 
 	const teams = teamRecords?.map((teamRecord) => ({
 		abbrev: teamRecord.teamAbbrev.default,

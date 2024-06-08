@@ -1,11 +1,11 @@
-type TAssist = {
+export type TAssist = {
 	assistsToDate: number
 	firstName: TName
 	lastName: TName
 	playerId: number
 }
 
-type TDates = {
+export type TDates = {
 	week1Start: string
 	week1End: string
 	week2Start: string
@@ -16,17 +16,16 @@ type TDates = {
 	week4End: string
 }
 
-type TGame = {
+export type TGame = {
+	awayTeam: TGameTeam
 	easternUTCOffset: string
 	gameDate: string
 	gameType: number
-	startTimeUTC: string
-	venueUTCOffset: string
-	awayTeam: TGameTeam
+	gameState: string
 	homeTeam: TGameTeam
 	id: number
-	gameState: string
 	startTimeUTC: string
+	venueUTCOffset: string
 	winningGoalie?: {
 		playerId: number
 	}
@@ -35,7 +34,7 @@ type TGame = {
 	}
 }
 
-type TGameBoxscore = {
+export type TGameBoxscore = {
 	playerByGameStats: {
 		awayTeam: TGameBoxscoreTeam
 		homeTeam: TGameBoxscoreTeam
@@ -45,18 +44,18 @@ type TGameBoxscore = {
 	}
 }
 
-type TGameBoxscoreTeam = {
+export type TGameBoxscoreTeam = {
 	defense: TSkaterStats[]
 	goalies: TGoalieStats[]
 	forwards: TSkaterStats[]
 }
 
-type TGameDetails = {
+export type TGameDetails = {
 	boxscore: TGameBoxscore
 	landing: TGameLanding
 }
 
-type TGameLanding = {
+export type TGameLanding = {
 	awayTeam: TTeam
 	clock: {
 		timeRemaining: string
@@ -69,19 +68,19 @@ type TGameLanding = {
 	}
 }
 
-type TGamesResponse = {
+export type TGamesResponse = {
 	gameWeek: {
 		games: TGame[]
 	}[]
 }
 
-type TGameTeam = {
+export type TGameTeam = {
 	abbrev: string
 	placeName: TName
 	score: number
 }
 
-type TGoal = {
+export type TGoal = {
 	assists: TAssist[]
 	awayScore: number
 	firstName: TName
@@ -95,7 +94,7 @@ type TGoal = {
 	timeInPeriod: string
 }
 
-type TGoalieStats = {
+export type TGoalieStats = {
 	name: TName
 	pim: number
 	playerId: number
@@ -106,16 +105,21 @@ type TGoalieStats = {
 	toi: string
 }
 
-type TName = {
+export type TName = {
 	default: string
 }
 
-type TPeriodDescriptor = {
+export type TPeriodDescriptor = {
 	number: number
 	periodType: string
 }
 
-type TPlayer = {
+export type TPicker = {
+	name: string
+	code: string
+}
+
+export type TPlayer = {
 	id: number
 	jersey: number
 	name: string
@@ -124,11 +128,11 @@ type TPlayer = {
 	teamAbbrev: string
 }
 
-type TPlayersResponse = {
-	data: Player[]
+export type TPlayersResponse = {
+	data: TPlayer[]
 }
 
-type TPlayerSearch = {
+export type TPlayerSearch = {
 	name: string
 	playerId: string
 	positionCode: string
@@ -136,16 +140,16 @@ type TPlayerSearch = {
 	teamAbbrev: string
 }
 
-type TScheduleResponse = {
+export type TScheduleResponse = {
 	games: TGame[]
 }
 
-type TScoring = {
+export type TScoring = {
 	goals: TGoal[]
 	periodDescriptor: TPeriodDescriptor
 }
 
-type TSkaterStats = {
+export type TSkaterStats = {
 	assists: number
 	blockedShots: number
 	goals: number
@@ -162,11 +166,11 @@ type TSkaterStats = {
 	toi: string
 }
 
-type TStandingsResponse = {
+export type TStandingsResponse = {
 	standings: TTeamRecord[]
 }
 
-type TTeam = {
+export type TTeam = {
 	abbrev: string
 	id: number
 	name: TName
@@ -174,7 +178,7 @@ type TTeam = {
 	score: number
 }
 
-type TTeamRecord = {
+export type TTeamRecord = {
 	goalAgainst: number
 	goalFor: number
 	homeGoalsAgainst: number
@@ -208,7 +212,7 @@ type TTeamRecord = {
 	wins: number
 }
 
-type TTeamSchedule = {
+export type TTeamSchedule = {
 	abbrev: string
 	name: string
 	value: number

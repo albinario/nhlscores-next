@@ -1,7 +1,9 @@
 import { Missing } from './Missing'
 import Col from 'react-bootstrap/Col'
 import { Logo } from '@/components/Logo'
+import { EQueryKey } from '@/enums'
 import { mutate } from 'swr'
+import type { TPlayer } from '@/types'
 
 export function Picker({
 	picker,
@@ -21,7 +23,7 @@ export function Picker({
 		} catch (error) {
 			return alert(error || 'Something went wrong')
 		}
-		mutate('players/picked')
+		mutate(EQueryKey.playersPicked)
 	}
 
 	return (

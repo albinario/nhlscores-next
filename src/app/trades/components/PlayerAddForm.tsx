@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { EQueryKey } from '@/enums'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import { searchPlayers } from '@/services/searchAPI'
 import { mutate } from 'swr'
+import type { TPlayer, TPlayerSearch } from '@/types'
 
 export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 	const [jersey, setJersey] = useState(0)
@@ -63,7 +65,7 @@ export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 			return alert(error || 'Something went wrong')
 		}
 
-		mutate('players/picked')
+		mutate(EQueryKey.playersPicked)
 
 		setJersey(0)
 		setName('')

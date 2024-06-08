@@ -1,11 +1,11 @@
 import useSWRImmutable from 'swr/immutable'
 
-export default function useFetchData<T>(url: string) {
-	const fetcher = async (url: string) => {
-		const res = await fetch('/api/' + url)
+export default function useFetchData<T>(queryKey: string) {
+	const fetcher = async (endpoint: string) => {
+		const res = await fetch('/api/' + endpoint)
 		const data = await res.json()
 		return data as T
 	}
 
-	return useSWRImmutable(url, fetcher)
+	return useSWRImmutable(queryKey, fetcher)
 }

@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import { mutate } from 'swr'
+import type { TPlayer, TTeamRecord } from '@/types'
 
 export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 	const [jersey, setJersey] = useState(0)
@@ -14,7 +16,9 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 	const [searchInput, setSearchInput] = useState('')
 	const [teamAbbrev, setTeamAbbrev] = useState('')
 
-	const { data: teamRecords } = useFetchData<TTeamRecord[]>('teamRecords')
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>(
+		EQueryKey.teamRecords
+	)
 	const teamValues = teamRecords?.map((teamRecord) => ({
 		abbrev: teamRecord.teamAbbrev.default,
 		name: teamRecord.teamName.default,
@@ -40,7 +44,7 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 			return alert(error || 'Something went wrong')
 		}
 
-		mutate('players/picked')
+		mutate(EQueryKey.playersPicked)
 
 		setSearchInput('')
 		setPicker('')

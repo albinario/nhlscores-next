@@ -3,11 +3,13 @@ import { useState } from 'react'
 import Header from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { Games } from '@/components/Games'
+import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
 import moment from 'moment'
 import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
 import { dateFormat } from '@/theme'
+import type { TGame } from '@/types'
 
 export default function Home() {
 	const [date, setDate] = useState(
@@ -18,7 +20,7 @@ export default function Home() {
 		data: games,
 		error,
 		isLoading,
-	} = useFetchData<TGame[]>('games/' + date)
+	} = useFetchData<TGame[]>(EQueryKey.games + date)
 
 	const dateDecrease = () => {
 		setDate(moment(date).subtract(1, 'days').format(dateFormat))

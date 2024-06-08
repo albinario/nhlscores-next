@@ -1,9 +1,11 @@
 import { Players } from '@/components/Players'
 import { Scoring } from '@/components/Scoring'
+import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
+import type { TGame, TGameDetails, TPlayer } from '@/types'
 
 export function GameDetails({
 	game,
@@ -16,7 +18,7 @@ export function GameDetails({
 		data: gameDetails,
 		error,
 		isLoading,
-	} = useFetchData<TGameDetails>('game/' + game.id)
+	} = useFetchData<TGameDetails>(EQueryKey.game + game.id)
 
 	const losingScore =
 		game.awayTeam.score < game.homeTeam.score

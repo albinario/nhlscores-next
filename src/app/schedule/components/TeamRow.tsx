@@ -2,7 +2,15 @@ import { Fragment } from 'react'
 import { Logo } from '@/components/Logo'
 import { PickersCell } from './PickersCell'
 import { Week } from './Week'
+import { EQueryKey } from '@/enums'
 import useFetchData from '@/hooks/useFetchData'
+import type {
+	TDates,
+	TGame,
+	TPlayer,
+	TTeamRecord,
+	TTeamSchedule,
+} from '@/types'
 
 export function TeamRow({
 	dates,
@@ -16,7 +24,7 @@ export function TeamRow({
 	teams?: TTeamSchedule[]
 }) {
 	const { data: games } = useFetchData<TGame[]>(
-		'schedule/' + teamRecord.teamAbbrev.default
+		EQueryKey.schedule + teamRecord.teamAbbrev.default
 	)
 
 	return games ? (

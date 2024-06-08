@@ -2,6 +2,7 @@ import { Scorer } from '@/components/Scorer'
 import { getGoalTypes } from '@/helpers/getGoalTypes'
 import { getLogoUrl } from '@/helpers/getLogoUrl'
 import Image from 'react-bootstrap/Image'
+import type { TGoal, TPlayer } from '@/types'
 
 export function Goal({
 	away,

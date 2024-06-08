@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
 export function Game({
 	game,

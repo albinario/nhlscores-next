@@ -1,3 +1,5 @@
+import type { TSkaterStats } from '@/types'
+
 export function Skater({
 	skater,
 	pickedBy,

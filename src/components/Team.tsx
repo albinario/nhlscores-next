@@ -1,7 +1,8 @@
-import { getLogoUrl } from '../helpers/getLogoUrl'
-import { getTeamName } from '../helpers/getTeamName'
+import { getLogoUrl } from '@/helpers/getLogoUrl'
+import { getTeamName } from '@/helpers/getTeamName'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
+import type { TGameTeam, TPlayer, TTeamRecord } from '@/types'
 
 export function Team({
 	away,

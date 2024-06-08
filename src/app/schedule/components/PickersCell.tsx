@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import type { TPlayer } from '@/types'
 
 export function PickersCell({
 	players,

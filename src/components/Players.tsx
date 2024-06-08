@@ -2,6 +2,7 @@ import { Goalies } from '@/components/Goalies'
 import { Skaters } from '@/components/Skaters'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import type { TGameBoxscoreTeam, TPlayer } from '@/types'
 
 export function Players({
 	playersAway,

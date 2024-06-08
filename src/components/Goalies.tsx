@@ -1,5 +1,6 @@
 import { Goalie } from '@/components/Goalie'
 import Table from 'react-bootstrap/Table'
+import type { TGoalieStats, TPlayer } from '@/types'
 
 export function Goalies({
 	goaliesAway,

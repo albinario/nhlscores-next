@@ -3,6 +3,7 @@ import { getLogoUrl } from '@/helpers/getLogoUrl'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Table from 'react-bootstrap/Table'
+import type { TPlayer, TSkaterStats } from '@/types'
 
 export function Skaters({
 	defenders,

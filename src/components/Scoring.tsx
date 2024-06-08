@@ -1,5 +1,6 @@
 import { Goal } from '@/components/Goal'
 import { getPeriodType } from '@/helpers/getPeriodType'
+import type { TPlayer, TScoring } from '@/types'
 
 export function Scoring({
 	losingScore,

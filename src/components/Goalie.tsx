@@ -1,5 +1,6 @@
 import { getLogoUrl } from '@/helpers/getLogoUrl'
 import { Image } from 'react-bootstrap'
+import type { TGoalieStats } from '@/types'
 
 export function Goalie({
 	goalie,

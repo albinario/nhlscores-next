@@ -1,6 +1,6 @@
 import { connectDB } from '@/app/lib/database'
-import { NextResponse } from 'next/server'
 import { Player } from '@/models/player'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
 	try {

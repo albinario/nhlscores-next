@@ -1,7 +1,8 @@
 import { connectDB } from '@/app/lib/database'
-import { NextRequest, NextResponse } from 'next/server'
 import { Player } from '@/models/player'
 import mongoose from 'mongoose'
+import { NextRequest, NextResponse } from 'next/server'
+import type { TPlayer } from '@/types'
 
 export async function GET() {
 	try {

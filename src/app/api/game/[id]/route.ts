@@ -1,5 +1,5 @@
-import { getGameDetails, getGamesDate } from '@/services/nhlApi'
 import { NextRequest, NextResponse } from 'next/server'
+import { getGameDetails } from '@/services/nhlApi'
 
 export async function GET(
 	req: NextRequest,

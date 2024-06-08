@@ -1,4 +1,5 @@
 import { model, models, Schema } from 'mongoose'
+import type { TPlayer } from '@/types'
 
 const PlayerSchema: Schema = new Schema<TPlayer>({
 	id: {

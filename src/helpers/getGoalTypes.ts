@@ -1,3 +1,5 @@
+import type { TGoal } from '@/types'
+
 export const getGoalTypes = (goal: TGoal, gameWinner: boolean) => {
 	const goalTypes: string[] = []
 

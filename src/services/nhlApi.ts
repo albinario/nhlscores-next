@@ -1,5 +1,13 @@
 import axios from 'axios'
 import { getData } from '@/helpers/getData'
+import type {
+	TGameBoxscore,
+	TGameDetails,
+	TGameLanding,
+	TGamesResponse,
+	TScheduleResponse,
+	TStandingsResponse,
+} from '@/types'
 
 export const instance = axios.create({
 	baseURL: 'https://api-web.nhle.com/v1',

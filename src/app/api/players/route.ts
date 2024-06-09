@@ -19,6 +19,7 @@ export async function PATCH(req: NextRequest) {
 	const reqBody: Partial<TPlayer> = await req.json()
 
 	try {
+		await connectDB()
 		const player = await Player.findOne({ id: reqBody.id })
 
 		if (!player) {
@@ -37,11 +38,8 @@ export async function PATCH(req: NextRequest) {
 			await player.updateOne({ picker: '' })
 		} else {
 			if (reqBody.picker) await player.updateOne({ picker: reqBody.picker })
-
 			if (reqBody.jersey) await player.updateOne({ jersey: reqBody.jersey })
-
 			if (reqBody.pos) await player.updateOne({ pos: reqBody.pos })
-
 			if (reqBody.teamAbbrev)
 				await player.updateOne({ teamAbbrev: reqBody.teamAbbrev })
 		}

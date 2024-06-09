@@ -7,5 +7,8 @@ export default function useFetchData<T>(queryKey: string) {
 		return data as T
 	}
 
-	return useSWR(queryKey, fetcher)
+	return useSWR(queryKey, fetcher, {
+		revalidateOnFocus: false,
+		revalidateOnMount: true,
+	})
 }

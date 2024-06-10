@@ -44,7 +44,7 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 			return alert(error || 'Something went wrong')
 		}
 
-		mutate(EQueryKey.playersPicked)
+		await mutate(EQueryKey.playersPicked)
 
 		setSearchInput('')
 		setPicker('')

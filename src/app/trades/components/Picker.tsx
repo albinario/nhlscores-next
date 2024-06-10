@@ -23,7 +23,7 @@ export function Picker({
 		} catch (error) {
 			return alert(error || 'Something went wrong')
 		}
-		mutate(EQueryKey.playersPicked)
+		await mutate(EQueryKey.playersPicked)
 	}
 
 	return (

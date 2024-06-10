@@ -65,7 +65,7 @@ export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 			return alert(error || 'Something went wrong')
 		}
 
-		mutate(EQueryKey.playersPicked)
+		await mutate(EQueryKey.playersPicked)
 
 		setJersey(0)
 		setName('')

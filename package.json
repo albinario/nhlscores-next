@@ -17,6 +17,7 @@
     "react": "^19.0.0-rc-34d0c5e357-20240607",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^19.0.0-rc-34d0c5e357-20240607",
+    "react-hook-form": "^7.52.1",
     "swr": "^2.2.5"
   },
   "devDependencies": {

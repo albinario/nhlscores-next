@@ -5,18 +5,18 @@ export const dateFormat = 'YYYY-MM-DD'
 export const pickers: TPicker[] = [
 	{
 		name: 'Albin',
-		code: 'A',
+		code: 'a',
 	},
 	{
 		name: 'Jakob',
-		code: 'J',
+		code: 'j',
 	},
 	{
 		name: 'Sacke',
-		code: 'S',
+		code: 's',
 	},
 	{
 		name: 'Ville',
-		code: 'V',
+		code: 'v',
 	},
 ]

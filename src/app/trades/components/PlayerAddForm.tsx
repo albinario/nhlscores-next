@@ -4,77 +4,64 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { searchPlayers } from '@/services/searchAPI'
 import { mutate } from 'swr'
-import type { TPlayer, TPlayerSearch } from '@/types'
+import type { TPlayer, TPlayerSearch, TPlayerToAdd } from '@/types'
 
 export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
-	const [jersey, setJersey] = useState(0)
-	const [name, setName] = useState('')
-	const [picker, setPicker] = useState('')
-	const [playerToAddId, setPlayerToAddId] = useState(0)
-	const [playersSearched, setPlayersSearched] = useState<
-		TPlayerSearch[] | null
-	>(null)
-	const [pos, setPos] = useState('')
+	const [playersSearch, setPlayersSearch] = useState<TPlayerSearch[] | null>(
+		null
+	)
 	const [searchInput, setSearchInput] = useState('')
-	const [teamAbbrev, setTeamAbbrev] = useState('')
+
+	const { formState, handleSubmit, register, reset } = useForm<TPlayerToAdd>()
 
 	const search = async () => {
 		const players = await searchPlayers(searchInput)
-		setPlayersSearched(players.filter((player) => player.sweaterNumber))
+		setPlayersSearch(players.filter((player) => player.sweaterNumber))
 	}
 
-	const setPlayerToAddStates = (id: string) => {
-		const player = playersSearched?.find((player) => player.playerId === id)
-
-		if (player) {
-			setJersey(player.sweaterNumber)
-			setName(player.name)
-			setPlayerToAddId(Number(id))
-			setPos(
-				player.positionCode === 'L' || player.positionCode === 'R'
-					? 'W'
-					: player.positionCode
-			)
-			setTeamAbbrev(player.teamAbbrev)
-		}
-	}
-
-	const playerAdd = async (e: React.FormEvent) => {
-		e.preventDefault()
-
-		if (players?.find((player) => player.id === playerToAddId))
+	const addPlayer: SubmitHandler<TPlayerToAdd> = async (data: TPlayerToAdd) => {
+		if (players?.find((player) => player.id === Number(data.id)))
 			return alert('Player already added')
 
-		const playerToAdd: TPlayer = {
-			id: playerToAddId,
-			name,
-			jersey,
-			pos,
-			teamAbbrev,
-			picker,
-		}
-
 		try {
-			await fetch('/api/players', {
-				method: 'POST',
-				body: JSON.stringify(playerToAdd),
-			})
+			const player = playersSearch?.find((player) => player.playerId == data.id)
+
+			if (player) {
+				const playerToAdd: TPlayer = {
+					id: Number(data.id),
+					name: player.name,
+					jersey: player.sweaterNumber,
+					pos:
+						player.positionCode === 'L' || player.positionCode === 'R'
+							? 'W'
+							: player.positionCode,
+					teamAbbrev: player.teamAbbrev,
+					picker: data.picker,
+				}
+
+				await fetch('/api/players', {
+					method: 'POST',
+					body: JSON.stringify(playerToAdd),
+				})
+
+				await mutate(EQueryKey.playersPicked)
+			} else {
+				alert('no player')
+			}
 		} catch (error) {
 			return alert(error || 'Something went wrong')
+		} finally {
+			setPlayersSearch(null)
+			setSearchInput('')
+			reset()
 		}
-
-		await mutate(EQueryKey.playersPicked)
-
-		setJersey(0)
-		setName('')
-		setPicker('')
-		setPos('')
 	}
 
 	return (
-		<Form onSubmit={playerAdd}>
+		<Form onSubmit={handleSubmit(addPlayer)}>
 			<Row className='g-1'>
 				<Col>
 					<Form.Control
@@ -98,9 +85,9 @@ export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 				</Col>
 
 				<Col>
-					<Form.Select onChange={(e) => setPlayerToAddStates(e.target.value)}>
+					<Form.Select {...register('id', { required: true, min: 1 })}>
 						<option value={0}>Player</option>
-						{playersSearched?.map((player) => (
+						{playersSearch?.map((player) => (
 							<option key={player.playerId} value={player.playerId}>
 								{player.name}
 							</option>
@@ -110,19 +97,16 @@ export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
 
 				<Col>
 					<Form.Control
-						onChange={(e) => setPicker(e.target.value.toUpperCase())}
+						{...register('picker', { required: true })}
 						placeholder='Picker'
 						type='text'
-						value={picker}
 					/>
 				</Col>
 
 				<Col>
 					<Button
 						className='form-control'
-						disabled={
-							!teamAbbrev || !pos || !jersey || !picker || !playerToAddId
-						}
+						disabled={!formState.isValid || formState.isSubmitting}
 						type='submit'
 						variant='outline-success'
 					>

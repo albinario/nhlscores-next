@@ -5,56 +5,44 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { mutate } from 'swr'
-import type { TPlayer, TTeamRecord } from '@/types'
+import type { TPlayer, TPlayerToEdit, TTeamRecord } from '@/types'
 
 export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
-	const [jersey, setJersey] = useState(0)
-	const [picker, setPicker] = useState('')
-	const [playerToEditId, setPlayerToEditId] = useState(0)
-	const [pos, setPos] = useState('')
 	const [searchInput, setSearchInput] = useState('')
-	const [teamAbbrev, setTeamAbbrev] = useState('')
+
+	const { formState, handleSubmit, register, reset } = useForm<TPlayerToEdit>()
+
+	const editPlayer: SubmitHandler<TPlayerToEdit> = async (
+		data: TPlayerToEdit
+	) => {
+		try {
+			await fetch('/api/players/', {
+				method: 'PATCH',
+				body: JSON.stringify(data),
+			})
+
+			await mutate(EQueryKey.playersPicked)
+		} catch (error) {
+			return alert(error || 'Something went wrong')
+		} finally {
+			setSearchInput('')
+			reset()
+		}
+	}
 
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>(
 		EQueryKey.teamRecords
 	)
+
 	const teamValues = teamRecords?.map((teamRecord) => ({
 		abbrev: teamRecord.teamAbbrev.default,
 		name: teamRecord.teamName.default,
 	}))
 
-	const playerEdit = async (e: React.FormEvent) => {
-		e.preventDefault()
-
-		const playerToEdit: Partial<TPlayer> = {
-			id: playerToEditId,
-			jersey,
-			picker,
-			pos,
-			teamAbbrev,
-		}
-
-		try {
-			await fetch('/api/players/', {
-				method: 'PATCH',
-				body: JSON.stringify(playerToEdit),
-			})
-		} catch (error) {
-			return alert(error || 'Something went wrong')
-		}
-
-		await mutate(EQueryKey.playersPicked)
-
-		setSearchInput('')
-		setPicker('')
-		setJersey(0)
-		setPos('')
-		setTeamAbbrev('')
-	}
-
 	return (
-		<Form onSubmit={playerEdit}>
+		<Form onSubmit={handleSubmit(editPlayer)}>
 			<Row className='g-1'>
 				<Col>
 					<Form.Control
@@ -66,17 +54,15 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 				</Col>
 
 				<Col>
-					<Form.Select
-						onChange={(e) => setPlayerToEditId(Number(e.target.value))}
-					>
+					<Form.Select {...register('id', { required: true, min: 1 })}>
 						<option value={0}>Player</option>
 						{players
-							?.filter((player: TPlayer) =>
+							?.filter((player) =>
 								player.name
 									.toLowerCase()
 									.includes(searchInput.toLocaleLowerCase())
 							)
-							.map((player: TPlayer) => (
+							.map((player) => (
 								<option key={player.id} value={player.id}>
 									{player.name}
 								</option>
@@ -86,15 +72,14 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 
 				<Col>
 					<Form.Control
-						onChange={(e) => setPicker(e.target.value.toUpperCase())}
+						{...register('picker')}
 						placeholder='Picker'
 						type='text'
-						value={picker}
 					/>
 				</Col>
 
 				<Col>
-					<Form.Select onChange={(e) => setTeamAbbrev(e.target.value)}>
+					<Form.Select {...register('teamAbbrev')}>
 						<option value={''}>Team</option>
 						{teamValues
 							?.sort((a, b) => a.name.localeCompare(b.name))
@@ -108,26 +93,20 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 
 				<Col>
 					<Form.Control
-						onChange={(e) => setJersey(Number(e.target.value))}
+						{...register('jersey')}
 						placeholder='Jersey'
 						type='number'
-						value={jersey ? jersey : ''}
 					/>
 				</Col>
 
 				<Col>
-					<Form.Control
-						onChange={(e) => setPos(e.target.value.toUpperCase())}
-						placeholder='Pos'
-						type='text'
-						value={pos}
-					/>
+					<Form.Control {...register('pos')} placeholder='Pos' type='text' />
 				</Col>
 
 				<Col>
 					<Button
 						className='form-control'
-						disabled={!playerToEditId}
+						disabled={!formState.isValid || formState.isSubmitting}
 						type='submit'
 						variant='outline-success'
 					>

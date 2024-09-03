@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
 	title: 'NHL Scores',
-	description: 'Next14 application',
+	description: 'Next15 application',
 	openGraph: {
 		title: 'NHL Scores',
 		images: ['/apple-touch-icon-114x114.png'],

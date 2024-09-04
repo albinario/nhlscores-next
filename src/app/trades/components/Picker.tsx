@@ -49,7 +49,7 @@ export function Picker({
 					</div>
 				))}
 			{playersPicked && playersPicked.length < 12 && (
-				<Missing isAll={false} playersPicked={playersPicked} />
+				<Missing playersPicked={playersPicked} />
 			)}
 		</Col>
 	)

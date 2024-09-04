@@ -1,6 +1,6 @@
 import { Game } from '@/components/Game'
 import { EQueryKey } from '@/enums'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
@@ -8,6 +8,7 @@ export function Games({ games }: { games: TGame[] }) {
 	const { data: playersPicked } = useFetchData<TPlayer[]>(
 		EQueryKey.playersPicked
 	)
+
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>(
 		EQueryKey.teamRecords
 	)

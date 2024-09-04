@@ -29,6 +29,7 @@ const teamsAbbr: { [key: string]: string } = {
 	STL: 'Blues',
 	TBL: 'Lightning',
 	TOR: 'Maple Leafs',
+	UTA: 'Hockey Club',
 	VAN: 'Canucks',
 	VGK: 'Golden Knights',
 	WSH: 'Capitals',

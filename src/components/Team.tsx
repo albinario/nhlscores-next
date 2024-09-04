@@ -1,7 +1,6 @@
-import { getLogoUrl } from '@/helpers/getLogoUrl'
+import { Logo } from './Logo'
 import { getTeamName } from '@/helpers/getTeamName'
 import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
 import type { TGameTeam, TPlayer, TTeamRecord } from '@/types'
 
 export function Team({
@@ -30,11 +29,8 @@ export function Team({
 					</span>
 					{getTeamName(team.abbrev)}
 				</div>
-				<Image
-					alt={team.abbrev}
-					src={getLogoUrl(team.abbrev)}
-					className={away ? 'ms-1' : 'me-1'}
-				/>
+
+				<Logo className={away ? 'ms-1' : 'me-1'} teamAbbrev={team.abbrev} />
 			</div>
 
 			{!showResults &&
@@ -48,7 +44,7 @@ export function Team({
 								<span className='d-sm-none'>{player.name.split(' ')[1]}</span>
 								<span className='small'>
 									{' '}
-									{player.pos} {player.picker}
+									{player.pos} {player.picker.toUpperCase()}
 								</span>
 							</div>
 						</div>

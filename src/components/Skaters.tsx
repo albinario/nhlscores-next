@@ -1,9 +1,8 @@
 import { Skater } from '@/components/Skater'
-import { getLogoUrl } from '@/helpers/getLogoUrl'
 import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
 import Table from 'react-bootstrap/Table'
 import type { TPlayer, TSkaterStats } from '@/types'
+import { Logo } from './Logo'
 
 export function Skaters({
 	defenders,
@@ -22,7 +21,7 @@ export function Skaters({
 				<thead>
 					<tr>
 						<th className='ps-0 text-start'>
-							<Image alt={teamAbbrev} src={getLogoUrl(teamAbbrev)} />
+							<Logo teamAbbrev={teamAbbrev} />
 						</th>
 						<th>G</th>
 						<th>A</th>

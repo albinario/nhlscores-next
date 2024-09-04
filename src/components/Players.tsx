@@ -1,5 +1,6 @@
 import { Goalies } from '@/components/Goalies'
 import { Skaters } from '@/components/Skaters'
+import { Fragment } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import type { TGameBoxscoreTeam, TPlayer } from '@/types'
@@ -20,7 +21,7 @@ export function Players({
 	winningGoalieId?: number
 }) {
 	return (
-		<>
+		<Fragment>
 			<Row xs={1} md={2}>
 				<Col md={{ offset: 3 }}>
 					<Goalies
@@ -53,6 +54,6 @@ export function Players({
 					teamAbbrev={teamAbbrevHome}
 				/>
 			</Row>
-		</>
+		</Fragment>
 	)
 }

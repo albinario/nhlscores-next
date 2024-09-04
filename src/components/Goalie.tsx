@@ -1,6 +1,5 @@
-import { getLogoUrl } from '@/helpers/getLogoUrl'
-import { Image } from 'react-bootstrap'
 import type { TGoalieStats } from '@/types'
+import { Logo } from './Logo'
 
 export function Goalie({
 	goalie,
@@ -16,7 +15,8 @@ export function Goalie({
 	return goalie.toi !== '00:00' ? (
 		<tr>
 			<td className={`text-start text-nowrap ${pickedBy}`}>
-				<Image alt={teamAbbrev} className='me-1' src={getLogoUrl(teamAbbrev)} />
+				<Logo className='me-1' teamAbbrev={teamAbbrev} />
+
 				<span className='small'>{goalie.sweaterNumber} </span>
 				{goalie.name.default}
 				{pickedBy && <span className={`small ${pickedBy}`}> {pickedBy}</span>}

@@ -3,7 +3,7 @@ import { Logo } from '@/components/Logo'
 import { PickersCell } from './PickersCell'
 import { Week } from './Week'
 import { EQueryKey } from '@/enums'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
 import type {
 	TDates,
 	TGame,
@@ -125,14 +125,20 @@ export function TeamRow({
 			{playersPicked && (
 				<Fragment>
 					<PickersCell
-						players={playersPicked?.filter((player) => player.picker === 'A')}
+						players={playersPicked?.filter(
+							(player) => player.picker.toLowerCase() === 'a'
+						)}
 						textEnd
 					/>
+
 					<td className='text-center'>
 						<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
 					</td>
+
 					<PickersCell
-						players={playersPicked?.filter((player) => player.picker !== 'A')}
+						players={playersPicked?.filter(
+							(player) => player.picker.toLowerCase() !== 'a'
+						)}
 					/>
 				</Fragment>
 			)}

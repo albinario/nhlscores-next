@@ -5,13 +5,14 @@ import { Picker } from './components/Picker'
 import { PlayerAddForm } from './components/PlayerAddForm'
 import { PlayerEditForm } from './components/PlayerEditForm'
 import { EQueryKey } from '@/enums'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import type { TPlayer } from '@/types'
 
 export default function Trades() {
 	const { data: players } = useFetchData<TPlayer[]>(EQueryKey.players)
+
 	const { data: playersPicked } = useFetchData<TPlayer[]>(
 		EQueryKey.playersPicked
 	)
@@ -28,7 +29,7 @@ export default function Trades() {
 						key={index}
 						picker={picker.name}
 						playersPicked={playersPicked?.filter(
-							(player) => player.picker === picker.code
+							(player) => player.picker.toLowerCase() === picker.code
 						)}
 					/>
 				))}

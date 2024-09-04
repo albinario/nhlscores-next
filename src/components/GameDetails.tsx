@@ -1,7 +1,8 @@
 import { Players } from '@/components/Players'
 import { Scoring } from '@/components/Scoring'
 import { EQueryKey } from '@/enums'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
+import { Fragment } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
@@ -44,7 +45,7 @@ export function GameDetails({
 	const endType = endTypeDesc !== 'REG' ? endTypeDesc : ''
 
 	return (
-		<>
+		<Fragment>
 			{endType && (
 				<Badge
 					bg='warning'
@@ -80,6 +81,6 @@ export function GameDetails({
 				teamAbbrevHome={gameDetails.landing.homeTeam.abbrev}
 				winningGoalieId={game.winningGoalie?.playerId}
 			/>
-		</>
+		</Fragment>
 	)
 }

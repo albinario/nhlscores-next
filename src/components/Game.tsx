@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { Fragment, useState, useCallback } from 'react'
 import { GameDetails } from '@/components/GameDetails'
 import { Team } from '@/components/Team'
 import { getStartTime } from '@/helpers/getStartTime'
@@ -40,12 +40,13 @@ export function Game({
 							onChange={() => setShowResults(!showResults)}
 						/>
 					)}
+
 					<div
 						className='position-absolute start-50 translate-middle-x'
 						style={{ marginTop: '-1px' }}
 					>
 						{showResults && (
-							<>
+							<Fragment>
 								<Badge
 									bg={ended ? 'success' : 'primary'}
 									className='me-1'
@@ -60,7 +61,7 @@ export function Game({
 								>
 									{game.homeTeam.score}
 								</Badge>
-							</>
+							</Fragment>
 						)}
 
 						{!showResults && (

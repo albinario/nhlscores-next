@@ -1,7 +1,6 @@
+import { Logo } from './Logo'
 import { Scorer } from '@/components/Scorer'
 import { getGoalTypes } from '@/helpers/getGoalTypes'
-import { getLogoUrl } from '@/helpers/getLogoUrl'
-import Image from 'react-bootstrap/Image'
 import type { TGoal, TPlayer } from '@/types'
 
 export function Goal({
@@ -28,10 +27,9 @@ export function Goal({
 	return (
 		<div className='mb-2'>
 			<div className={`d-flex ${!away && 'flex-row-reverse'}`}>
-				<Image
-					alt={goal.teamAbbrev.default}
+				<Logo
 					className={away ? 'me-1' : 'ms-1'}
-					src={getLogoUrl(goal.teamAbbrev.default)}
+					teamAbbrev={goal.teamAbbrev.default}
 				/>
 
 				<div className={away ? 'me-1' : 'ms-1'}>

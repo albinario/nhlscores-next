@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { EQueryKey } from '@/enums'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'

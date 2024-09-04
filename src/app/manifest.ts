@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
 	return {
 		name: 'NHL Scores',
 		short_name: 'NHL Scores',
-		description: 'Using Next14',
+		description: 'Using Next15',
 		start_url: '/',
 		display: 'standalone',
 		background_color: '#222529',

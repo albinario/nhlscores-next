@@ -4,7 +4,7 @@ export function Missing({
 	isAll,
 	playersPicked,
 }: {
-	isAll: boolean
+	isAll?: boolean
 	playersPicked: TPlayer[]
 }) {
 	const g = (isAll ? 8 : 2) - playersPicked.filter((p) => p.pos === 'G').length

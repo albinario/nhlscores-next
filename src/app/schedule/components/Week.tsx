@@ -39,8 +39,6 @@ export function Week({
 
 				return (
 					<Logo
-						key={game.id}
-						teamAbbrev={opponent}
 						className={classNames({
 							back:
 								moment(game.gameDate).subtract(1, 'days').format(dateFormat) ===
@@ -49,6 +47,8 @@ export function Week({
 							first: game.gameDate === startDate,
 							last: game.gameDate === endDate,
 						})}
+						key={game.id}
+						teamAbbrev={opponent}
 					/>
 				)
 			})}

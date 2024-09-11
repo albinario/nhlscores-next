@@ -4,9 +4,10 @@ import './globals.css'
 export const metadata: Metadata = {
 	title: 'NHL Scores',
 	description: 'Next15 application',
+	metadataBase: new URL('https://nhlscores-next.vercel.app/'),
 	openGraph: {
 		title: 'NHL Scores',
-		images: ['/apple-touch-icon-114x114.png'],
+		images: '/apple-touch-icon-114x114.png',
 	},
 }
 

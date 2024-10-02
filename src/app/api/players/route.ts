@@ -39,7 +39,8 @@ export async function PATCH(req: NextRequest) {
 		} else {
 			if (reqBody.picker) await player.updateOne({ picker: reqBody.picker })
 			if (reqBody.jersey) await player.updateOne({ jersey: reqBody.jersey })
-			if (reqBody.pos) await player.updateOne({ pos: reqBody.pos })
+			if (reqBody.pos)
+				await player.updateOne({ pos: reqBody.pos.toUpperCase() })
 			if (reqBody.teamAbbrev)
 				await player.updateOne({ teamAbbrev: reqBody.teamAbbrev })
 		}

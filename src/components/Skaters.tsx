@@ -30,7 +30,8 @@ export function Skaters({
 						<th>PIM</th>
 						<th>H</th>
 						<th>B</th>
-						<th className='pe-0 text-end'>TOI | PP | SH </th>
+						<th className='pe-0 text-end'>TOI</th>
+						{/* <th className='pe-0 text-end'>TOI | PP | SH </th> */}
 					</tr>
 				</thead>
 				<tbody>

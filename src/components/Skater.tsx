@@ -29,7 +29,10 @@ export function Skater({
 			<td>{skater.hits}</td>
 			<td>{skater.blockedShots}</td>
 			<td className='text-end text-nowrap'>
-				{skater.toi} | {skater.powerPlayToi} | {skater.shorthandedToi}
+				{[skater.toi, skater.powerPlayToi, skater.shorthandedToi]
+					.filter((toi) => toi)
+					.map((toi) => toi)
+					.join(' | ')}
 			</td>
 		</tr>
 	)

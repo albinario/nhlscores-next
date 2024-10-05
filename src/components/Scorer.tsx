@@ -16,7 +16,7 @@ export function Scorer({
 			{last && ', '}
 			<span className={pickedBy}>
 				{name} {!isSo && '(' + toDate + ')'}
-				{pickedBy && ' ' + pickedBy}
+				{pickedBy && ' ' + pickedBy.toUpperCase()}
 			</span>
 		</span>
 	)

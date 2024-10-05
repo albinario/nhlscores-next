@@ -19,7 +19,9 @@ export function Goalie({
 
 				<span className='small'>{goalie.sweaterNumber} </span>
 				{goalie.name.default}
-				{pickedBy && <span className={`small ${pickedBy}`}> {pickedBy}</span>}
+				{pickedBy && (
+					<span className={`small ${pickedBy}`}> {pickedBy.toUpperCase()}</span>
+				)}
 				{winningGoalie && (
 					<span className='fst-italic opacity-75 small'> W</span>
 				)}

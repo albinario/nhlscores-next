@@ -16,7 +16,7 @@ export function Skater({
 				<span className='small me-1'>{skater.sweaterNumber}</span>
 				<span className='d-none d-sm-inline'>{fullName}</span>
 				<span className='d-sm-none'>{lastName}</span>
-				{pickedBy && <span className='small'> {pickedBy}</span>}
+				{pickedBy && <span className='small'> {pickedBy.toUpperCase()}</span>}
 			</td>
 			<td>{skater.goals}</td>
 			<td>{skater.assists}</td>

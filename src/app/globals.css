@@ -5,7 +5,7 @@ html {
 }
 
 body {
-	color: #b0b2b6 !important;
+	color: #b0b2b6;
 	font-size: 0.75em;
 }
 
@@ -50,6 +50,10 @@ img {
 
 .table-sm td {
 	padding: 0;
+}
+
+.table > :not(caption) > * > * {
+	color: inherit;
 }
 
 .back {

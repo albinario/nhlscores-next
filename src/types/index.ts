@@ -168,7 +168,7 @@ export type TSkaterStats = {
 	points: number
 	powerPlayToi: string
 	shorthandedToi: string
-	shots: number
+	sog: number
 	sweaterNumber: number
 	toi: string
 }

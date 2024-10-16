@@ -24,7 +24,7 @@ export function Skater({
 				{skater.plusMinus > 0 && '+'}
 				{skater.plusMinus}
 			</td>
-			<td>{skater.shots}</td>
+			<td>{skater.sog}</td>
 			<td>{skater.pim}</td>
 			<td>{skater.hits}</td>
 			<td>{skater.blockedShots}</td>

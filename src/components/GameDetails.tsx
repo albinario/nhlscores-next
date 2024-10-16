@@ -35,8 +35,12 @@ export function GameDetails({
 
 	if (error) return <Alert variant='warning'>Error loading game details</Alert>
 
-	if (!gameDetails)
-		return <Alert variant='secondary'>No game details available</Alert>
+	if (!gameDetails || !gameDetails.boxscore.playerByGameStats)
+		return (
+			<Alert className='mt-2' variant='secondary'>
+				No game details available
+			</Alert>
+		)
 
 	const ended = gameDetails.landing.gameState === 'OFF'
 	const endTypeDesc = ended
@@ -59,7 +63,7 @@ export function GameDetails({
 			)}
 
 			<div className='mt-2'>
-				{gameDetails.landing.summary.scoring
+				{gameDetails.landing.summary?.scoring
 					.filter((s) => !!s.goals.length)
 					.map((scoring) => (
 						<Scoring

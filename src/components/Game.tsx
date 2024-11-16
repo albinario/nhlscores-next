@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, useCallback } from 'react'
+import { Fragment, useState } from 'react'
 import { GameDetails } from '@/components/GameDetails'
 import { Team } from '@/components/Team'
 import { getStartTime } from '@/helpers/getStartTime'

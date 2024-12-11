@@ -1,6 +1,6 @@
 import type { TPicker } from '@/types'
 
-export const dateFormat = 'YYYY-MM-DD'
+export const dateFormat = 'yyyy-MM-dd'
 
 export const pickers: TPicker[] = [
 	{

@@ -1,7 +1,7 @@
 import { dateFormat } from '@/app/lib/globals'
 import classNames from 'classnames'
 import { Logo } from '@/components/Logo'
-import moment from 'moment'
+import { format, parse, subDays } from 'date-fns'
 import { Fragment } from 'react'
 import type { TGame, TTeamSchedule } from '@/types'
 
@@ -43,8 +43,10 @@ export function Week({
 					<Logo
 						className={classNames({
 							back:
-								moment(game.gameDate).subtract(1, 'days').format(dateFormat) ===
-								prevDate,
+								format(
+									subDays(parse(game.gameDate, dateFormat, new Date()), 1),
+									dateFormat
+								) === prevDate,
 							home,
 							first: game.gameDate === startDate,
 							last: game.gameDate === endDate,

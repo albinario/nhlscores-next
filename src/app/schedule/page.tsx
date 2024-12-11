@@ -1,9 +1,9 @@
 'use client'
 import { dateFormat } from '@/app/lib/globals'
 import { TeamRow } from './components/TeamRow'
+import { addDays, format } from 'date-fns'
 import { EQueryKey } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
-import moment from 'moment'
 import Table from 'react-bootstrap/Table'
 import type { TDates, TPlayer, TTeamRecord } from '@/types'
 
@@ -23,14 +23,14 @@ export default function Schedule() {
 	}))
 
 	const dates: TDates = {
-		week1Start: moment().format(dateFormat),
-		week1End: moment().add(6, 'days').format(dateFormat),
-		week2Start: moment().add(7, 'days').format(dateFormat),
-		week2End: moment().add(13, 'days').format(dateFormat),
-		week3Start: moment().add(14, 'days').format(dateFormat),
-		week3End: moment().add(20, 'days').format(dateFormat),
-		week4Start: moment().add(21, 'days').format(dateFormat),
-		week4End: moment().add(27, 'days').format(dateFormat),
+		week1Start: format(new Date(), dateFormat),
+		week1End: format(addDays(new Date(), 6), dateFormat),
+		week2Start: format(addDays(new Date(), 7), dateFormat),
+		week2End: format(addDays(new Date(), 13), dateFormat),
+		week3Start: format(addDays(new Date(), 14), dateFormat),
+		week3End: format(addDays(new Date(), 20), dateFormat),
+		week4Start: format(addDays(new Date(), 21), dateFormat),
+		week4End: format(addDays(new Date(), 27), dateFormat),
 	}
 
 	return (

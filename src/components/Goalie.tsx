@@ -1,17 +1,19 @@
-import type { TGoalieStats } from '@/types'
 import { Logo } from './Logo'
+import type { TGoalieStats } from '@/types'
+
+type TGoalieComponent = {
+	goalie: TGoalieStats
+	pickedBy?: string
+	teamAbbrev: string
+	winningGoalie: boolean
+}
 
 export function Goalie({
 	goalie,
 	pickedBy,
 	teamAbbrev,
 	winningGoalie,
-}: {
-	goalie: TGoalieStats
-	pickedBy?: string
-	teamAbbrev: string
-	winningGoalie: boolean
-}) {
+}: TGoalieComponent) {
 	return goalie.toi !== '00:00' ? (
 		<tr>
 			<td className={`text-start text-nowrap ${pickedBy}`}>

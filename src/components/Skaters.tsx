@@ -1,20 +1,22 @@
+import { Logo } from './Logo'
 import { Skater } from '@/components/Skater'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import type { TPlayer, TSkaterStats } from '@/types'
-import { Logo } from './Logo'
+
+type TSkatersComponent = {
+	defenders: TSkaterStats[]
+	forwards: TSkaterStats[]
+	playersPicked?: TPlayer[]
+	teamAbbrev: string
+}
 
 export function Skaters({
 	defenders,
 	forwards,
 	playersPicked,
 	teamAbbrev,
-}: {
-	defenders: TSkaterStats[]
-	forwards: TSkaterStats[]
-	playersPicked?: TPlayer[]
-	teamAbbrev: string
-}) {
+}: TSkatersComponent) {
 	return (
 		<Col>
 			<Table borderless className='small text-center' size='sm'>

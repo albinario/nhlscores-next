@@ -3,6 +3,15 @@ import { Scorer } from '@/components/Scorer'
 import { getGoalTypes } from '@/helpers/getGoalTypes'
 import type { TGoal, TPlayer } from '@/types'
 
+type TGoalComponent = {
+	away: boolean
+	goal: TGoal
+	isSo: boolean
+	losingScore: number
+	players?: TPlayer[]
+	winningGoalScorerId?: number
+}
+
 export function Goal({
 	away,
 	goal,
@@ -10,14 +19,7 @@ export function Goal({
 	losingScore,
 	players,
 	winningGoalScorerId,
-}: {
-	away: boolean
-	goal: TGoal
-	isSo: boolean
-	losingScore: number
-	players?: TPlayer[]
-	winningGoalScorerId?: number
-}) {
+}: TGoalComponent) {
 	const gameWinner =
 		goal.playerId === winningGoalScorerId &&
 		(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)

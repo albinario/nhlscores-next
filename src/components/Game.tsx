@@ -10,17 +10,19 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
+type TGameComponent = {
+	game: TGame
+	playersPicked?: TPlayer[]
+	teamRecordAway?: TTeamRecord
+	teamRecordHome?: TTeamRecord
+}
+
 export function Game({
 	game,
 	playersPicked,
 	teamRecordAway,
 	teamRecordHome,
-}: {
-	game: TGame
-	playersPicked?: TPlayer[]
-	teamRecordAway?: TTeamRecord
-	teamRecordHome?: TTeamRecord
-}) {
+}: TGameComponent) {
 	const [showResults, setShowResults] = useState(false)
 
 	const startDateTime = new Date(game.startTimeUTC)
@@ -73,7 +75,7 @@ export function Game({
 
 					<Row>
 						<Team
-							away={true}
+							away
 							playersPicked={playersPicked?.filter(
 								(player) => player.teamAbbrev === game.awayTeam.abbrev
 							)}

@@ -9,7 +9,11 @@ import { searchPlayers } from '@/services/searchAPI'
 import { mutate } from 'swr'
 import type { TPlayer, TPlayerSearch, TPlayerToAdd } from '@/types'
 
-export function PlayerAddForm({ players }: { players?: TPlayer[] }) {
+type TPlayerAddFormComponent = {
+	players?: TPlayer[]
+}
+
+export function PlayerAddForm({ players }: TPlayerAddFormComponent) {
 	const [playersSearch, setPlayersSearch] = useState<TPlayerSearch[] | null>(
 		null
 	)

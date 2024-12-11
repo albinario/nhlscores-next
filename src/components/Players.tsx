@@ -5,6 +5,15 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import type { TGameBoxscoreTeam, TPlayer } from '@/types'
 
+type TPlayersComponent = {
+	playersAway: TGameBoxscoreTeam
+	playersHome: TGameBoxscoreTeam
+	playersPicked?: TPlayer[]
+	teamAbbrevAway: string
+	teamAbbrevHome: string
+	winningGoalieId?: number
+}
+
 export function Players({
 	playersAway,
 	playersHome,
@@ -12,14 +21,7 @@ export function Players({
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: {
-	playersAway: TGameBoxscoreTeam
-	playersHome: TGameBoxscoreTeam
-	playersPicked?: TPlayer[]
-	teamAbbrevAway: string
-	teamAbbrevHome: string
-	winningGoalieId?: number
-}) {
+}: TPlayersComponent) {
 	return (
 		<Fragment>
 			<Row xs={1} md={2}>

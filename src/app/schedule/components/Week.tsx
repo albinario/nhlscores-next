@@ -5,19 +5,21 @@ import moment from 'moment'
 import { Fragment } from 'react'
 import type { TGame, TTeamSchedule } from '@/types'
 
+type TWeekComponent = {
+	games: TGame[]
+	endDate: string
+	startDate: string
+	teamAbbrev: string
+	teams?: TTeamSchedule[]
+}
+
 export function Week({
 	games,
 	endDate,
 	startDate,
 	teamAbbrev,
 	teams,
-}: {
-	games: TGame[]
-	endDate: string
-	startDate: string
-	teamAbbrev: string
-	teams?: TTeamSchedule[]
-}) {
+}: TWeekComponent) {
 	let prevDate = ''
 	let value = 0
 

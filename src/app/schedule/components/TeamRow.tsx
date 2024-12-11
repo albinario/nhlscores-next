@@ -12,17 +12,19 @@ import type {
 	TTeamSchedule,
 } from '@/types'
 
+type TTeamRowComponent = {
+	dates: TDates
+	playersPicked?: TPlayer[]
+	teamRecord: TTeamRecord
+	teams?: TTeamSchedule[]
+}
+
 export function TeamRow({
 	dates,
 	playersPicked,
 	teamRecord,
 	teams,
-}: {
-	dates: TDates
-	playersPicked?: TPlayer[]
-	teamRecord: TTeamRecord
-	teams?: TTeamSchedule[]
-}) {
+}: TTeamRowComponent) {
 	const { data: games } = useFetchData<TGame[]>(
 		EQueryKey.schedule + teamRecord.teamAbbrev.default
 	)

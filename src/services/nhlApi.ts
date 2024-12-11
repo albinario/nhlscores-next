@@ -23,16 +23,20 @@ export const getGameDetails = async (gameId: number) => {
 		'/gamecenter/' + gameId + '/boxscore',
 		instance
 	)
+
 	const landing = await getData<TGameLanding>(
 		'/gamecenter/' + gameId + '/landing',
 		instance
 	)
+
 	const gameDetails: TGameDetails = { boxscore, landing }
+
 	return gameDetails
 }
 
 export const getGamesDate = async (date: string) => {
 	const response = await getData<TGamesResponse>('/schedule/' + date, instance)
+
 	return response.gameWeek[0].games
 }
 
@@ -41,10 +45,12 @@ export const getGamesTeam = async (teamAbbrev: string) => {
 		'/club-schedule-season/' + teamAbbrev + '/now',
 		instance
 	)
+
 	return response.games
 }
 
 export const getTeamRecords = async () => {
 	const response = await getData<TStandingsResponse>('/standings/now', instance)
+
 	return response.standings
 }

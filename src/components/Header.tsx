@@ -2,19 +2,21 @@ import { useEffect, useState } from 'react'
 import Fetching from '@/components/Fetching'
 import { getDateTitle } from '@/helpers/getDateTitle'
 
+type THeaderComponent = {
+	date: string
+	dateFormat: string
+	dateDecrease: () => void
+	dateIncrease: () => void
+	isLoading: boolean
+}
+
 export default function Header({
 	date,
 	dateFormat,
 	dateDecrease,
 	dateIncrease,
 	isLoading,
-}: {
-	date: string
-	dateFormat: string
-	dateDecrease: () => void
-	dateIncrease: () => void
-	isLoading: boolean
-}) {
+}: THeaderComponent) {
 	const [dateTitle, setDateTitle] = useState('')
 
 	useEffect(() => {

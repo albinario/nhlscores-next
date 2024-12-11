@@ -2,19 +2,21 @@ import { Goal } from '@/components/Goal'
 import { getPeriodType } from '@/helpers/getPeriodType'
 import type { TPlayer, TScoring } from '@/types'
 
+type TScoringComponent = {
+	losingScore: number
+	playersPicked?: TPlayer[]
+	scoring: TScoring
+	teamAbbrevAway: string
+	winningGoalScorerId?: number
+}
+
 export function Scoring({
 	losingScore,
 	playersPicked,
 	scoring,
 	teamAbbrevAway,
 	winningGoalScorerId,
-}: {
-	losingScore: number
-	playersPicked?: TPlayer[]
-	scoring: TScoring
-	teamAbbrevAway: string
-	winningGoalScorerId?: number
-}) {
+}: TScoringComponent) {
 	return (
 		<div className='period mb-1'>
 			<div className='d-flex justify-content-center small text-muted'>

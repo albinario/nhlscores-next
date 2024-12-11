@@ -9,7 +9,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { mutate } from 'swr'
 import type { TPlayer, TPlayerToEdit, TTeamRecord } from '@/types'
 
-export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
+type TPlayerEditFormComponent = {
+	players?: TPlayer[]
+}
+
+export function PlayerEditForm({ players }: TPlayerEditFormComponent) {
 	const [searchInput, setSearchInput] = useState('')
 
 	const { formState, handleSubmit, register, reset } = useForm<TPlayerToEdit>()
@@ -56,17 +60,18 @@ export function PlayerEditForm({ players }: { players?: TPlayer[] }) {
 				<Col>
 					<Form.Select {...register('id', { required: true, min: 1 })}>
 						<option value={0}>Player</option>
-						{players
-							?.filter((player) =>
-								player.name
-									.toLowerCase()
-									.includes(searchInput.toLocaleLowerCase())
-							)
-							.map((player) => (
-								<option key={player.id} value={player.id}>
-									{player.name}
-								</option>
-							))}
+						{searchInput &&
+							players
+								?.filter((player) =>
+									player.name
+										.toLowerCase()
+										.includes(searchInput.toLocaleLowerCase())
+								)
+								.map((player) => (
+									<option key={player.id} value={player.id}>
+										{player.name}
+									</option>
+								))}
 					</Form.Select>
 				</Col>
 

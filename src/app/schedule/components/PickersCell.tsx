@@ -1,13 +1,12 @@
 import classNames from 'classnames'
 import type { TPlayer } from '@/types'
 
-export function PickersCell({
-	players,
-	textEnd,
-}: {
+type TPickersCellComponent = {
 	players: TPlayer[]
 	textEnd?: boolean
-}) {
+}
+
+export function PickersCell({ players, textEnd }: TPickersCellComponent) {
 	return (
 		<td className={classNames({ 'text-end': textEnd })}>
 			{players

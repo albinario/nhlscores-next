@@ -35,7 +35,7 @@ export default function Trades() {
 				))}
 
 				{playersPicked && playersPicked.length < 48 && (
-					<Missing isAll={true} playersPicked={playersPicked} />
+					<Missing isAll playersPicked={playersPicked} />
 				)}
 			</Row>
 		</Container>

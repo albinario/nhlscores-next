@@ -1,12 +1,11 @@
 import type { TSkaterStats } from '@/types'
 
-export function Skater({
-	skater,
-	pickedBy,
-}: {
+type TSkaterComponent = {
 	skater: TSkaterStats
 	pickedBy?: string
-}) {
+}
+
+export function Skater({ skater, pickedBy }: TSkaterComponent) {
 	const fullName = skater.name.default
 	const lastName = fullName.replace(/^[A-Z]\. /, '')
 

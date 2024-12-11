@@ -1,16 +1,18 @@
+type TScorerComponent = {
+	isSo?: boolean
+	last?: boolean
+	name: string
+	pickedBy?: string
+	toDate: number
+}
+
 export function Scorer({
 	isSo,
 	last,
 	name,
 	pickedBy,
 	toDate,
-}: {
-	isSo?: boolean
-	last?: boolean
-	name: string
-	pickedBy?: string
-	toDate: number
-}) {
+}: TScorerComponent) {
 	return (
 		<span className='text-nowrap'>
 			{last && ', '}

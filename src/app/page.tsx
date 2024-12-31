@@ -37,7 +37,6 @@ export default function Home() {
 			<div>
 				<Header
 					date={date}
-					dateFormat={dateFormat}
 					dateDecrease={dateDecrease}
 					dateIncrease={dateIncrease}
 					isLoading={isLoading}

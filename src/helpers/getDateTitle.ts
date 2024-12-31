@@ -1,14 +1,13 @@
 import { addDays, format, subDays } from 'date-fns'
+import { dateFormat } from '@/app/lib/globals'
 
-export const getDateTitle = (date: string, dateFormat: string) => {
-	const now = new Date()
-
+export const getDateTitle = (date: string) => {
 	switch (date) {
-		case format(new Date(), dateFormat): // Today's date
+		case format(new Date(), dateFormat):
 			return 'Tonight'
-		case format(addDays(new Date(), 1), dateFormat): // Tomorrow's date
+		case format(addDays(new Date(), 1), dateFormat):
 			return 'Tomorrow night'
-		case format(subDays(new Date(), 1), dateFormat): // Yesterday's date
+		case format(subDays(new Date(), 1), dateFormat):
 			return 'Last night'
 		default:
 			return date

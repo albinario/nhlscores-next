@@ -210,12 +210,8 @@ export type TTeamRecord = {
 	roadWins: number
 	streakCode: string
 	streakCount: number
-	teamAbbrev: {
-		default: string
-	}
-	teamName: {
-		default: string
-	}
+	teamAbbrev: TName
+	teamName: TName
 	wins: number
 }
 

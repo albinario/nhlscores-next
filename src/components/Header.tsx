@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Fetching from '@/components/Fetching'
+import { Fetching } from '@/components/Fetching'
 import { getDateTitle } from '@/helpers/getDateTitle'
 
 type THeaderComponent = {
@@ -9,12 +9,12 @@ type THeaderComponent = {
 	isLoading: boolean
 }
 
-export default function Header({
+export const Header = ({
 	date,
 	dateDecrease,
 	dateIncrease,
 	isLoading,
-}: THeaderComponent) {
+}: THeaderComponent) => {
 	const [dateTitle, setDateTitle] = useState('')
 
 	useEffect(() => {

@@ -11,52 +11,52 @@ type TGoaliesComponent = {
 	winningGoalieId?: number
 }
 
-export function Goalies({
+export const Goalies = ({
 	goaliesAway,
 	goaliesHome,
 	playersPicked,
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: TGoaliesComponent) {
-	return (
-		<Table borderless className='small text-center' size='sm'>
-			<thead>
-				<tr>
-					<th></th>
-					<th>Saves</th>
-					<th>%</th>
-					<th>PP</th>
-					<th>PIM</th>
-					<th className='pe-0 text-end'>TOI</th>
-				</tr>
-			</thead>
-			<tbody>
-				{goaliesAway.map((goalie) => (
-					<Goalie
-						key={goalie.playerId}
-						goalie={goalie}
-						teamAbbrev={teamAbbrevAway}
-						pickedBy={
-							playersPicked?.find((player) => player.id === goalie.playerId)
-								?.picker
-						}
-						winningGoalie={goalie.playerId === winningGoalieId}
-					/>
-				))}
-				{goaliesHome.map((goalie) => (
-					<Goalie
-						key={goalie.playerId}
-						goalie={goalie}
-						teamAbbrev={teamAbbrevHome}
-						pickedBy={
-							playersPicked?.find((player) => player.id === goalie.playerId)
-								?.picker
-						}
-						winningGoalie={goalie.playerId === winningGoalieId}
-					/>
-				))}
-			</tbody>
-		</Table>
-	)
-}
+}: TGoaliesComponent) => (
+	<Table borderless className='small text-center' size='sm'>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Saves</th>
+				<th>%</th>
+				<th>PP</th>
+				<th>PIM</th>
+				<th className='pe-0 text-end'>TOI</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{goaliesAway.map((goalie) => (
+				<Goalie
+					key={goalie.playerId}
+					goalie={goalie}
+					teamAbbrev={teamAbbrevAway}
+					pickedBy={
+						playersPicked?.find((player) => player.id === goalie.playerId)
+							?.picker
+					}
+					winningGoalie={goalie.playerId === winningGoalieId}
+				/>
+			))}
+
+			{goaliesHome.map((goalie) => (
+				<Goalie
+					key={goalie.playerId}
+					goalie={goalie}
+					teamAbbrev={teamAbbrevHome}
+					pickedBy={
+						playersPicked?.find((player) => player.id === goalie.playerId)
+							?.picker
+					}
+					winningGoalie={goalie.playerId === winningGoalieId}
+				/>
+			))}
+		</tbody>
+	</Table>
+)

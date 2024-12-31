@@ -11,56 +11,56 @@ type TTeamComponent = {
 	teamRecord?: TTeamRecord
 }
 
-export function Team({
+export const Team = ({
 	away,
 	playersPicked,
 	showResults,
 	team,
 	teamRecord,
-}: TTeamComponent) {
-	return (
-		<Col className={`d-flex flex-column ${away && 'align-items-end'}`}>
-			<div
-				className={`d-flex mb-1 ${
-					away ? 'me-3' : 'flex-row-reverse justify-content-end ms-3'
-				}`}
-			>
-				<div>
-					<span className='d-none d-sm-inline me-1'>
-						{team.placeName.default}
-					</span>
-					{getTeamName(team.abbrev)}
-				</div>
+}: TTeamComponent) => (
+	<Col className={`d-flex flex-column ${away && 'align-items-end'}`}>
+		<div
+			className={`d-flex mb-1 ${
+				away ? 'me-3' : 'flex-row-reverse justify-content-end ms-3'
+			}`}
+		>
+			<div>
+				<span className='d-none d-sm-inline me-1'>
+					{team.placeName.default}
+				</span>
 
-				<Logo className={away ? 'ms-1' : 'me-1'} teamAbbrev={team.abbrev} />
+				{getTeamName(team.abbrev)}
 			</div>
 
-			{!showResults &&
-				playersPicked
-					?.sort((a, b) => a.jersey - b.jersey)
-					.map((player) => (
-						<div className={away ? 'text-end' : ''} key={player.id}>
-							<div className={player.picker}>
-								<span className='small'>{player.jersey} </span>
-								<span className='d-none d-sm-inline'>{player.name}</span>
-								<span className='d-sm-none'>{player.name.split(' ')[1]}</span>
-								<span className='small'>
-									{' '}
-									{player.pos} {player.picker.toUpperCase()}
-								</span>
-							</div>
-						</div>
-					))}
+			<Logo className={away ? 'ms-1' : 'me-1'} teamAbbrev={team.abbrev} />
+		</div>
 
-			{showResults && teamRecord && (
-				<span className='small'>
-					{teamRecord.wins}-{teamRecord.losses}-{teamRecord.otLosses}
-					<span className='text-muted ms-1'>
-						{teamRecord.streakCode}
-						{teamRecord.streakCount}
-					</span>
+		{!showResults &&
+			playersPicked
+				?.sort((a, b) => a.jersey - b.jersey)
+				.map((player) => (
+					<div className={away ? 'text-end' : ''} key={player.id}>
+						<div className={player.picker}>
+							<span className='small'>{player.jersey} </span>
+							<span className='d-none d-sm-inline'>{player.name}</span>
+							<span className='d-sm-none'>{player.name.split(' ')[1]}</span>
+
+							<span className='small'>
+								{' '}
+								{player.pos} {player.picker.toUpperCase()}
+							</span>
+						</div>
+					</div>
+				))}
+
+		{showResults && teamRecord && (
+			<span className='small'>
+				{teamRecord.wins}-{teamRecord.losses}-{teamRecord.otLosses}
+				<span className='text-muted ms-1'>
+					{teamRecord.streakCode}
+					{teamRecord.streakCount}
 				</span>
-			)}
-		</Col>
-	)
-}
+			</span>
+		)}
+	</Col>
+)

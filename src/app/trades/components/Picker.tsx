@@ -10,7 +10,7 @@ type TPickerComponent = {
 	playersPicked?: TPlayer[]
 }
 
-export function Picker({ picker, playersPicked }: TPickerComponent) {
+export const Picker = ({ picker, playersPicked }: TPickerComponent) => {
 	const order = ['C', 'W', 'D', 'G']
 
 	const removePicker = async (id: number) => {
@@ -47,6 +47,7 @@ export function Picker({ picker, playersPicked }: TPickerComponent) {
 						{player.name}
 					</div>
 				))}
+
 			{playersPicked && playersPicked.length < 12 && (
 				<Missing playersPicked={playersPicked} />
 			)}

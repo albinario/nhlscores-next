@@ -12,14 +12,14 @@ type TGoalComponent = {
 	winningGoalScorerId?: number
 }
 
-export function Goal({
+export const Goal = ({
 	away,
 	goal,
 	isSo,
 	losingScore,
 	players,
 	winningGoalScorerId,
-}: TGoalComponent) {
+}: TGoalComponent) => {
 	const gameWinner =
 		goal.playerId === winningGoalScorerId &&
 		(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
@@ -37,6 +37,7 @@ export function Goal({
 				<div className={away ? 'me-1' : 'ms-1'}>
 					{goal.awayScore}-{goal.homeScore}
 				</div>
+
 				{!isSo && (
 					<div className={`text-muted ${away ? 'me-1' : 'ms-1'}`}>
 						{goal.timeInPeriod}
@@ -52,6 +53,7 @@ export function Goal({
 						}
 						toDate={goal.goalsToDate}
 					/>
+
 					{!!goalTypes.length && (
 						<span className='small text-muted fst-italic ms-1'>
 							{goalTypes.map((goalType) => goalType).join(' ')}

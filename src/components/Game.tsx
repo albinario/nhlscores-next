@@ -1,4 +1,3 @@
-'use client'
 import { Fragment, useState } from 'react'
 import { GameDetails } from '@/components/GameDetails'
 import { Team } from '@/components/Team'
@@ -17,12 +16,12 @@ type TGameComponent = {
 	teamRecordHome?: TTeamRecord
 }
 
-export function Game({
+export const Game = ({
 	game,
 	playersPicked,
 	teamRecordAway,
 	teamRecordHome,
-}: TGameComponent) {
+}: TGameComponent) => {
 	const [showResults, setShowResults] = useState(false)
 
 	const startDateTime = new Date(game.startTimeUTC)

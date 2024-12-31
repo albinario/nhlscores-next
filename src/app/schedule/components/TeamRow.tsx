@@ -19,12 +19,12 @@ type TTeamRowComponent = {
 	teams?: TTeamSchedule[]
 }
 
-export function TeamRow({
+export const TeamRow = ({
 	dates,
 	playersPicked,
 	teamRecord,
 	teams,
-}: TTeamRowComponent) {
+}: TTeamRowComponent) => {
 	const { data: games } = useFetchData<TGame[]>(
 		EQueryKey.schedule + teamRecord.teamAbbrev.default
 	)
@@ -33,45 +33,57 @@ export function TeamRow({
 		<tr>
 			<td>{teamRecord.leagueSequence}</td>
 			<td>{teamRecord.leagueL10Sequence}</td>
+
 			<td className='text-center'>
 				<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
 			</td>
+
 			<td>{teamRecord.teamName.default}</td>
+
 			<td>
 				{teamRecord.l10Wins}-{teamRecord.l10Losses}-{teamRecord.l10OtLosses}
 			</td>
+
 			<td>
 				{teamRecord.l10GoalsFor}-{teamRecord.l10GoalsAgainst}
 			</td>
+
 			<td>
 				{teamRecord.streakCode}
 				{teamRecord.streakCount}
 			</td>
+
 			<td>
 				{teamRecord.wins}-{teamRecord.losses}-{teamRecord.otLosses}
 			</td>
+
 			<td>
 				{teamRecord.goalFor}-{teamRecord.goalAgainst}
 			</td>
+
 			<td>
 				<span className='home'>
 					{teamRecord.homeWins}-{teamRecord.homeLosses}-
 					{teamRecord.homeOtLosses}
 				</span>
 			</td>
+
 			<td>
 				<span className='home'>
 					{teamRecord.homeGoalsFor}-{teamRecord.homeGoalsAgainst}
 				</span>
 			</td>
+
 			<td>
 				{teamRecord.roadWins}-{teamRecord.roadLosses}-{teamRecord.roadOtLosses}
 			</td>
+
 			<td>
 				{teamRecord.roadGoalsFor}-{teamRecord.roadGoalsAgainst}
 			</td>
 
 			<td>{(teamRecord.pointPctg * 100).toFixed()}%</td>
+
 			<td>
 				<Week
 					games={games.filter(
@@ -85,6 +97,7 @@ export function TeamRow({
 					teams={teams}
 				/>
 			</td>
+
 			<td>
 				<Week
 					games={games.filter(
@@ -98,6 +111,7 @@ export function TeamRow({
 					teams={teams}
 				/>
 			</td>
+
 			<td>
 				<Week
 					games={games.filter(
@@ -111,6 +125,7 @@ export function TeamRow({
 					teams={teams}
 				/>
 			</td>
+
 			<td>
 				<Week
 					games={games.filter(
@@ -124,6 +139,7 @@ export function TeamRow({
 					teams={teams}
 				/>
 			</td>
+
 			{playersPicked && (
 				<Fragment>
 					<PickersCell

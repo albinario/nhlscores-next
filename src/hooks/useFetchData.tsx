@@ -1,10 +1,11 @@
 import useSWR from 'swr'
 
-export function useFetchData<T>(queryKey: string) {
-	const fetcher = async (endpoint: string) => {
+export const useFetchData = <T,>(queryKey: string) => {
+	const fetcher = async (endpoint: string): Promise<T> => {
 		const res = await fetch('/api/' + endpoint)
 		const data = await res.json()
-		return data as T
+
+		return data
 	}
 
 	return useSWR(queryKey, fetcher, {

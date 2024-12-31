@@ -13,13 +13,13 @@ type TWeekComponent = {
 	teams?: TTeamSchedule[]
 }
 
-export function Week({
+export const Week = ({
 	games,
 	endDate,
 	startDate,
 	teamAbbrev,
 	teams,
-}: TWeekComponent) {
+}: TWeekComponent) => {
 	let prevDate = ''
 	let value = 0
 
@@ -56,6 +56,7 @@ export function Week({
 					/>
 				)
 			})}
+
 			<span className='ms-1'>{value}</span>
 		</Fragment>
 	)

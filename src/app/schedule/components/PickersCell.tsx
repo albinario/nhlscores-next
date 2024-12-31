@@ -6,13 +6,11 @@ type TPickersCellComponent = {
 	textEnd?: boolean
 }
 
-export function PickersCell({ players, textEnd }: TPickersCellComponent) {
-	return (
-		<td className={classNames({ 'text-end': textEnd })}>
-			{players
-				.sort((a, b) => a.jersey - b.jersey)
-				.map((player) => player.picker.toUpperCase() + player.jersey)
-				.join(', ')}
-		</td>
-	)
-}
+export const PickersCell = ({ players, textEnd }: TPickersCellComponent) => (
+	<td className={classNames({ 'text-end': textEnd })}>
+		{players
+			.sort((a, b) => a.jersey - b.jersey)
+			.map((player) => player.picker.toUpperCase() + player.jersey)
+			.join(', ')}
+	</td>
+)

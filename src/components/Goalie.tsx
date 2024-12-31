@@ -8,12 +8,12 @@ type TGoalieComponent = {
 	winningGoalie: boolean
 }
 
-export function Goalie({
+export const Goalie = ({
 	goalie,
 	pickedBy,
 	teamAbbrev,
 	winningGoalie,
-}: TGoalieComponent) {
+}: TGoalieComponent) => {
 	return goalie.toi !== '00:00' ? (
 		<tr>
 			<td className={`text-start text-nowrap ${pickedBy}`}>
@@ -28,6 +28,7 @@ export function Goalie({
 					<span className='fst-italic opacity-75 small'> W</span>
 				)}
 			</td>
+
 			<td>{goalie.saveShotsAgainst}</td>
 			<td>{(Number(goalie.savePctg) * 100).toFixed(2)}</td>
 			<td>{goalie.powerPlayGoalsAgainst}</td>

@@ -6,20 +6,18 @@ type TScorerComponent = {
 	toDate: number
 }
 
-export function Scorer({
+export const Scorer = ({
 	isSo,
 	last,
 	name,
 	pickedBy,
 	toDate,
-}: TScorerComponent) {
-	return (
-		<span className='text-nowrap'>
-			{last && ', '}
-			<span className={pickedBy}>
-				{name} {!isSo && '(' + toDate + ')'}
-				{pickedBy && ' ' + pickedBy.toUpperCase()}
-			</span>
+}: TScorerComponent) => (
+	<span className='text-nowrap'>
+		{last && ', '}
+		<span className={pickedBy}>
+			{name} {!isSo && '(' + toDate + ')'}
+			{pickedBy && ' ' + pickedBy.toUpperCase()}
 		</span>
-	)
-}
+	</span>
+)

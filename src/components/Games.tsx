@@ -8,7 +8,7 @@ type TGamesComponent = {
 	games: TGame[]
 }
 
-export function Games({ games }: TGamesComponent) {
+export const Games = ({ games }: TGamesComponent) => {
 	const { data: playersPicked } = useFetchData<TPlayer[]>(
 		EQueryKey.playersPicked
 	)

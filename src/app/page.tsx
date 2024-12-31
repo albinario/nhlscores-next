@@ -1,6 +1,6 @@
 'use client'
 import { dateFormat } from '@/app/lib/globals'
-import Header from '@/components/Header'
+import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { Games } from '@/components/Games'
 import { format, subDays, parse, addDays } from 'date-fns'

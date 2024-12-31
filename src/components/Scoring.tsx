@@ -10,29 +10,28 @@ type TScoringComponent = {
 	winningGoalScorerId?: number
 }
 
-export function Scoring({
+export const Scoring = ({
 	losingScore,
 	playersPicked,
 	scoring,
 	teamAbbrevAway,
 	winningGoalScorerId,
-}: TScoringComponent) {
-	return (
-		<div className='period mb-1'>
-			<div className='d-flex justify-content-center small text-muted'>
-				{getPeriodType(scoring.periodDescriptor)}
-			</div>
-			{scoring.goals.map((goal, index) => (
-				<Goal
-					key={index}
-					away={goal.teamAbbrev.default === teamAbbrevAway}
-					goal={goal}
-					isSo={scoring.periodDescriptor.periodType === 'SO'}
-					losingScore={losingScore}
-					players={playersPicked}
-					winningGoalScorerId={winningGoalScorerId}
-				/>
-			))}
+}: TScoringComponent) => (
+	<div className='period mb-1'>
+		<div className='d-flex justify-content-center small text-muted'>
+			{getPeriodType(scoring.periodDescriptor)}
 		</div>
-	)
-}
+
+		{scoring.goals.map((goal, index) => (
+			<Goal
+				key={index}
+				away={goal.teamAbbrev.default === teamAbbrevAway}
+				goal={goal}
+				isSo={scoring.periodDescriptor.periodType === 'SO'}
+				losingScore={losingScore}
+				players={playersPicked}
+				winningGoalScorerId={winningGoalScorerId}
+			/>
+		))}
+	</div>
+)

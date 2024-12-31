@@ -13,10 +13,11 @@ type TPlayerAddFormComponent = {
 	players?: TPlayer[]
 }
 
-export function PlayerAddForm({ players }: TPlayerAddFormComponent) {
+export const PlayerAddForm = ({ players }: TPlayerAddFormComponent) => {
 	const [playersSearch, setPlayersSearch] = useState<TPlayerSearch[] | null>(
 		null
 	)
+
 	const [searchInput, setSearchInput] = useState('')
 
 	const { formState, handleSubmit, register, reset } = useForm<TPlayerToAdd>()

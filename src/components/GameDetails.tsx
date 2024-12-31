@@ -13,7 +13,7 @@ type TGameDetailsComponent = {
 	playersPicked?: TPlayer[]
 }
 
-export function GameDetails({ game, playersPicked }: TGameDetailsComponent) {
+export const GameDetails = ({ game, playersPicked }: TGameDetailsComponent) => {
 	const {
 		data: gameDetails,
 		error,

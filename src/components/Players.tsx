@@ -14,48 +14,46 @@ type TPlayersComponent = {
 	winningGoalieId?: number
 }
 
-export function Players({
+export const Players = ({
 	playersAway,
 	playersHome,
 	playersPicked,
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: TPlayersComponent) {
-	return (
-		<Fragment>
-			<Row xs={1} md={2}>
-				<Col md={{ offset: 3 }}>
-					<Goalies
-						goaliesAway={playersAway.goalies}
-						goaliesHome={playersHome.goalies}
-						playersPicked={playersPicked?.filter(
-							(player) => player.pos === 'G'
-						)}
-						teamAbbrevAway={teamAbbrevAway}
-						teamAbbrevHome={teamAbbrevHome}
-						winningGoalieId={winningGoalieId}
-					/>
-				</Col>
-			</Row>
-			<Row xs={1} md={2}>
-				<Skaters
-					defenders={playersAway.defense}
-					forwards={playersAway.forwards}
-					playersPicked={playersPicked?.filter(
-						(player) => player.teamAbbrev === teamAbbrevAway
-					)}
-					teamAbbrev={teamAbbrevAway}
+}: TPlayersComponent) => (
+	<Fragment>
+		<Row xs={1} md={2}>
+			<Col md={{ offset: 3 }}>
+				<Goalies
+					goaliesAway={playersAway.goalies}
+					goaliesHome={playersHome.goalies}
+					playersPicked={playersPicked?.filter((player) => player.pos === 'G')}
+					teamAbbrevAway={teamAbbrevAway}
+					teamAbbrevHome={teamAbbrevHome}
+					winningGoalieId={winningGoalieId}
 				/>
-				<Skaters
-					defenders={playersHome.defense}
-					forwards={playersHome.forwards}
-					playersPicked={playersPicked?.filter(
-						(player) => player.teamAbbrev === teamAbbrevHome
-					)}
-					teamAbbrev={teamAbbrevHome}
-				/>
-			</Row>
-		</Fragment>
-	)
-}
+			</Col>
+		</Row>
+
+		<Row xs={1} md={2}>
+			<Skaters
+				defenders={playersAway.defense}
+				forwards={playersAway.forwards}
+				playersPicked={playersPicked?.filter(
+					(player) => player.teamAbbrev === teamAbbrevAway
+				)}
+				teamAbbrev={teamAbbrevAway}
+			/>
+
+			<Skaters
+				defenders={playersHome.defense}
+				forwards={playersHome.forwards}
+				playersPicked={playersPicked?.filter(
+					(player) => player.teamAbbrev === teamAbbrevHome
+				)}
+				teamAbbrev={teamAbbrevHome}
+			/>
+		</Row>
+	</Fragment>
+)

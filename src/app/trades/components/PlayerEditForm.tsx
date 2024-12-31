@@ -13,7 +13,7 @@ type TPlayerEditFormComponent = {
 	players?: TPlayer[]
 }
 
-export function PlayerEditForm({ players }: TPlayerEditFormComponent) {
+export const PlayerEditForm = ({ players }: TPlayerEditFormComponent) => {
 	const [searchInput, setSearchInput] = useState('')
 
 	const { formState, handleSubmit, register, reset } = useForm<TPlayerToEdit>()
@@ -122,5 +122,3 @@ export function PlayerEditForm({ players }: TPlayerEditFormComponent) {
 		</Form>
 	)
 }
-
-export default PlayerEditForm

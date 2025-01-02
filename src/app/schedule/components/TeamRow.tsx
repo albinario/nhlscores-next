@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import { pickers } from '@/app/lib/globals'
 import { Logo } from '@/components/Logo'
 import { PickersCell } from './PickersCell'
 import { Week } from './Week'
@@ -98,53 +99,44 @@ export const TeamRow = ({
 				/>
 			</td>
 
-			<td>
-				<Week
-					games={games.filter(
-						(game) =>
-							game.gameDate >= dates.week2Start &&
-							game.gameDate <= dates.week2End
-					)}
-					endDate={dates.week2End}
-					startDate={dates.week2Start}
-					teamAbbrev={teamRecord.teamAbbrev.default}
-					teams={teams}
-				/>
-			</td>
+			<Week
+				games={games.filter(
+					(game) =>
+						game.gameDate >= dates.week2Start && game.gameDate <= dates.week2End
+				)}
+				endDate={dates.week2End}
+				startDate={dates.week2Start}
+				teamAbbrev={teamRecord.teamAbbrev.default}
+				teams={teams}
+			/>
 
-			<td>
-				<Week
-					games={games.filter(
-						(game) =>
-							game.gameDate >= dates.week3Start &&
-							game.gameDate <= dates.week3End
-					)}
-					endDate={dates.week3End}
-					startDate={dates.week3Start}
-					teamAbbrev={teamRecord.teamAbbrev.default}
-					teams={teams}
-				/>
-			</td>
+			<Week
+				games={games.filter(
+					(game) =>
+						game.gameDate >= dates.week3Start && game.gameDate <= dates.week3End
+				)}
+				endDate={dates.week3End}
+				startDate={dates.week3Start}
+				teamAbbrev={teamRecord.teamAbbrev.default}
+				teams={teams}
+			/>
 
-			<td>
-				<Week
-					games={games.filter(
-						(game) =>
-							game.gameDate >= dates.week4Start &&
-							game.gameDate <= dates.week4End
-					)}
-					endDate={dates.week4End}
-					startDate={dates.week4Start}
-					teamAbbrev={teamRecord.teamAbbrev.default}
-					teams={teams}
-				/>
-			</td>
+			<Week
+				games={games.filter(
+					(game) =>
+						game.gameDate >= dates.week4Start && game.gameDate <= dates.week4End
+				)}
+				endDate={dates.week4End}
+				startDate={dates.week4Start}
+				teamAbbrev={teamRecord.teamAbbrev.default}
+				teams={teams}
+			/>
 
 			{playersPicked && (
 				<Fragment>
 					<PickersCell
 						players={playersPicked?.filter(
-							(player) => player.picker.toLowerCase() === 'a'
+							(player) => player.picker.toLowerCase() === pickers[0].code
 						)}
 						textEnd
 					/>
@@ -155,7 +147,7 @@ export const TeamRow = ({
 
 					<PickersCell
 						players={playersPicked?.filter(
-							(player) => player.picker.toLowerCase() !== 'a'
+							(player) => player.picker.toLowerCase() !== pickers[0].code
 						)}
 					/>
 				</Fragment>

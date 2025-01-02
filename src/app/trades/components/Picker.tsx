@@ -5,12 +5,12 @@ import { EQueryKey } from '@/enums'
 import { mutate } from 'swr'
 import type { TPlayer } from '@/types'
 
-type TPickerComponent = {
+type TCPicker = {
 	picker: string
 	playersPicked?: TPlayer[]
 }
 
-export const Picker = ({ picker, playersPicked }: TPickerComponent) => {
+export const Picker = ({ picker, playersPicked }: TCPicker) => {
 	const order = ['C', 'W', 'D', 'G']
 
 	const removePicker = async (id: number) => {

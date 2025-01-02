@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Fetching } from '@/components/Fetching'
 import { getDateTitle } from '@/helpers/getDateTitle'
 
-type THeaderComponent = {
+type TCHeader = {
 	date: string
 	dateDecrease: () => void
 	dateIncrease: () => void
@@ -14,7 +14,7 @@ export const Header = ({
 	dateDecrease,
 	dateIncrease,
 	isLoading,
-}: THeaderComponent) => {
+}: TCHeader) => {
 	const [dateTitle, setDateTitle] = useState('')
 
 	useEffect(() => {

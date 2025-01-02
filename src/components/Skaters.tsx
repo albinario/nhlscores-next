@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import type { TPlayer, TSkaterStats } from '@/types'
 
-type TSkatersComponent = {
+type TCSkaters = {
 	defenders: TSkaterStats[]
 	forwards: TSkaterStats[]
 	playersPicked?: TPlayer[]
@@ -16,7 +16,7 @@ export const Skaters = ({
 	forwards,
 	playersPicked,
 	teamAbbrev,
-}: TSkatersComponent) => (
+}: TCSkaters) => (
 	<Col>
 		<Table borderless className='small text-center' size='sm'>
 			<thead>

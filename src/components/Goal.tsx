@@ -3,7 +3,7 @@ import { Scorer } from '@/components/Scorer'
 import { getGoalTypes } from '@/helpers/getGoalTypes'
 import type { TGoal, TPlayer } from '@/types'
 
-type TGoalComponent = {
+type TCGoal = {
 	away: boolean
 	goal: TGoal
 	isSo: boolean
@@ -19,7 +19,7 @@ export const Goal = ({
 	losingScore,
 	players,
 	winningGoalScorerId,
-}: TGoalComponent) => {
+}: TCGoal) => {
 	const gameWinner =
 		goal.playerId === winningGoalScorerId &&
 		(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
@@ -67,10 +67,10 @@ export const Goal = ({
 					away ? 'ms-4' : 'justify-content-end me-4'
 				}`}
 			>
-				{goal.assists.map((assist, index) => (
+				{goal.assists.map((assist, i) => (
 					<Scorer
-						key={index}
-						last={index !== 0}
+						key={i}
+						last={i !== 0}
 						name={assist.firstName.default + ' ' + assist.lastName.default}
 						toDate={assist.assistsToDate}
 						pickedBy={

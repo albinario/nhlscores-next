@@ -36,9 +36,9 @@ export default function Schedule() {
 	return (
 		<Table size='sm' striped>
 			<tbody>
-				{teamRecords?.map((teamRecord, index) => (
+				{teamRecords?.map((teamRecord, i) => (
 					<TeamRow
-						key={index}
+						key={i}
 						dates={dates}
 						playersPicked={playersPicked?.filter(
 							(player) => player.teamAbbrev === teamRecord.teamAbbrev.default

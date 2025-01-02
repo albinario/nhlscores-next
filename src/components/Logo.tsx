@@ -1,12 +1,12 @@
 import { getLogoUrl } from '@/helpers/getLogoUrl'
 import Image from 'react-bootstrap/Image'
 
-type TLogoComponent = {
+type TCLogo = {
 	teamAbbrev: string
 	className?: string
 }
 
-export const Logo = ({ teamAbbrev, className }: TLogoComponent) => (
+export const Logo = ({ teamAbbrev, className }: TCLogo) => (
 	<Image
 		alt={teamAbbrev}
 		className={className}

@@ -2,10 +2,9 @@ import { dateFormat } from '@/app/lib/globals'
 import classNames from 'classnames'
 import { Logo } from '@/components/Logo'
 import { format, parse, subDays } from 'date-fns'
-import { Fragment } from 'react'
 import type { TGame, TTeamSchedule } from '@/types'
 
-type TWeekComponent = {
+type TCWeek = {
 	games: TGame[]
 	endDate: string
 	startDate: string
@@ -19,12 +18,12 @@ export const Week = ({
 	startDate,
 	teamAbbrev,
 	teams,
-}: TWeekComponent) => {
+}: TCWeek) => {
 	let prevDate = ''
 	let value = 0
 
 	return (
-		<Fragment>
+		<td>
 			{games.map((game) => {
 				let home = false
 				let opponent = game.homeTeam.abbrev
@@ -58,6 +57,6 @@ export const Week = ({
 			})}
 
 			<span className='ms-1'>{value}</span>
-		</Fragment>
+		</td>
 	)
 }

@@ -3,7 +3,7 @@ import { pickers } from '@/app/lib/globals'
 import { Logo } from '@/components/Logo'
 import { Pickers } from './Pickers'
 import { Week } from './Week'
-import { EQueryKey } from '@/enums'
+import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
 import type {
 	TDates,
@@ -27,7 +27,7 @@ export const TeamRow = ({
 	teams,
 }: TCTeamRow) => {
 	const { data: games } = useFetchData<TGame[]>(
-		EQueryKey.schedule + teamRecord.teamAbbrev.default
+		EPath.schedule + teamRecord.teamAbbrev.default
 	)
 
 	return games ? (

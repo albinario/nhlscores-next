@@ -1,6 +1,6 @@
 import { Players } from '@/components/Players'
 import { Scoring } from '@/components/Scoring'
-import { EQueryKey } from '@/enums'
+import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
 import { Fragment } from 'react'
 import Alert from 'react-bootstrap/Alert'
@@ -18,7 +18,7 @@ export const GameDetails = ({ game, playersPicked }: TCGameDetails) => {
 		data: gameDetails,
 		error,
 		isLoading,
-	} = useFetchData<TGameDetails>(EQueryKey.game + game.id)
+	} = useFetchData<TGameDetails>(EPath.game + game.id)
 
 	const losingScore =
 		game.awayTeam.score < game.homeTeam.score

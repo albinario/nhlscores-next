@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server'
 export async function GET() {
 	try {
 		await connectDB()
+
 		return NextResponse.json(
 			await Player.find({ picker: { $ne: '' } }).sort('name')
 		)

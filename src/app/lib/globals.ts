@@ -1,22 +1,23 @@
+import { EPickerCode, EPickerName } from '@/enums'
 import type { TPicker } from '@/types'
 
 export const dateFormat = 'yyyy-MM-dd'
 
 export const pickers: TPicker[] = [
 	{
-		name: 'Albin',
-		code: 'a',
+		name: EPickerName.A,
+		code: EPickerCode.A,
 	},
 	{
-		name: 'Jakob',
-		code: 'j',
+		name: EPickerName.J,
+		code: EPickerCode.J,
 	},
 	{
-		name: 'Sacke',
-		code: 's',
+		name: EPickerName.S,
+		code: EPickerCode.S,
 	},
 	{
-		name: 'Ville',
-		code: 'v',
+		name: EPickerName.V,
+		code: EPickerCode.V,
 	},
 ]

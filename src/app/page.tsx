@@ -3,8 +3,8 @@ import { dateFormat } from '@/app/lib/globals'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { Games } from '@/components/Games'
-import { format, subDays, parse, addDays } from 'date-fns'
-import { EQueryKey } from '@/enums'
+import { addDays, format, parse, subDays } from 'date-fns'
+import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
 import { useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
@@ -18,7 +18,7 @@ export default function Home() {
 		data: games,
 		error,
 		isLoading,
-	} = useFetchData<TGame[]>(EQueryKey.games + date)
+	} = useFetchData<TGame[]>(EPath.games + date)
 
 	const dateDecrease = () => {
 		const parsedDate = parse(date, dateFormat, new Date())

@@ -8,12 +8,12 @@ import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
 import type { TGame, TGameDetails, TPlayer } from '@/types'
 
-type TGameDetailsComponent = {
+type TCGameDetails = {
 	game: TGame
 	playersPicked?: TPlayer[]
 }
 
-export const GameDetails = ({ game, playersPicked }: TGameDetailsComponent) => {
+export const GameDetails = ({ game, playersPicked }: TCGameDetails) => {
 	const {
 		data: gameDetails,
 		error,

@@ -2,7 +2,7 @@ import { Goal } from '@/components/Goal'
 import { getPeriodType } from '@/helpers/getPeriodType'
 import type { TPlayer, TScoring } from '@/types'
 
-type TScoringComponent = {
+type TCScoring = {
 	losingScore: number
 	playersPicked?: TPlayer[]
 	scoring: TScoring
@@ -16,15 +16,15 @@ export const Scoring = ({
 	scoring,
 	teamAbbrevAway,
 	winningGoalScorerId,
-}: TScoringComponent) => (
+}: TCScoring) => (
 	<div className='period mb-1'>
 		<div className='d-flex justify-content-center small text-muted'>
 			{getPeriodType(scoring.periodDescriptor)}
 		</div>
 
-		{scoring.goals.map((goal, index) => (
+		{scoring.goals.map((goal, i) => (
 			<Goal
-				key={index}
+				key={i}
 				away={goal.teamAbbrev.default === teamAbbrevAway}
 				goal={goal}
 				isSo={scoring.periodDescriptor.periodType === 'SO'}

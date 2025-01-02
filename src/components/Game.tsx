@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
-type TGameComponent = {
+type TCGame = {
 	game: TGame
 	playersPicked?: TPlayer[]
 	teamRecordAway?: TTeamRecord
@@ -21,7 +21,7 @@ export const Game = ({
 	playersPicked,
 	teamRecordAway,
 	teamRecordHome,
-}: TGameComponent) => {
+}: TCGame) => {
 	const [showResults, setShowResults] = useState(false)
 
 	const startDateTime = new Date(game.startTimeUTC)

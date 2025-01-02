@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import type { TGameBoxscoreTeam, TPlayer } from '@/types'
 
-type TPlayersComponent = {
+type TCPlayers = {
 	playersAway: TGameBoxscoreTeam
 	playersHome: TGameBoxscoreTeam
 	playersPicked?: TPlayer[]
@@ -21,7 +21,7 @@ export const Players = ({
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: TPlayersComponent) => (
+}: TCPlayers) => (
 	<Fragment>
 		<Row xs={1} md={2}>
 			<Col md={{ offset: 3 }}>

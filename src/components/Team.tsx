@@ -3,7 +3,7 @@ import { getTeamName } from '@/helpers/getTeamName'
 import Col from 'react-bootstrap/Col'
 import type { TGameTeam, TPlayer, TTeamRecord } from '@/types'
 
-type TTeamComponent = {
+type TCTeam = {
 	away: boolean
 	playersPicked?: TPlayer[]
 	showResults: boolean
@@ -17,7 +17,7 @@ export const Team = ({
 	showResults,
 	team,
 	teamRecord,
-}: TTeamComponent) => (
+}: TCTeam) => (
 	<Col className={`d-flex flex-column ${away && 'align-items-end'}`}>
 		<div
 			className={`d-flex mb-1 ${

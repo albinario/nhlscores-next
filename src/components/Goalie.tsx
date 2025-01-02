@@ -1,7 +1,7 @@
 import { Logo } from './Logo'
 import type { TGoalieStats } from '@/types'
 
-type TGoalieComponent = {
+type TCGoalie = {
 	goalie: TGoalieStats
 	pickedBy?: string
 	teamAbbrev: string
@@ -13,7 +13,7 @@ export const Goalie = ({
 	pickedBy,
 	teamAbbrev,
 	winningGoalie,
-}: TGoalieComponent) => {
+}: TCGoalie) => {
 	return goalie.toi !== '00:00' ? (
 		<tr>
 			<td className={`text-start text-nowrap ${pickedBy}`}>

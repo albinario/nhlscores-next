@@ -1,11 +1,11 @@
 import type { TPlayer } from '@/types'
 
-type TMissingComponent = {
+type TCMissing = {
 	isAll?: boolean
 	playersPicked: TPlayer[]
 }
 
-export const Missing = ({ isAll, playersPicked }: TMissingComponent) => {
+export const Missing = ({ isAll, playersPicked }: TCMissing) => {
 	const g = (isAll ? 8 : 2) - playersPicked.filter((p) => p.pos === 'G').length
 	const d = (isAll ? 12 : 3) - playersPicked.filter((p) => p.pos === 'D').length
 	const w = (isAll ? 16 : 4) - playersPicked.filter((p) => p.pos === 'W').length

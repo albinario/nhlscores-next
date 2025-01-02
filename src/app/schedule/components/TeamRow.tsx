@@ -12,7 +12,7 @@ import type {
 	TTeamSchedule,
 } from '@/types'
 
-type TTeamRowComponent = {
+type TCTeamRow = {
 	dates: TDates
 	playersPicked?: TPlayer[]
 	teamRecord: TTeamRecord
@@ -24,7 +24,7 @@ export const TeamRow = ({
 	playersPicked,
 	teamRecord,
 	teams,
-}: TTeamRowComponent) => {
+}: TCTeamRow) => {
 	const { data: games } = useFetchData<TGame[]>(
 		EQueryKey.schedule + teamRecord.teamAbbrev.default
 	)

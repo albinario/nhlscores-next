@@ -5,7 +5,7 @@ import { format, parse, subDays } from 'date-fns'
 import { Fragment } from 'react'
 import type { TGame, TTeamSchedule } from '@/types'
 
-type TWeekComponent = {
+type TCWeek = {
 	games: TGame[]
 	endDate: string
 	startDate: string
@@ -19,7 +19,7 @@ export const Week = ({
 	startDate,
 	teamAbbrev,
 	teams,
-}: TWeekComponent) => {
+}: TCWeek) => {
 	let prevDate = ''
 	let value = 0
 

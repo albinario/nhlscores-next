@@ -9,11 +9,11 @@ import { searchPlayers } from '@/services/searchAPI'
 import { mutate } from 'swr'
 import type { TPlayer, TPlayerSearch, TPlayerToAdd } from '@/types'
 
-type TPlayerAddFormComponent = {
+type TCPlayerAddForm = {
 	players?: TPlayer[]
 }
 
-export const PlayerAddForm = ({ players }: TPlayerAddFormComponent) => {
+export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
 	const [playersSearch, setPlayersSearch] = useState<TPlayerSearch[] | null>(
 		null
 	)

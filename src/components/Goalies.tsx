@@ -2,7 +2,7 @@ import { Goalie } from '@/components/Goalie'
 import Table from 'react-bootstrap/Table'
 import type { TGoalieStats, TPlayer } from '@/types'
 
-type TGoaliesComponent = {
+type TCGoalies = {
 	goaliesAway: TGoalieStats[]
 	goaliesHome: TGoalieStats[]
 	playersPicked?: TPlayer[]
@@ -18,7 +18,7 @@ export const Goalies = ({
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: TGoaliesComponent) => (
+}: TCGoalies) => (
 	<Table borderless className='small text-center' size='sm'>
 		<thead>
 			<tr>

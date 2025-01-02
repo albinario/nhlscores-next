@@ -9,11 +9,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { mutate } from 'swr'
 import type { TPlayer, TPlayerToEdit, TTeamRecord } from '@/types'
 
-type TPlayerEditFormComponent = {
+type TCPlayerEditForm = {
 	players?: TPlayer[]
 }
 
-export const PlayerEditForm = ({ players }: TPlayerEditFormComponent) => {
+export const PlayerEditForm = ({ players }: TCPlayerEditForm) => {
 	const [searchInput, setSearchInput] = useState('')
 
 	const { formState, handleSubmit, register, reset } = useForm<TPlayerToEdit>()
@@ -88,8 +88,8 @@ export const PlayerEditForm = ({ players }: TPlayerEditFormComponent) => {
 						<option value={''}>Team</option>
 						{teamValues
 							?.sort((a, b) => a.name.localeCompare(b.name))
-							.map((team, index) => (
-								<option key={index} value={team.abbrev}>
+							.map((team, i) => (
+								<option key={i} value={team.abbrev}>
 									{team.name}
 								</option>
 							))}

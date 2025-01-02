@@ -4,11 +4,11 @@ import { useFetchData } from '@/hooks/useFetchData'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
-type TGamesComponent = {
+type TCGames = {
 	games: TGame[]
 }
 
-export const Games = ({ games }: TGamesComponent) => {
+export const Games = ({ games }: TCGames) => {
 	const { data: playersPicked } = useFetchData<TPlayer[]>(
 		EQueryKey.playersPicked
 	)

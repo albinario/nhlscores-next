@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { pickers } from '@/app/lib/globals'
 import { Logo } from '@/components/Logo'
-import { PickersCell } from './PickersCell'
+import { Pickers } from './Pickers'
 import { Week } from './Week'
 import { EQueryKey } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
@@ -39,7 +39,12 @@ export const TeamRow = ({
 				<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
 			</td>
 
-			<td>{teamRecord.teamName.default}</td>
+			<td>{teamRecord.placeName.default}</td>
+
+			<td>
+				{teamRecord.streakCode}
+				{teamRecord.streakCount}
+			</td>
 
 			<td>
 				{teamRecord.l10Wins}-{teamRecord.l10Losses}-{teamRecord.l10OtLosses}
@@ -49,55 +54,16 @@ export const TeamRow = ({
 				{teamRecord.l10GoalsFor}-{teamRecord.l10GoalsAgainst}
 			</td>
 
-			<td>
-				{teamRecord.streakCode}
-				{teamRecord.streakCount}
-			</td>
-
-			<td>
-				{teamRecord.wins}-{teamRecord.losses}-{teamRecord.otLosses}
-			</td>
-
-			<td>
-				{teamRecord.goalFor}-{teamRecord.goalAgainst}
-			</td>
-
-			<td>
-				<span className='home'>
-					{teamRecord.homeWins}-{teamRecord.homeLosses}-
-					{teamRecord.homeOtLosses}
-				</span>
-			</td>
-
-			<td>
-				<span className='home'>
-					{teamRecord.homeGoalsFor}-{teamRecord.homeGoalsAgainst}
-				</span>
-			</td>
-
-			<td>
-				{teamRecord.roadWins}-{teamRecord.roadLosses}-{teamRecord.roadOtLosses}
-			</td>
-
-			<td>
-				{teamRecord.roadGoalsFor}-{teamRecord.roadGoalsAgainst}
-			</td>
-
-			<td>{(teamRecord.pointPctg * 100).toFixed()}%</td>
-
-			<td>
-				<Week
-					games={games.filter(
-						(game) =>
-							game.gameDate >= dates.week1Start &&
-							game.gameDate <= dates.week1End
-					)}
-					endDate={dates.week1End}
-					startDate={dates.week1Start}
-					teamAbbrev={teamRecord.teamAbbrev.default}
-					teams={teams}
-				/>
-			</td>
+			<Week
+				games={games.filter(
+					(game) =>
+						game.gameDate >= dates.week1Start && game.gameDate <= dates.week1End
+				)}
+				endDate={dates.week1End}
+				startDate={dates.week1Start}
+				teamAbbrev={teamRecord.teamAbbrev.default}
+				teams={teams}
+			/>
 
 			<Week
 				games={games.filter(
@@ -134,24 +100,61 @@ export const TeamRow = ({
 
 			{playersPicked && (
 				<Fragment>
-					<PickersCell
-						players={playersPicked?.filter(
-							(player) => player.picker.toLowerCase() === pickers[0].code
-						)}
-						textEnd
-					/>
+					<td className='text-end'>
+						<span className='ms-2'>
+							<Pickers
+								isA
+								players={playersPicked?.filter(
+									(player) => player.picker.toLowerCase() === pickers[0].code
+								)}
+							/>
+						</span>
+					</td>
 
 					<td className='text-center'>
 						<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
 					</td>
 
-					<PickersCell
-						players={playersPicked?.filter(
-							(player) => player.picker.toLowerCase() !== pickers[0].code
-						)}
-					/>
+					<td>
+						<Pickers
+							players={playersPicked?.filter(
+								(player) => player.picker.toLowerCase() !== pickers[0].code
+							)}
+						/>
+					</td>
 				</Fragment>
 			)}
+
+			<td>{(teamRecord.pointPctg * 100).toFixed()}%</td>
+
+			<td>
+				{teamRecord.wins}-{teamRecord.losses}-{teamRecord.otLosses}
+			</td>
+
+			<td>
+				{teamRecord.goalFor}-{teamRecord.goalAgainst}
+			</td>
+
+			<td>
+				<span className='home'>
+					{teamRecord.homeWins}-{teamRecord.homeLosses}-
+					{teamRecord.homeOtLosses}
+				</span>
+			</td>
+
+			<td>
+				<span className='home'>
+					{teamRecord.homeGoalsFor}-{teamRecord.homeGoalsAgainst}
+				</span>
+			</td>
+
+			<td>
+				{teamRecord.roadWins}-{teamRecord.roadLosses}-{teamRecord.roadOtLosses}
+			</td>
+
+			<td>
+				{teamRecord.roadGoalsFor}-{teamRecord.roadGoalsAgainst}
+			</td>
 		</tr>
 	) : null
 }

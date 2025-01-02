@@ -202,6 +202,7 @@ export type TTeamRecord = {
 	leagueSequence: number
 	losses: number
 	otLosses: number
+	placeName: TName
 	pointPctg: number
 	roadGoalsAgainst: number
 	roadGoalsFor: number

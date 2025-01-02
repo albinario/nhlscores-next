@@ -23,7 +23,7 @@ export const Week = ({
 	let value = 0
 
 	return (
-		<td>
+		<td className='text-end'>
 			{games.map((game) => {
 				let home = false
 				let opponent = game.homeTeam.abbrev
@@ -46,8 +46,8 @@ export const Week = ({
 									subDays(parse(game.gameDate, dateFormat, new Date()), 1),
 									dateFormat
 								) === prevDate,
-							home,
 							first: game.gameDate === startDate,
+							home,
 							last: game.gameDate === endDate,
 						})}
 						key={game.id}

@@ -4,6 +4,7 @@ import { TeamRow } from './components/TeamRow'
 import { addDays, format } from 'date-fns'
 import { EQueryKey } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
+import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import type { TDates, TPlayer, TTeamRecord } from '@/types'
 
@@ -34,20 +35,25 @@ export default function Schedule() {
 	}
 
 	return (
-		<Table size='sm' striped>
-			<tbody>
-				{teamRecords?.map((teamRecord, i) => (
-					<TeamRow
-						key={i}
-						dates={dates}
-						playersPicked={playersPicked?.filter(
-							(player) => player.teamAbbrev === teamRecord.teamAbbrev.default
-						)}
-						teamRecord={teamRecord}
-						teams={teams}
-					/>
-				))}
-			</tbody>
-		</Table>
+		<Container fluid>
+			<Table size='sm'>
+				<tbody>
+					{teamRecords
+						?.sort((a, b) => a.leagueL10Sequence - b.leagueL10Sequence)
+						.map((teamRecord) => (
+							<TeamRow
+								dates={dates}
+								key={teamRecord.teamAbbrev.default}
+								playersPicked={playersPicked?.filter(
+									(player) =>
+										player.teamAbbrev === teamRecord.teamAbbrev.default
+								)}
+								teamRecord={teamRecord}
+								teams={teams}
+							/>
+						))}
+				</tbody>
+			</Table>
+		</Container>
 	)
 }

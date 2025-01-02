@@ -48,12 +48,18 @@ img {
 	color: #ffc107 !important;
 }
 
-.table-sm td {
-	padding: 0;
+.table {
+	height: 100vh;
+	margin-bottom: 0;
 }
 
 .table > :not(caption) > * > * {
 	color: inherit;
+}
+
+.table-sm td {
+	border: none;
+	padding: 2px;
 }
 
 .back {

@@ -1,3 +1,5 @@
+import { EPosition } from '@/enums'
+
 export type TAssist = {
 	assistsToDate: number
 	firstName: TName
@@ -124,7 +126,7 @@ export type TPlayer = {
 	jersey: number
 	name: string
 	picker: string
-	pos: string
+	pos: EPosition
 	teamAbbrev: string
 }
 
@@ -135,7 +137,7 @@ export type TPlayersResponse = {
 export type TPlayerSearch = {
 	name: string
 	playerId: string
-	positionCode: string
+	positionCode: EPosition
 	sweaterNumber: number
 	teamAbbrev: string
 }
@@ -202,6 +204,7 @@ export type TTeamRecord = {
 	leagueSequence: number
 	losses: number
 	otLosses: number
+	placeName: TName
 	pointPctg: number
 	roadGoalsAgainst: number
 	roadGoalsFor: number

@@ -1,22 +1,38 @@
+import { EPosition } from '@/enums'
 import type { TPlayer } from '@/types'
 
 type TCMissing = {
 	isAll?: boolean
-	playersPicked: TPlayer[]
+	playersPicked?: TPlayer[]
 }
 
 export const Missing = ({ isAll, playersPicked }: TCMissing) => {
-	const g = (isAll ? 8 : 2) - playersPicked.filter((p) => p.pos === 'G').length
-	const d = (isAll ? 12 : 3) - playersPicked.filter((p) => p.pos === 'D').length
-	const w = (isAll ? 16 : 4) - playersPicked.filter((p) => p.pos === 'W').length
-	const c = (isAll ? 12 : 3) - playersPicked.filter((p) => p.pos === 'C').length
+	const g =
+		(isAll ? 8 : 2) -
+		Number(playersPicked?.filter((p) => p.pos === EPosition.G).length)
+	const d =
+		(isAll ? 12 : 3) -
+		Number(playersPicked?.filter((p) => p.pos === EPosition.D).length)
+	const w =
+		(isAll ? 16 : 4) -
+		Number(playersPicked?.filter((p) => p.pos === EPosition.W).length)
+	const c =
+		(isAll ? 12 : 3) -
+		Number(playersPicked?.filter((p) => p.pos === EPosition.C).length)
 
-	return (
-		<div className='mt-2'>
-			{!!g && <span>G{g} </span>}
-			{!!d && <span>D{d} </span>}
-			{!!w && <span>W{w} </span>}
-			{!!c && <span>C{c} </span>}
+	const missingG = g !== 0
+	const missingD = d !== 0
+	const missingW = w !== 0
+	const missingC = c !== 0
+
+	const missingAny = missingG || missingD || missingW || missingC
+
+	return missingAny ? (
+		<div className='d-flex gap-3 mt-2'>
+			{missingG && <span>G{g} </span>}
+			{missingD && <span>D{d} </span>}
+			{missingW && <span>W{w} </span>}
+			{missingC && <span>C{c} </span>}
 		</div>
-	)
+	) : null
 }

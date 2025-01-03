@@ -7,6 +7,7 @@ import type { TPlayer } from '@/types'
 export async function GET() {
 	try {
 		await connectDB()
+
 		return NextResponse.json(await Player.find().sort('name'))
 	} catch (err) {
 		return NextResponse.json({
@@ -16,11 +17,12 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-	const reqBody: Partial<TPlayer> = await req.json()
+	const body: Partial<TPlayer> = await req.json()
 
 	try {
 		await connectDB()
-		const player = await Player.findOne({ id: reqBody.id })
+
+		const player = await Player.findOne({ id: body.id })
 
 		if (!player) {
 			return NextResponse.json(
@@ -29,20 +31,14 @@ export async function PATCH(req: NextRequest) {
 			)
 		}
 
-		if (
-			!reqBody.picker &&
-			!reqBody.jersey &&
-			!reqBody.pos &&
-			!reqBody.teamAbbrev
-		) {
+		if (!body.picker && !body.jersey && !body.pos && !body.teamAbbrev) {
 			await player.updateOne({ picker: '' })
 		} else {
-			if (reqBody.picker) await player.updateOne({ picker: reqBody.picker })
-			if (reqBody.jersey) await player.updateOne({ jersey: reqBody.jersey })
-			if (reqBody.pos)
-				await player.updateOne({ pos: reqBody.pos.toUpperCase() })
-			if (reqBody.teamAbbrev)
-				await player.updateOne({ teamAbbrev: reqBody.teamAbbrev })
+			if (body.picker) await player.updateOne({ picker: body.picker })
+			if (body.jersey) await player.updateOne({ jersey: body.jersey })
+			if (body.pos) await player.updateOne({ pos: body.pos.toUpperCase() })
+			if (body.teamAbbrev)
+				await player.updateOne({ teamAbbrev: body.teamAbbrev })
 		}
 
 		return new NextResponse()
@@ -60,7 +56,7 @@ export async function PATCH(req: NextRequest) {
 export async function POST(req: NextRequest) {
 	try {
 		await connectDB()
-		const body = await req.json()
+		const body: TPlayer = await req.json()
 		const player = new Player(body)
 		await player.save()
 

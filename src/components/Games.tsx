@@ -1,5 +1,5 @@
 import { Game } from '@/components/Game'
-import { EQueryKey } from '@/enums'
+import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
@@ -9,13 +9,9 @@ type TCGames = {
 }
 
 export const Games = ({ games }: TCGames) => {
-	const { data: playersPicked } = useFetchData<TPlayer[]>(
-		EQueryKey.playersPicked
-	)
+	const { data: playersPicked } = useFetchData<TPlayer[]>(EPath.playersPicked)
 
-	const { data: teamRecords } = useFetchData<TTeamRecord[]>(
-		EQueryKey.teamRecords
-	)
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>(EPath.teamRecords)
 
 	return (
 		<Row xs={1} className='g-2'>

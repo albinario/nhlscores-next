@@ -1,8 +1,8 @@
 import { Missing } from './Missing'
 import Col from 'react-bootstrap/Col'
 import { Logo } from '@/components/Logo'
-import { EQueryKey } from '@/enums'
-import { mutate } from 'swr'
+import { EPosition } from '@/enums'
+import { playerPatch } from '@/services/playersApi'
 import type { TPlayer } from '@/types'
 
 type TCPicker = {
@@ -11,18 +11,14 @@ type TCPicker = {
 }
 
 export const Picker = ({ picker, playersPicked }: TCPicker) => {
-	const order = ['C', 'W', 'D', 'G']
+	const order = [EPosition.C, EPosition.W, EPosition.D, EPosition.G]
 
 	const removePicker = async (id: number) => {
 		try {
-			await fetch('/api/players/', {
-				method: 'PATCH',
-				body: JSON.stringify({ id }),
-			})
+			playerPatch({ id })
 		} catch (error) {
 			return alert(error || 'Something went wrong')
 		}
-		await mutate(EQueryKey.playersPicked)
 	}
 
 	return (
@@ -34,23 +30,23 @@ export const Picker = ({ picker, playersPicked }: TCPicker) => {
 				.sort((a, b) => order.indexOf(a.pos) - order.indexOf(b.pos))
 				.map((player) => (
 					<div key={player.id} className='mb-1'>
-						<a
+						<span
 							className='cursor-pointer'
 							onClick={() => removePicker(player.id)}
 							role='button'
 						>
 							<Logo teamAbbrev={player.teamAbbrev} />
-						</a>
-						<span className='small me-1'>
+						</span>
+
+						<span className='mx-1 small'>
 							{player.pos} {player.jersey}
 						</span>
+
 						{player.name}
 					</div>
 				))}
 
-			{playersPicked && playersPicked.length < 12 && (
-				<Missing playersPicked={playersPicked} />
-			)}
+			{playersPicked && <Missing playersPicked={playersPicked} />}
 		</Col>
 	)
 }

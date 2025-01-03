@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { EQueryKey } from '@/enums'
+import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { mutate } from 'swr'
 import type { TPlayer, TPlayerToEdit, TTeamRecord } from '@/types'
+import { playerPatch } from '@/services/playersApi'
 
 type TCPlayerEditForm = {
 	players?: TPlayer[]
@@ -22,12 +22,7 @@ export const PlayerEditForm = ({ players }: TCPlayerEditForm) => {
 		data: TPlayerToEdit
 	) => {
 		try {
-			await fetch('/api/players/', {
-				method: 'PATCH',
-				body: JSON.stringify(data),
-			})
-
-			await mutate(EQueryKey.playersPicked)
+			playerPatch(data)
 		} catch (error) {
 			return alert(error || 'Something went wrong')
 		} finally {
@@ -36,9 +31,7 @@ export const PlayerEditForm = ({ players }: TCPlayerEditForm) => {
 		}
 	}
 
-	const { data: teamRecords } = useFetchData<TTeamRecord[]>(
-		EQueryKey.teamRecords
-	)
+	const { data: teamRecords } = useFetchData<TTeamRecord[]>(EPath.teamRecords)
 
 	const teamValues = teamRecords?.map((teamRecord) => ({
 		abbrev: teamRecord.teamAbbrev.default,

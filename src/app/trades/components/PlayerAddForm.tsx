@@ -1,12 +1,12 @@
+import { EPosition } from '@/enums'
 import { useState } from 'react'
-import { EQueryKey } from '@/enums'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { playerPost } from '@/services/playersApi'
 import { searchPlayers } from '@/services/searchAPI'
-import { mutate } from 'swr'
 import type { TPlayer, TPlayerSearch, TPlayerToAdd } from '@/types'
 
 type TCPlayerAddForm = {
@@ -27,32 +27,32 @@ export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
 		setPlayersSearch(players.filter((player) => player.sweaterNumber))
 	}
 
-	const addPlayer: SubmitHandler<TPlayerToAdd> = async (data: TPlayerToAdd) => {
-		if (players?.find((player) => player.id === Number(data.id)))
+	const addPlayer: SubmitHandler<TPlayerToAdd> = async (
+		playerToAdd: TPlayerToAdd
+	) => {
+		if (players?.find((player) => player.id === Number(playerToAdd.id)))
 			return alert('Player already added')
 
 		try {
-			const player = playersSearch?.find((player) => player.playerId == data.id)
+			const playerInNhlApi = playersSearch?.find(
+				(player) => player.playerId == playerToAdd.id
+			)
 
-			if (player) {
-				const playerToAdd: TPlayer = {
-					id: Number(data.id),
-					name: player.name,
-					jersey: player.sweaterNumber,
+			if (playerInNhlApi) {
+				const playerToPost: TPlayer = {
+					id: Number(playerToAdd.id),
+					name: playerInNhlApi.name,
+					jersey: playerInNhlApi.sweaterNumber,
 					pos:
-						player.positionCode === 'L' || player.positionCode === 'R'
-							? 'W'
-							: player.positionCode,
-					teamAbbrev: player.teamAbbrev,
-					picker: data.picker,
+						playerInNhlApi.positionCode === EPosition.L ||
+						playerInNhlApi.positionCode === EPosition.R
+							? EPosition.W
+							: playerInNhlApi.positionCode,
+					teamAbbrev: playerInNhlApi.teamAbbrev,
+					picker: playerToAdd.picker,
 				}
 
-				await fetch('/api/players', {
-					method: 'POST',
-					body: JSON.stringify(playerToAdd),
-				})
-
-				await mutate(EQueryKey.playersPicked)
+				playerPost(playerToPost)
 			} else {
 				alert('no player')
 			}

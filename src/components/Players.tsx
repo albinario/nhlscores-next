@@ -1,5 +1,6 @@
 import { Goalies } from '@/components/Goalies'
 import { Skaters } from '@/components/Skaters'
+import { EPosition } from '@/enums'
 import { Fragment } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -28,7 +29,9 @@ export const Players = ({
 				<Goalies
 					goaliesAway={playersAway.goalies}
 					goaliesHome={playersHome.goalies}
-					playersPicked={playersPicked?.filter((player) => player.pos === 'G')}
+					playersPicked={playersPicked?.filter(
+						(player) => player.pos === EPosition.G
+					)}
 					teamAbbrevAway={teamAbbrevAway}
 					teamAbbrevHome={teamAbbrevHome}
 					winningGoalieId={winningGoalieId}

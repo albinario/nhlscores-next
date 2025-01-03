@@ -33,7 +33,7 @@ export default function Schedule() {
 	return (
 		<Container fluid>
 			<Table size='sm'>
-				<tbody>
+				<tbody className='table-schedule'>
 					{teamRecords
 						?.sort((a, b) => a.leagueL10Sequence - b.leagueL10Sequence)
 						.map((teamRecord) => (

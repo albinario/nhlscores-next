@@ -13,6 +13,6 @@ const instance = axios.create({
 
 export const searchPlayers = async (searchInput: string) =>
 	getData<TPlayerSearch[]>(
-		'?culture=en-us&limit=20&active=true&q=' + searchInput,
+		`?culture=en-us&limit=20&active=true&q=${searchInput}`,
 		instance
 	)

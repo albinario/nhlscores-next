@@ -1,17 +1,26 @@
 type TCScorer = {
 	isSo?: boolean
 	last?: boolean
-	name: string
+	nameFirst: string
+	nameLast: string
 	pickedBy?: string
 	toDate: number
 }
 
-export const Scorer = ({ isSo, last, name, pickedBy, toDate }: TCScorer) => (
+export const Scorer = ({
+	isSo,
+	last,
+	nameFirst,
+	nameLast,
+	pickedBy,
+	toDate,
+}: TCScorer) => (
 	<span className='text-nowrap'>
 		{last && ', '}
+
 		<span className={pickedBy}>
-			{name} {!isSo && '(' + toDate + ')'}
-			{pickedBy && ' ' + pickedBy.toUpperCase()}
+			{nameFirst} {nameLast} {!isSo && `(${toDate})`}
+			{pickedBy && ` ${pickedBy.toUpperCase()}`}
 		</span>
 	</span>
 )

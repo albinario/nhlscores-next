@@ -47,7 +47,8 @@ export const Goal = ({
 				<div>
 					<Scorer
 						isSo={isSo}
-						name={goal.firstName.default + ' ' + goal.lastName.default}
+						nameFirst={goal.firstName.default}
+						nameLast={goal.lastName.default}
 						pickedBy={
 							players?.find((player) => player.id === goal.playerId)?.picker
 						}
@@ -71,7 +72,8 @@ export const Goal = ({
 					<Scorer
 						key={i}
 						last={i !== 0}
-						name={assist.firstName.default + ' ' + assist.lastName.default}
+						nameFirst={assist.firstName.default}
+						nameLast={assist.lastName.default}
 						toDate={assist.assistsToDate}
 						pickedBy={
 							players?.find((player) => player.id === assist.playerId)?.picker

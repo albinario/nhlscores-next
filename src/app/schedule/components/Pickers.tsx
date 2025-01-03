@@ -11,7 +11,7 @@ export const Pickers = ({ isA, players }: TCPickersCell) => (
 		{players
 			.sort((a, b) => a.jersey - b.jersey)
 			.map(
-				(player) => (!isA ? player.picker.toUpperCase() : '') + player.jersey
+				(player) => `${!isA ? player.picker.toUpperCase() : ''}${player.jersey}`
 			)
 			.join(', ')}
 	</Fragment>

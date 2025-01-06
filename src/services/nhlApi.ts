@@ -1,12 +1,11 @@
 import axios from 'axios'
 import { getData } from '@/helpers/getData'
 import type {
+	TGame,
 	TGameBoxscore,
 	TGameDetails,
 	TGameLanding,
-	TGamesResponse,
-	TScheduleResponse,
-	TStandingsResponse,
+	TTeamRecord,
 } from '@/types'
 
 export const instance = axios.create({
@@ -33,9 +32,19 @@ export const getGameDetails = async (gameId: number) => {
 	return gameDetails
 }
 
+type TGamesResponse = {
+	gameWeek: {
+		games: TGame[]
+	}[]
+}
+
 export const getGamesDate = async (date: string) => {
 	const response = await getData<TGamesResponse>(`/schedule/${date}`, instance)
 	return response.gameWeek[0].games
+}
+
+type TScheduleResponse = {
+	games: TGame[]
 }
 
 export const getGamesTeam = async (teamAbbrev: string) => {
@@ -44,6 +53,10 @@ export const getGamesTeam = async (teamAbbrev: string) => {
 		instance
 	)
 	return response.games
+}
+
+type TStandingsResponse = {
+	standings: TTeamRecord[]
 }
 
 export const getTeamRecords = async () => {

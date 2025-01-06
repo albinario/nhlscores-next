@@ -1,13 +1,13 @@
 import { Logo } from './Logo'
 import { getTeamName } from '@/helpers/getTeamName'
 import Col from 'react-bootstrap/Col'
-import type { TGameTeam, TPlayer, TTeamRecord } from '@/types'
+import type { TPlayer, TTeamGame, TTeamRecord } from '@/types'
 
 type TCTeam = {
 	away: boolean
 	playersPicked?: TPlayer[]
 	showResults: boolean
-	team: TGameTeam
+	team: TTeamGame
 	teamRecord?: TTeamRecord
 }
 

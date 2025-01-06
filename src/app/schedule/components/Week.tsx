@@ -33,10 +33,10 @@ export const Week = ({
 					opponent = game.awayTeam.abbrev
 				}
 
-				prevDate = game.gameDate
-
 				const oppValue = teams?.find((team) => team.abbrev === opponent)?.value
 				if (oppValue) value += oppValue
+
+				prevDate = game.gameDate
 
 				return (
 					<Logo

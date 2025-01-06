@@ -1,6 +1,6 @@
 import { EPosition } from '@/enums'
 
-export type TAssist = {
+type TAssist = {
 	assistsToDate: number
 	firstName: TName
 	lastName: TName
@@ -19,12 +19,12 @@ export type TDates = {
 }
 
 export type TGame = {
-	awayTeam: TGameTeam
+	awayTeam: TTeamGame
 	easternUTCOffset: string
 	gameDate: string
 	gameType: number
 	gameState: string
-	homeTeam: TGameTeam
+	homeTeam: TTeamGame
 	id: number
 	startTimeUTC: string
 	venueUTCOffset: string
@@ -70,18 +70,6 @@ export type TGameLanding = {
 	}
 }
 
-export type TGamesResponse = {
-	gameWeek: {
-		games: TGame[]
-	}[]
-}
-
-export type TGameTeam = {
-	abbrev: string
-	placeName: TName
-	score: number
-}
-
 export type TGoal = {
 	assists: TAssist[]
 	awayScore: number
@@ -107,18 +95,13 @@ export type TGoalieStats = {
 	toi: string
 }
 
-export type TName = {
+type TName = {
 	default: string
 }
 
 export type TPeriodDescriptor = {
 	number: number
 	periodType: string
-}
-
-export type TPicker = {
-	name: string
-	code: string
 }
 
 export type TPlayer = {
@@ -130,20 +113,12 @@ export type TPlayer = {
 	teamAbbrev: string
 }
 
-export type TPlayersResponse = {
-	data: TPlayer[]
-}
-
 export type TPlayerSearch = {
 	name: string
 	playerId: string
 	positionCode: EPosition
 	sweaterNumber: number
 	teamAbbrev: string
-}
-
-export type TScheduleResponse = {
-	games: TGame[]
 }
 
 export type TScoring = {
@@ -168,17 +143,15 @@ export type TSkaterStats = {
 	toi: string
 }
 
-export type TStandingsResponse = {
-	standings: TTeamRecord[]
-}
-
-export type TTeam = {
+type TTeam = {
 	abbrev: string
 	id: number
 	name: TName
 	placeName: TName
 	score: number
 }
+
+export type TTeamGame = Pick<TTeam, 'abbrev' | 'placeName' | 'score'>
 
 export type TTeamRecord = {
 	goalAgainst: number

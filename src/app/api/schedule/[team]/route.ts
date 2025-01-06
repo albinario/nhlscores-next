@@ -1,5 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { ESource } from '@/enums'
+import { NextRequest } from 'next/server'
 import { getGamesTeam } from '@/services/nhlApi'
+import { errorResponse, successResponse } from '@/services/responseHandler'
+import type { TGame } from '@/types'
 
 type TRouteParams = {
 	params: {
@@ -9,10 +12,14 @@ type TRouteParams = {
 
 export async function GET(_req: NextRequest, { params }: TRouteParams) {
 	try {
-		return NextResponse.json(await getGamesTeam(params.team))
+		const gamesTeam: TGame[] = await getGamesTeam(params.team)
+
+		return successResponse(gamesTeam)
 	} catch (error) {
-		return NextResponse.json({
-			error: `Server error when fetching schedule for ${params.team}`,
-		})
+		return errorResponse(
+			error,
+			`fetching schedule for team ${params.team}`,
+			ESource.server
+		)
 	}
 }

@@ -2,7 +2,7 @@ import { Missing } from './Missing'
 import Col from 'react-bootstrap/Col'
 import { Logo } from '@/components/Logo'
 import { EPosition } from '@/enums'
-import { playerPatch } from '@/services/playersApi'
+import { patchPlayer } from '@/services/playersApi'
 import type { TPlayer } from '@/types'
 
 type TCPicker = {
@@ -15,7 +15,7 @@ export const Picker = ({ picker, playersPicked }: TCPicker) => {
 
 	const removePicker = async (id: number) => {
 		try {
-			playerPatch({ id })
+			patchPlayer({ id })
 		} catch (error) {
 			return alert(error || 'Something went wrong')
 		}

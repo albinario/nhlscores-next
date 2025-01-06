@@ -1,17 +1,19 @@
-import { connectDB } from '@/app/lib/database'
+import { connectMongo } from '@/app/lib/database'
+import { ESource } from '@/enums'
 import { Player } from '@/models/player'
-import { NextResponse } from 'next/server'
+import { errorResponse, successResponse } from '@/services/responseHandler'
+import type { TPlayer } from '@/types'
 
 export async function GET() {
 	try {
-		await connectDB()
+		await connectMongo()
 
-		return NextResponse.json(
-			await Player.find({ picker: { $ne: '' } }).sort('name')
-		)
-	} catch (err) {
-		return NextResponse.json({
-			error: 'Server error when fetching picked players',
-		})
+		const playersPicked: TPlayer[] = await Player.find({
+			picker: { $ne: '' },
+		}).sort('name')
+
+		return successResponse(playersPicked)
+	} catch (error) {
+		return errorResponse(error, 'fetching picked players', ESource.server)
 	}
 }

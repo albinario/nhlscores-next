@@ -1,12 +1,14 @@
-import { NextResponse } from 'next/server'
+import { ESource } from '@/enums'
 import { getTeamRecords } from '@/services/nhlApi'
+import { errorResponse, successResponse } from '@/services/responseHandler'
+import type { TTeamRecord } from '@/types'
 
 export async function GET() {
 	try {
-		return NextResponse.json(await getTeamRecords())
+		const teamRecords = await getTeamRecords()
+
+		return successResponse<TTeamRecord[]>(teamRecords)
 	} catch (error) {
-		return NextResponse.json({
-			error: 'Server error when fetching standings'
-		})
+		return errorResponse(error, 'fetching team records', ESource.server)
 	}
 }

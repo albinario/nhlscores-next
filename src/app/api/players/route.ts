@@ -1,74 +1,80 @@
-import { connectDB } from '@/app/lib/database'
+import { connectMongo } from '@/app/lib/database'
+import { ESource } from '@/enums'
 import { Player } from '@/models/player'
 import mongoose from 'mongoose'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+import {
+	errorResponse,
+	response,
+	successResponse,
+} from '@/services/responseHandler'
 import type { TPlayer } from '@/types'
 
 export async function GET() {
 	try {
-		await connectDB()
+		await connectMongo()
 
-		return NextResponse.json(await Player.find().sort('name'))
-	} catch (err) {
-		return NextResponse.json({
-			error: 'Server error when fetching players',
-		})
+		const players: TPlayer[] = await Player.find().sort('name')
+
+		return successResponse(players)
+	} catch (error) {
+		return errorResponse(error, 'fetching players', ESource.server)
 	}
 }
 
 export async function PATCH(req: NextRequest) {
-	const body: Partial<TPlayer> = await req.json()
-
 	try {
-		await connectDB()
+		const body: Partial<TPlayer> = await req.json()
+
+		if (!body.id) return response('Player ID is required', 400)
+
+		await connectMongo()
 
 		const player = await Player.findOne({ id: body.id })
 
-		if (!player) {
-			return NextResponse.json(
-				{ error: 'No player with this id' },
-				{ status: 404 }
-			)
+		if (!player) return response('No player with this id', 404)
+
+		const updates: Partial<TPlayer> = {}
+
+		if (body.picker) updates.picker = body.picker
+		if (body.jersey) updates.jersey = body.jersey
+		if (body.pos) updates.pos = body.pos
+		if (body.teamAbbrev) updates.teamAbbrev = body.teamAbbrev
+
+		if (Object.keys(updates).length === 0) {
+			updates.picker = ''
 		}
 
-		if (!body.picker && !body.jersey && !body.pos && !body.teamAbbrev) {
-			await player.updateOne({ picker: '' })
-		} else {
-			if (body.picker) await player.updateOne({ picker: body.picker })
-			if (body.jersey) await player.updateOne({ jersey: body.jersey })
-			if (body.pos) await player.updateOne({ pos: body.pos.toUpperCase() })
-			if (body.teamAbbrev)
-				await player.updateOne({ teamAbbrev: body.teamAbbrev })
+		await player.updateOne(updates)
+
+		return successResponse()
+	} catch (error) {
+		const errorMessage = 'updating player'
+
+		if (error instanceof mongoose.Error.ValidationError) {
+			return errorResponse(error, errorMessage, ESource.mongoose)
 		}
 
-		return new NextResponse()
-	} catch (err) {
-		if (err instanceof mongoose.Error.ValidationError) {
-			return NextResponse.json({ error: err.message }, { status: 400 })
-		}
-		return NextResponse.json(
-			{ error: 'Server error when updating player' },
-			{ status: 500 }
-		)
+		return errorResponse(error, errorMessage, ESource.server)
 	}
 }
 
 export async function POST(req: NextRequest) {
 	try {
-		await connectDB()
+		await connectMongo()
+
 		const body: TPlayer = await req.json()
 		const player = new Player(body)
 		await player.save()
 
-		return new NextResponse()
-	} catch (err) {
-		if (err instanceof mongoose.Error.ValidationError) {
-			return NextResponse.json({ error: err.message }, { status: 400 })
+		return successResponse()
+	} catch (error) {
+		const errorMessage = 'creating player'
+
+		if (error instanceof mongoose.Error.ValidationError) {
+			return errorResponse(error, errorMessage, ESource.mongoose)
 		}
 
-		return NextResponse.json(
-			{ error: 'Server error when creating player' },
-			{ status: 500 }
-		)
+		return errorResponse(error, errorMessage, ESource.server)
 	}
 }

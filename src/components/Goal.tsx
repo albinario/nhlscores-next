@@ -46,9 +46,9 @@ export const Goal = ({
 
 				<div>
 					<Scorer
+						firstName={goal.firstName.default}
 						isSo={isSo}
-						nameFirst={goal.firstName.default}
-						nameLast={goal.lastName.default}
+						lastName={goal.lastName.default}
 						pickedBy={
 							players?.find((player) => player.id === goal.playerId)?.picker
 						}
@@ -70,14 +70,14 @@ export const Goal = ({
 			>
 				{goal.assists.map((assist, i) => (
 					<Scorer
+						firstName={assist.firstName.default}
 						key={i}
-						last={i !== 0}
-						nameFirst={assist.firstName.default}
-						nameLast={assist.lastName.default}
-						toDate={assist.assistsToDate}
+						lastName={assist.lastName.default}
 						pickedBy={
 							players?.find((player) => player.id === assist.playerId)?.picker
 						}
+						secondAssist={i !== 0}
+						toDate={assist.assistsToDate}
 					/>
 				))}
 			</div>

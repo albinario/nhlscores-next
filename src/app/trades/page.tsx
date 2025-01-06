@@ -22,9 +22,9 @@ export default function Trades() {
 			<PlayerEditForm players={players} />
 
 			<Row>
-				{pickers.map((picker, i) => (
+				{pickers.map((picker) => (
 					<Picker
-						key={i}
+						key={picker.code}
 						picker={picker.name}
 						playersPicked={playersPicked?.filter(
 							(player) => player.picker.toLowerCase() === picker.code

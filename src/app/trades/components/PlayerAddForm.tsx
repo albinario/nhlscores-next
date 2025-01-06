@@ -5,12 +5,22 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { playerPost } from '@/services/playersApi'
+import { postPlayer } from '@/services/playersApi'
 import { searchPlayers } from '@/services/searchAPI'
-import type { TPlayer, TPlayerSearch, TPlayerToAdd } from '@/types'
+import type { TPlayer, TPlayerSearch } from '@/types'
+
+enum EForm {
+	id = 'id',
+	picker = 'picker',
+}
 
 type TCPlayerAddForm = {
 	players?: TPlayer[]
+}
+
+type TPlayerToAdd = {
+	id: string
+	picker: string
 }
 
 export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
@@ -31,30 +41,30 @@ export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
 		playerToAdd: TPlayerToAdd
 	) => {
 		if (players?.find((player) => player.id === Number(playerToAdd.id)))
-			return alert('Player already added')
+			return alert('Player already in mongo')
 
 		try {
-			const playerInNhlApi = playersSearch?.find(
+			const player = playersSearch?.find(
 				(player) => player.playerId == playerToAdd.id
 			)
 
-			if (playerInNhlApi) {
+			if (player) {
 				const playerToPost: TPlayer = {
 					id: Number(playerToAdd.id),
-					name: playerInNhlApi.name,
-					jersey: playerInNhlApi.sweaterNumber,
+					name: player.name,
+					jersey: player.sweaterNumber,
 					pos:
-						playerInNhlApi.positionCode === EPosition.L ||
-						playerInNhlApi.positionCode === EPosition.R
+						player.positionCode === EPosition.L ||
+						player.positionCode === EPosition.R
 							? EPosition.W
-							: playerInNhlApi.positionCode,
-					teamAbbrev: playerInNhlApi.teamAbbrev,
+							: player.positionCode,
+					teamAbbrev: player.teamAbbrev,
 					picker: playerToAdd.picker,
 				}
 
-				playerPost(playerToPost)
+				postPlayer(playerToPost)
 			} else {
-				alert('no player')
+				return alert('No player in search')
 			}
 		} catch (error) {
 			return alert(error || 'Something went wrong')
@@ -90,8 +100,9 @@ export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
 				</Col>
 
 				<Col>
-					<Form.Select {...register('id', { required: true, min: 1 })}>
+					<Form.Select {...register(EForm.id, { required: true, min: 1 })}>
 						<option value={0}>Player</option>
+
 						{playersSearch?.map((player) => (
 							<option key={player.playerId} value={player.playerId}>
 								{player.name}
@@ -102,7 +113,7 @@ export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
 
 				<Col>
 					<Form.Control
-						{...register('picker', { required: true })}
+						{...register(EForm.picker, { required: true })}
 						placeholder='Picker'
 						type='text'
 					/>

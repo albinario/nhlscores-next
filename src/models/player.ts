@@ -1,3 +1,4 @@
+import { EPosition } from '@/enums'
 import { model, models, Schema } from 'mongoose'
 import type { TPlayer } from '@/types'
 
@@ -21,8 +22,8 @@ const PlayerSchema: Schema = new Schema<TPlayer>({
 	},
 	pos: {
 		type: String,
+		enum: Object.values(EPosition),
 		required: true,
-		maxlength: 1,
 	},
 	teamAbbrev: {
 		type: String,

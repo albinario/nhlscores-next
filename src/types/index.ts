@@ -142,13 +142,6 @@ export type TPlayerSearch = {
 	teamAbbrev: string
 }
 
-export type TPlayerToAdd = {
-	id: string
-	picker: string
-}
-
-export type TPlayerToEdit = Omit<TPlayer, 'name'>
-
 export type TScheduleResponse = {
 	games: TGame[]
 }

@@ -4,13 +4,13 @@ import { getGamesDate } from '@/services/nhlApi'
 import { errorResponse, successResponse } from '@/services/responseHandler'
 import type { TGame } from '@/types'
 
-type TRouteParams = {
+type TGamesRoute = {
 	params: {
 		date: string
 	}
 }
 
-export async function GET(_req: NextRequest, { params }: TRouteParams) {
+export async function GET(_req: NextRequest, { params }: TGamesRoute) {
 	try {
 		const games: TGame[] = await getGamesDate(params.date)
 

@@ -4,13 +4,13 @@ import { getGameDetails } from '@/services/nhlApi'
 import { errorResponse, successResponse } from '@/services/responseHandler'
 import type { TGameDetails } from '@/types'
 
-type TRouteParams = {
+type TGameRoute = {
 	params: {
 		id: number
 	}
 }
 
-export async function GET(_req: NextRequest, { params }: TRouteParams) {
+export async function GET(_req: NextRequest, { params }: TGameRoute) {
 	try {
 		const gameDetails: TGameDetails = await getGameDetails(params.id)
 

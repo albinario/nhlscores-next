@@ -47,7 +47,7 @@ type TScheduleResponse = {
 	games: TGame[]
 }
 
-export const getGamesTeam = async (teamAbbrev: string) => {
+export const getScheduleTeam = async (teamAbbrev: string) => {
 	const response = await getData<TScheduleResponse>(
 		`/club-schedule-season/${teamAbbrev}/now`,
 		instance

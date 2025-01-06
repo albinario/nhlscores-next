@@ -30,3 +30,8 @@ export enum EPath {
 	teamRecords = 'teamRecords',
 	schedule = 'schedule/',
 }
+
+export enum ESource {
+	mongoose = 'Mongoose',
+	server = 'Server',
+}

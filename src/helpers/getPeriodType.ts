@@ -3,7 +3,7 @@ import type { TPeriodDescriptor } from '@/types'
 export const getPeriodType = (periodDescriptor: TPeriodDescriptor) =>
 	periodDescriptor.periodType !== 'REG'
 		? periodDescriptor.periodType
-		: `${periodDescriptor.number} ${getPeriodTypeEnd(periodDescriptor.number)}`
+		: `${periodDescriptor.number}${getPeriodTypeEnd(periodDescriptor.number)}`
 
 const getPeriodTypeEnd = (number: number) => {
 	switch (number) {

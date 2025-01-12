@@ -21,7 +21,7 @@ export default function Trades() {
 
 			<PlayerEditForm players={players} />
 
-			<Row>
+			<Row xs={2} md={4}>
 				{pickers.map((picker) => (
 					<Picker
 						key={picker.code}

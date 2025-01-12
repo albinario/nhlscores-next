@@ -1,3 +1,4 @@
+import { pickers } from '@/app/lib/globals'
 import { EPosition } from '@/enums'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
@@ -112,11 +113,15 @@ export const PlayerAddForm = ({ players }: TCPlayerAddForm) => {
 				</Col>
 
 				<Col>
-					<Form.Control
-						{...register(EForm.picker, { required: true })}
-						placeholder='Picker'
-						type='text'
-					/>
+					<Form.Select {...register(EForm.picker)}>
+						<option value=''>Picker</option>
+
+						{pickers.map((picker) => (
+							<option key={picker.code} value={picker.code}>
+								{picker.name}
+							</option>
+						))}
+					</Form.Select>
 				</Col>
 
 				<Col>

@@ -6,13 +6,20 @@ import type { TPlayer } from '@/types'
 
 export async function GET() {
 	try {
-		await connectMongo()
+		const isConnected = await connectMongo()
+		if (!isConnected) {
+			return errorResponse(
+				new Error('Database connection failed'),
+				'Unable to connect to database',
+				ESource.server
+			)
+		}
 
 		const playersPicked: TPlayer[] = await Player.find({
 			picker: { $ne: '' },
 		}).sort('name')
 
-		return successResponse(playersPicked)
+		return successResponse(playersPicked, { cacheMaxAge: 1800 })
 	} catch (error) {
 		return errorResponse(error, 'fetching picked players', ESource.server)
 	}

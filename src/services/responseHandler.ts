@@ -23,5 +23,22 @@ export const errorResponse = (
 export const response = (message: string, status: number) =>
 	NextResponse.json({ message }, { status })
 
-export const successResponse = <T>(data?: T) =>
-	NextResponse.json(data || { success: true }, { status: 200 })
+export const successResponse = <T>(
+	data?: T,
+	options?: {
+		cacheMaxAge?: number
+	}
+) => {
+	const response = NextResponse.json(data || { success: true }, {
+		status: 200,
+	})
+
+	if (options?.cacheMaxAge !== undefined) {
+		response.headers.set(
+			'Cache-Control',
+			`public, max-age=${options.cacheMaxAge}`
+		)
+	}
+
+	return response
+}

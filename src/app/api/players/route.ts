@@ -12,11 +12,19 @@ import type { TPlayer } from '@/types'
 
 export async function GET() {
 	try {
-		await connectMongo()
+		const isConnected = await connectMongo()
+
+		if (!isConnected) {
+			return errorResponse(
+				new Error('Database connection failed'),
+				'Unable to connect to database',
+				ESource.server
+			)
+		}
 
 		const players: TPlayer[] = await Player.find().sort('name')
 
-		return successResponse(players)
+		return successResponse(players, { cacheMaxAge: 1800 })
 	} catch (error) {
 		return errorResponse(error, 'fetching players', ESource.server)
 	}
@@ -28,7 +36,15 @@ export async function PATCH(req: NextRequest) {
 
 		if (!body.id) return response('Player ID is required', 400)
 
-		await connectMongo()
+		const isConnected = await connectMongo()
+
+		if (!isConnected) {
+			return errorResponse(
+				new Error('Database connection failed'),
+				'Unable to connect to database',
+				ESource.server
+			)
+		}
 
 		const player = await Player.findOne({ id: body.id })
 
@@ -61,7 +77,15 @@ export async function PATCH(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
 	try {
-		await connectMongo()
+		const isConnected = await connectMongo()
+
+		if (!isConnected) {
+			return errorResponse(
+				new Error('Database connection failed'),
+				'Unable to connect to database',
+				ESource.server
+			)
+		}
 
 		const body: TPlayer = await req.json()
 		const player = new Player(body)

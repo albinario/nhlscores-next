@@ -1,62 +1,82 @@
+import { useMemo } from 'react'
 import { dateFormat } from '@/app/lib/globals'
 import classNames from 'classnames'
 import { Logo } from '@/components/Logo'
 import { format, parse, subDays } from 'date-fns'
 import type { TGame, TTeamSchedule } from '@/types'
 
-type TCWeek = {
-	games: TGame[]
+const isConsecutiveDay = (
+	currentDate: string,
+	previousDate: string
+): boolean => {
+	const current = parse(currentDate, dateFormat, new Date())
+	return format(subDays(current, 1), dateFormat) === previousDate
+}
+
+type TWeek = {
 	endDate: string
+	games: TGame[]
 	startDate: string
 	teamAbbrev: string
 	teams?: TTeamSchedule[]
 }
 
 export const Week = ({
-	games,
 	endDate,
+	games,
 	startDate,
 	teamAbbrev,
 	teams,
-}: TCWeek) => {
-	let prevDate = ''
-	let value = 0
+}: TWeek) => {
+	const processedGames = useMemo(() => {
+		let previousDate = ''
+		let totalValue = 0
+
+		return games.map((game, index) => {
+			const isHome = teamAbbrev === game.homeTeam.abbrev
+			const opponent = isHome ? game.awayTeam.abbrev : game.homeTeam.abbrev
+
+			const teamValue =
+				teams?.find((team) => team.abbrev === opponent)?.value || 0
+
+			totalValue += teamValue
+
+			const isBackToBack =
+				index > 0 && isConsecutiveDay(game.gameDate, previousDate)
+
+			previousDate = game.gameDate
+
+			return {
+				game,
+				opponent,
+				isHome,
+				isBackToBack,
+				teamValue,
+			}
+		})
+	}, [games, teamAbbrev, teams])
+
+	const totalValue = useMemo(
+		() => processedGames.reduce((sum, { teamValue }) => sum + teamValue, 0),
+		[processedGames]
+	)
 
 	return (
 		<td className='text-end'>
-			{games.map((game) => {
-				let home = false
-				let opponent = game.homeTeam.abbrev
+			{processedGames.map(({ game, opponent, isHome, isBackToBack }) => (
+				<Logo
+					className={classNames({
+						back: isBackToBack,
+						first: game.gameDate === startDate,
+						home: isHome,
+						last: game.gameDate === endDate,
+					})}
+					key={game.id}
+					teamAbbrev={opponent}
+				/>
+			))}
 
-				if (teamAbbrev === game.homeTeam.abbrev) {
-					home = true
-					opponent = game.awayTeam.abbrev
-				}
-
-				const oppValue = teams?.find((team) => team.abbrev === opponent)?.value
-				if (oppValue) value += oppValue
-
-				prevDate = game.gameDate
-
-				return (
-					<Logo
-						className={classNames({
-							back:
-								format(
-									subDays(parse(game.gameDate, dateFormat, new Date()), 1),
-									dateFormat
-								) === prevDate,
-							first: game.gameDate === startDate,
-							home,
-							last: game.gameDate === endDate,
-						})}
-						key={game.id}
-						teamAbbrev={opponent}
-					/>
-				)
-			})}
-
-			<span className='ms-1'>{value}</span>
+			<span className='ms-1'>{totalValue}</span>
 		</td>
 	)
 }

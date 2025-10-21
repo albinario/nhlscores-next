@@ -1,8 +1,9 @@
 import { Goalie } from '@/components/Goalie'
+import { useMemo } from 'react'
 import Table from 'react-bootstrap/Table'
 import type { TGoalieStats, TPlayer } from '@/types'
 
-type TCGoalies = {
+type TGoalies = {
 	goaliesAway: TGoalieStats[]
 	goaliesHome: TGoalieStats[]
 	playersPicked?: TPlayer[]
@@ -14,49 +15,78 @@ type TCGoalies = {
 export const Goalies = ({
 	goaliesAway,
 	goaliesHome,
-	playersPicked,
+	playersPicked = [],
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: TCGoalies) => (
-	<Table borderless className='small text-center' size='sm'>
-		<thead>
-			<tr>
-				<th></th>
-				<th>Saves</th>
-				<th>%</th>
-				<th>PP</th>
-				<th>PIM</th>
-				<th className='pe-0 text-end'>TOI</th>
-			</tr>
-		</thead>
+}: TGoalies) => {
+	const goaliesWithData = useMemo(() => {
+		const playerMap = new Map(
+			playersPicked.map((player) => [player.id, player])
+		)
 
-		<tbody>
-			{goaliesAway.map((goalie) => (
-				<Goalie
-					key={goalie.playerId}
-					goalie={goalie}
-					teamAbbrev={teamAbbrevAway}
-					pickedBy={
-						playersPicked?.find((player) => player.id === goalie.playerId)
-							?.picker
-					}
-					winningGoalie={goalie.playerId === winningGoalieId}
-				/>
-			))}
+		const awayGoalies = goaliesAway.map((goalie) => ({
+			goalie,
+			pickedBy: playerMap.get(goalie.playerId)?.picker,
+			teamAbbrev: teamAbbrevAway,
+			winningGoalie: goalie.playerId === winningGoalieId,
+		}))
 
-			{goaliesHome.map((goalie) => (
-				<Goalie
-					key={goalie.playerId}
-					goalie={goalie}
-					teamAbbrev={teamAbbrevHome}
-					pickedBy={
-						playersPicked?.find((player) => player.id === goalie.playerId)
-							?.picker
-					}
-					winningGoalie={goalie.playerId === winningGoalieId}
-				/>
-			))}
-		</tbody>
-	</Table>
-)
+		const homeGoalies = goaliesHome.map((goalie) => ({
+			goalie,
+			pickedBy: playerMap.get(goalie.playerId)?.picker,
+			teamAbbrev: teamAbbrevHome,
+			winningGoalie: goalie.playerId === winningGoalieId,
+		}))
+
+		return { awayGoalies, homeGoalies }
+	}, [
+		goaliesAway,
+		goaliesHome,
+		playersPicked,
+		teamAbbrevAway,
+		teamAbbrevHome,
+		winningGoalieId,
+	])
+
+	return (
+		<Table borderless className='small text-center' size='sm'>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Saves</th>
+					<th>%</th>
+					<th>PP</th>
+					<th>PIM</th>
+					<th className='pe-0 text-end'>TOI</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{goaliesWithData.awayGoalies.map(
+					({ goalie, pickedBy, teamAbbrev, winningGoalie }) => (
+						<Goalie
+							key={goalie.playerId}
+							goalie={goalie}
+							teamAbbrev={teamAbbrev}
+							pickedBy={pickedBy}
+							winningGoalie={winningGoalie}
+						/>
+					)
+				)}
+
+				{goaliesWithData.homeGoalies.map(
+					({ goalie, pickedBy, teamAbbrev, winningGoalie }) => (
+						<Goalie
+							key={goalie.playerId}
+							goalie={goalie}
+							teamAbbrev={teamAbbrev}
+							pickedBy={pickedBy}
+							winningGoalie={winningGoalie}
+						/>
+					)
+				)}
+			</tbody>
+		</Table>
+	)
+}

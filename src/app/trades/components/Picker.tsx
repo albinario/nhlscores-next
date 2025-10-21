@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from 'react'
 import { Missing } from './Missing'
 import Col from 'react-bootstrap/Col'
 import { Logo } from '@/components/Logo'
@@ -5,48 +6,64 @@ import { EPosition } from '@/enums'
 import { patchPlayer } from '@/services/playersApi'
 import type { TPlayer } from '@/types'
 
-type TCPicker = {
+type TPicker = {
 	picker: string
 	playersPicked?: TPlayer[]
 }
 
-export const Picker = ({ picker, playersPicked }: TCPicker) => {
-	const order = [EPosition.C, EPosition.W, EPosition.D, EPosition.G]
+const POSITION_ORDER = [
+	EPosition.C,
+	EPosition.W,
+	EPosition.D,
+	EPosition.G,
+] as const
 
-	const removePicker = async (id: number) => {
+export const Picker = ({ picker, playersPicked = [] }: TPicker) => {
+	const sortedPlayers = useMemo(() => {
+		if (!playersPicked.length) return []
+
+		return [...playersPicked].sort((a, b) => {
+			const aPosIndex = POSITION_ORDER.indexOf(a.pos as any)
+			const bPosIndex = POSITION_ORDER.indexOf(b.pos as any)
+			const posDiff = aPosIndex - bPosIndex
+			if (posDiff !== 0) return posDiff
+
+			return a.jersey - b.jersey
+		})
+	}, [playersPicked])
+
+	const removePicker = useCallback(async (id: number) => {
 		try {
-			patchPlayer({ id })
+			await patchPlayer({ id })
 		} catch (error) {
-			return alert(error || 'Something went wrong')
+			console.error('Failed to remove player:', error)
+			alert(error instanceof Error ? error.message : 'Something went wrong')
 		}
-	}
+	}, [])
 
 	return (
 		<Col>
 			<h3>{picker}</h3>
 
-			{playersPicked
-				?.sort((a, b) => a.jersey - b.jersey)
-				.sort((a, b) => order.indexOf(a.pos) - order.indexOf(b.pos))
-				.map((player) => (
-					<div key={player.id} className='mb-1'>
-						<span
-							className='cursor-pointer'
-							onClick={() => removePicker(player.id)}
-							role='button'
-						>
-							<Logo teamAbbrev={player.teamAbbrev} />
-						</span>
+			{sortedPlayers.map((player) => (
+				<div key={player.id} className='mb-1'>
+					<button
+						className='btn btn-sm p-0 border-0'
+						onClick={() => removePicker(player.id)}
+						type='button'
+					>
+						<Logo teamAbbrev={player.teamAbbrev} />
+					</button>
 
-						<span className='mx-1 small'>
-							{player.pos} {player.jersey}
-						</span>
+					<span className='mx-1 small'>
+						{player.pos} {player.jersey}
+					</span>
 
-						{player.name}
-					</div>
-				))}
+					{player.name}
+				</div>
+			))}
 
-			{playersPicked && <Missing playersPicked={playersPicked} />}
+			<Missing playersPicked={playersPicked} />
 		</Col>
 	)
 }

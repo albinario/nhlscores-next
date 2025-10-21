@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Fetching } from '@/components/Fetching'
+import { useMemo } from 'react'
+import Spinner from 'react-bootstrap/Spinner'
 import { getDateTitle } from '@/helpers/getDateTitle'
 
-type TCHeader = {
+type THeader = {
 	date: string
 	dateDecrease: () => void
 	dateIncrease: () => void
@@ -14,26 +14,37 @@ export const Header = ({
 	dateDecrease,
 	dateIncrease,
 	isLoading,
-}: TCHeader) => {
-	const [dateTitle, setDateTitle] = useState('')
-
-	useEffect(() => {
-		setDateTitle(getDateTitle(date))
-	}, [date])
+}: THeader) => {
+	const dateTitle = useMemo(() => getDateTitle(date), [date])
 
 	return (
 		<header className='d-flex justify-content-between align-items-center my-1 position-relative'>
-			<div className='pe-3 ps-1 py-2 pointer opacity-50' onClick={dateDecrease}>
+			<button
+				className='btn pe-3 ps-1 py-2 opacity-50 border-0'
+				onClick={dateDecrease}
+				type='button'
+			>
 				←
-			</div>
+			</button>
 
 			<div className='fs-5 opacity-75'>{dateTitle}</div>
 
-			<div className='pe-1 ps-3 py-2 pointer opacity-50' onClick={dateIncrease}>
+			<button
+				className='btn pe-1 ps-3 py-2 opacity-50 border-0'
+				onClick={dateIncrease}
+				type='button'
+			>
 				→
-			</div>
+			</button>
 
-			{isLoading && <Fetching />}
+			{isLoading && (
+				<Spinner
+					animation='grow'
+					className='position-absolute end-0 me-5'
+					size='sm'
+					variant='warning'
+				/>
+			)}
 		</header>
 	)
 }

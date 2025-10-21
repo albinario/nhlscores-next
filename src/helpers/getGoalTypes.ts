@@ -3,13 +3,19 @@ import type { TGoal } from '@/types'
 export const getGoalTypes = (goal: TGoal, gameWinner: boolean) => {
 	const goalTypes: string[] = []
 
-	goal.strength === 'pp'
-		? goalTypes.push('PP')
-		: goal.strength === 'sh' && goalTypes.push('SH')
+	if (goal.strength === 'pp') {
+		goalTypes.push('PP')
+	} else if (goal.strength === 'sh') {
+		goalTypes.push('SH')
+	}
 
-	goal.goalModifier === 'empty-net' && goalTypes.push('EN')
+	if (goal.goalModifier === 'empty-net') {
+		goalTypes.push('EN')
+	}
 
-	gameWinner && goalTypes.push('GW')
+	if (gameWinner) {
+		goalTypes.push('GW')
+	}
 
 	return goalTypes
 }

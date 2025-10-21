@@ -1,18 +1,45 @@
 'use client'
 import { dateFormat } from '@/app/lib/globals'
+import { AlertBox } from '@/components/AlertBox'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { Games } from '@/components/Games'
 import { addDays, format, parse, subDays } from 'date-fns'
 import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
-import { useState } from 'react'
-import Alert from 'react-bootstrap/Alert'
+import { useState, useCallback, useMemo } from 'react'
 import Container from 'react-bootstrap/Container'
 import type { TGame } from '@/types'
 
+const useDateNavigation = (initialDate: string) => {
+	const [date, setDate] = useState(initialDate)
+
+	const dateDecrease = useCallback(() => {
+		const parsedDate = parse(date, dateFormat, new Date())
+		const newDate = format(subDays(parsedDate, 1), dateFormat)
+		setDate(newDate)
+	}, [date])
+
+	const dateIncrease = useCallback(() => {
+		const parsedDate = parse(date, dateFormat, new Date())
+		const newDate = format(addDays(parsedDate, 1), dateFormat)
+		setDate(newDate)
+	}, [date])
+
+	return {
+		date,
+		dateDecrease,
+		dateIncrease,
+	}
+}
+
 export default function Home() {
-	const [date, setDate] = useState(format(subDays(new Date(), 1), dateFormat))
+	const initialDate = useMemo(
+		() => format(subDays(new Date(), 1), dateFormat),
+		[]
+	)
+
+	const { date, dateDecrease, dateIncrease } = useDateNavigation(initialDate)
 
 	const {
 		data: games,
@@ -20,20 +47,17 @@ export default function Home() {
 		isLoading,
 	} = useFetchData<TGame[]>(EPath.games + date)
 
-	const dateDecrease = () => {
-		const parsedDate = parse(date, dateFormat, new Date())
+	const hasGames = useMemo(() => games && games.length > 0, [games])
 
-		setDate(format(subDays(parsedDate, 1), dateFormat))
-	}
+	const showNoGamesAlert = useMemo(
+		() => !isLoading && !error && !hasGames,
+		[isLoading, error, hasGames]
+	)
 
-	const dateIncrease = () => {
-		const parsedDate = parse(date, dateFormat, new Date())
-
-		setDate(format(addDays(parsedDate, 1), dateFormat))
-	}
+	const showGames = useMemo(() => !error && hasGames, [error, hasGames])
 
 	return (
-		<Container className='d-flex flex-column justify-content-between'>
+		<Container className='d-flex flex-column justify-content-between min-vh-100'>
 			<div>
 				<Header
 					date={date}
@@ -42,13 +66,16 @@ export default function Home() {
 					isLoading={isLoading}
 				/>
 
-				{error && <Alert variant='warning'>{error}</Alert>}
+				{error && <AlertBox heading='Error Loading Games' text={error} />}
 
-				{!isLoading && !error && !games?.length && (
-					<Alert variant='secondary'>No games on this day</Alert>
+				{showNoGamesAlert && (
+					<AlertBox
+						heading='No Games Scheduled'
+						text={`There are no NHL games scheduled for ${date}.`}
+					/>
 				)}
 
-				{!error && !!games?.length && <Games games={games} />}
+				{showGames && <Games games={games!} />}
 			</div>
 
 			<Footer />

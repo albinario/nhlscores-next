@@ -1,38 +1,56 @@
+import { useMemo } from 'react'
 import { EPosition } from '@/enums'
 import type { TPlayer } from '@/types'
 
-type TCMissing = {
+type TMissing = {
 	isAll?: boolean
 	playersPicked?: TPlayer[]
 }
 
-export const Missing = ({ isAll, playersPicked }: TCMissing) => {
-	const g =
-		(isAll ? 8 : 2) -
-		Number(playersPicked?.filter((p) => p.pos === EPosition.G).length)
-	const d =
-		(isAll ? 12 : 3) -
-		Number(playersPicked?.filter((p) => p.pos === EPosition.D).length)
-	const w =
-		(isAll ? 16 : 4) -
-		Number(playersPicked?.filter((p) => p.pos === EPosition.W).length)
-	const c =
-		(isAll ? 12 : 3) -
-		Number(playersPicked?.filter((p) => p.pos === EPosition.C).length)
+// Position limits configuration
+const POSITION_LIMITS = {
+	[EPosition.G]: { all: 8, partial: 2 },
+	[EPosition.D]: { all: 12, partial: 3 },
+	[EPosition.W]: { all: 16, partial: 4 },
+	[EPosition.C]: { all: 12, partial: 3 },
+} as const
 
-	const missingG = g !== 0
-	const missingD = d !== 0
-	const missingW = w !== 0
-	const missingC = c !== 0
+export const Missing = ({ isAll, playersPicked = [] }: TMissing) => {
+	const missingCounts = useMemo(() => {
+		const counts: Record<EPosition, number> = {} as Record<EPosition, number>
 
-	const missingAny = missingG || missingD || missingW || missingC
+		Object.values(EPosition).forEach((position) => {
+			if (position in POSITION_LIMITS) {
+				const limit = isAll
+					? POSITION_LIMITS[position as keyof typeof POSITION_LIMITS].all
+					: POSITION_LIMITS[position as keyof typeof POSITION_LIMITS].partial
 
-	return missingAny ? (
+				const currentCount = playersPicked.filter(
+					(p) => p.pos === position
+				).length
+				counts[position] = limit - currentCount
+			}
+		})
+
+		return counts
+	}, [isAll, playersPicked])
+
+	const missingPositions = useMemo(() => {
+		return Object.entries(missingCounts).filter(([_, count]) => count !== 0)
+	}, [missingCounts])
+
+	if (missingPositions.length === 0) {
+		return null
+	}
+
+	return (
 		<div className='d-flex gap-3 mt-2'>
-			{missingG && <span>G{g} </span>}
-			{missingD && <span>D{d} </span>}
-			{missingW && <span>W{w} </span>}
-			{missingC && <span>C{c} </span>}
+			{missingPositions.map(([position, count]) => (
+				<span key={position}>
+					{position}
+					{count}
+				</span>
+			))}
 		</div>
-	) : null
+	)
 }

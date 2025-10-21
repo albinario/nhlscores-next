@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useMemo, useCallback } from 'react'
 import { GameDetails } from '@/components/GameDetails'
 import { Team } from '@/components/Team'
 import { getStartTime } from '@/helpers/getStartTime'
@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
-type TCGame = {
+type TGameProps = {
 	game: TGame
 	playersPicked?: TPlayer[]
 	teamRecordAway?: TTeamRecord
@@ -18,27 +18,50 @@ type TCGame = {
 
 export const Game = ({
 	game,
-	playersPicked,
+	playersPicked = [],
 	teamRecordAway,
 	teamRecordHome,
-}: TCGame) => {
+}: TGameProps) => {
 	const [showResults, setShowResults] = useState(false)
 
-	const startDateTime = new Date(game.startTimeUTC)
-	const now = new Date(Date.now())
-	const started = startDateTime < now
-	const ended = game.gameState === 'OFF'
+	const gameStatus = useMemo(() => {
+		const startDateTime = new Date(game.startTimeUTC)
+		const now = new Date()
+		const started = startDateTime < now
+		const ended = game.gameState === 'OFF'
+
+		return {
+			ended,
+			started,
+			startTime: getStartTime(startDateTime),
+		}
+	}, [game.startTimeUTC, game.gameState])
+
+	const playersByTeam = useMemo(() => {
+		const awayPlayers = playersPicked.filter(
+			(player) => player.teamAbbrev === game.awayTeam.abbrev
+		)
+		const homePlayers = playersPicked.filter(
+			(player) => player.teamAbbrev === game.homeTeam.abbrev
+		)
+
+		return { awayPlayers, homePlayers }
+	}, [playersPicked, game.awayTeam.abbrev, game.homeTeam.abbrev])
+
+	const toggleResults = useCallback(() => {
+		setShowResults((prev) => !prev)
+	}, [])
 
 	return (
 		<Col>
 			<Card>
 				<Card.Body className='p-2 text-muted'>
-					{started && (
+					{gameStatus.started && (
 						<Form.Switch
 							checked={showResults}
 							className='position-absolute'
-							name='show-result-switcher'
-							onChange={() => setShowResults(!showResults)}
+							name={`show-result-switcher-${game.id}`}
+							onChange={toggleResults}
 						/>
 					)}
 
@@ -49,7 +72,7 @@ export const Game = ({
 						{showResults && (
 							<Fragment>
 								<Badge
-									bg={ended ? 'success' : 'primary'}
+									bg={gameStatus.ended ? 'success' : 'primary'}
 									className='me-1'
 									style={{ fontSize: '.9em' }}
 								>
@@ -57,7 +80,7 @@ export const Game = ({
 								</Badge>
 
 								<Badge
-									bg={ended ? 'success' : 'primary'}
+									bg={gameStatus.ended ? 'success' : 'primary'}
 									style={{ fontSize: '.9em' }}
 								>
 									{game.homeTeam.score}
@@ -67,7 +90,7 @@ export const Game = ({
 
 						{!showResults && (
 							<Badge bg='warning' className='opacity-75' text='dark'>
-								{getStartTime(startDateTime)}
+								{gameStatus.startTime}
 							</Badge>
 						)}
 					</div>
@@ -75,25 +98,21 @@ export const Game = ({
 					<Row>
 						<Team
 							away
-							playersPicked={playersPicked?.filter(
-								(player) => player.teamAbbrev === game.awayTeam.abbrev
-							)}
+							playersPicked={playersByTeam.awayPlayers}
 							showResults={showResults}
 							team={game.awayTeam}
 							teamRecord={teamRecordAway}
 						/>
 						<Team
 							away={false}
-							playersPicked={playersPicked?.filter(
-								(player) => player.teamAbbrev === game.homeTeam.abbrev
-							)}
+							playersPicked={playersByTeam.homePlayers}
 							showResults={showResults}
 							team={game.homeTeam}
 							teamRecord={teamRecordHome}
 						/>
 					</Row>
 
-					{started && showResults && (
+					{gameStatus.started && showResults && (
 						<GameDetails
 							key={game.id}
 							game={game}

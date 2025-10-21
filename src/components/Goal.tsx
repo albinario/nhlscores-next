@@ -1,9 +1,10 @@
 import { Logo } from './Logo'
 import { Scorer } from '@/components/Scorer'
 import { getGoalTypes } from '@/helpers/getGoalTypes'
+import { useMemo } from 'react'
 import type { TGoal, TPlayer } from '@/types'
 
-type TCGoal = {
+type TGoalProps = {
 	away: boolean
 	goal: TGoal
 	isSo: boolean
@@ -17,65 +18,84 @@ export const Goal = ({
 	goal,
 	isSo,
 	losingScore,
-	players,
+	players = [],
 	winningGoalScorerId,
-}: TCGoal) => {
-	const gameWinner =
-		goal.playerId === winningGoalScorerId &&
-		(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
+}: TGoalProps) => {
+	const goalData = useMemo(() => {
+		const gameWinner =
+			goal.playerId === winningGoalScorerId &&
+			(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
 
-	const goalTypes = getGoalTypes(goal, gameWinner)
+		const goalTypes = getGoalTypes(goal, gameWinner)
+
+		const playerMap = new Map(players.map((player) => [player.id, player]))
+
+		const goalScorer = playerMap.get(goal.playerId)
+
+		const assistPlayers = goal.assists.map((assist) => ({
+			assist,
+			player: playerMap.get(assist.playerId),
+		}))
+
+		return {
+			assistPlayers,
+			gameWinner,
+			goalScorer,
+			goalTypes,
+		}
+	}, [goal, losingScore, players, winningGoalScorerId])
+
+	const layoutClasses = useMemo(
+		() => ({
+			assists: `d-flex small text-muted ${
+				away ? 'ms-4' : 'justify-content-end me-4'
+			}`,
+			container: `d-flex ${!away && 'flex-row-reverse'}`,
+			logo: away ? 'me-1' : 'ms-1',
+			score: away ? 'me-1' : 'ms-1',
+			time: `text-muted ${away ? 'me-1' : 'ms-1'}`,
+		}),
+		[away]
+	)
 
 	return (
 		<div className='mb-2'>
-			<div className={`d-flex ${!away && 'flex-row-reverse'}`}>
+			<div className={layoutClasses.container}>
 				<Logo
-					className={away ? 'me-1' : 'ms-1'}
+					className={layoutClasses.logo}
 					teamAbbrev={goal.teamAbbrev.default}
 				/>
 
-				<div className={away ? 'me-1' : 'ms-1'}>
+				<div className={layoutClasses.score}>
 					{goal.awayScore}-{goal.homeScore}
 				</div>
 
-				{!isSo && (
-					<div className={`text-muted ${away ? 'me-1' : 'ms-1'}`}>
-						{goal.timeInPeriod}
-					</div>
-				)}
+				{!isSo && <div className={layoutClasses.time}>{goal.timeInPeriod}</div>}
 
 				<div>
 					<Scorer
 						firstName={goal.firstName.default}
 						isSo={isSo}
 						lastName={goal.lastName.default}
-						pickedBy={
-							players?.find((player) => player.id === goal.playerId)?.picker
-						}
+						pickedBy={goalData.goalScorer?.picker}
 						toDate={goal.goalsToDate}
 					/>
 
-					{!!goalTypes.length && (
+					{goalData.goalTypes.length > 0 && (
 						<span className='small text-muted fst-italic ms-1'>
-							{goalTypes.map((goalType) => goalType).join(' ')}
+							{goalData.goalTypes.join(' ')}
 						</span>
 					)}
 				</div>
 			</div>
 
-			<div
-				className={`d-flex small text-muted ${
-					away ? 'ms-4' : 'justify-content-end me-4'
-				}`}
-			>
-				{goal.assists.map((assist, i) => (
+			<div className={layoutClasses.assists}>
+				{goalData.assistPlayers.map(({ assist, player }, i) => (
 					<Scorer
 						firstName={assist.firstName.default}
-						key={i}
+						key={assist.playerId}
 						lastName={assist.lastName.default}
-						pickedBy={
-							players?.find((player) => player.id === assist.playerId)?.picker
-						}
+						pickedBy={player?.picker}
 						secondAssist={i !== 0}
 						toDate={assist.assistsToDate}
 					/>

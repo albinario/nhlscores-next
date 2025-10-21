@@ -1,7 +1,7 @@
 import { pickers } from '@/app/lib/globals'
 import { EPath, EPosition } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
-import { useState } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -18,124 +18,164 @@ enum EForm {
 	teamAbbrev = 'teamAbbrev',
 }
 
-type TCPlayerEditForm = {
+type TPlayerEditForm = {
 	players?: TPlayer[]
 }
 
 type TPlayerToEdit = Omit<TPlayer, 'name'>
 
-export const PlayerEditForm = ({ players }: TCPlayerEditForm) => {
+const DEFAULT_PLAYER_VALUE = 0
+const EMPTY_STRING_VALUE = ''
+const VALID_POSITIONS = Object.values(EPosition).filter(
+	(pos) => pos !== EPosition.L && pos !== EPosition.R
+)
+
+export const PlayerEditForm = ({ players = [] }: TPlayerEditForm) => {
 	const [searchInput, setSearchInput] = useState('')
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { formState, handleSubmit, register, reset } = useForm<TPlayerToEdit>()
 
-	const editPlayer: SubmitHandler<TPlayerToEdit> = async (
-		playerToEdit: TPlayerToEdit
-	) => {
-		try {
-			patchPlayer(playerToEdit)
-		} catch (error) {
-			return alert(error || 'Something went wrong')
-		} finally {
-			setSearchInput('')
-			reset()
-		}
-	}
+	const editPlayer: SubmitHandler<TPlayerToEdit> = useCallback(
+		async (playerToEdit: TPlayerToEdit) => {
+			setIsSubmitting(true)
+
+			try {
+				await patchPlayer(playerToEdit)
+				setSearchInput('')
+				reset()
+			} catch (error) {
+				console.error('Failed to edit player:', error)
+				alert(error instanceof Error ? error.message : 'Something went wrong')
+			} finally {
+				setIsSubmitting(false)
+			}
+		},
+		[reset]
+	)
 
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>(EPath.teamRecords)
 
-	const teamValues = teamRecords?.map((teamRecord) => ({
-		abbrev: teamRecord.teamAbbrev.default,
-		name: teamRecord.teamName.default,
-	}))
+	const filteredPlayers = useMemo(() => {
+		if (!searchInput.trim()) return []
+
+		const searchTerm = searchInput.toLowerCase()
+		return players.filter((player) =>
+			player.name.toLowerCase().includes(searchTerm)
+		)
+	}, [players, searchInput])
+
+	const teamOptions = useMemo(() => {
+		if (!teamRecords) return []
+
+		return teamRecords
+			.map((teamRecord) => ({
+				value: teamRecord.teamAbbrev.default,
+				label: teamRecord.teamName.default,
+			}))
+			.sort((a, b) => a.label.localeCompare(b.label))
+	}, [teamRecords])
+
+	const pickerOptions = useMemo(() => {
+		return pickers.map((picker) => ({
+			value: picker.code,
+			label: picker.name,
+		}))
+	}, [])
+
+	const positionOptions = useMemo(() => {
+		return VALID_POSITIONS.map((pos) => ({
+			value: pos,
+			label: pos,
+		}))
+	}, [])
+
+	const isFormDisabled = isSubmitting
 
 	return (
 		<Form onSubmit={handleSubmit(editPlayer)}>
 			<Row className='g-1'>
 				<Col>
 					<Form.Control
+						disabled={isFormDisabled}
 						onChange={(e) => setSearchInput(e.target.value)}
-						placeholder='Search'
+						placeholder='Search players...'
 						type='text'
 						value={searchInput}
 					/>
 				</Col>
 
 				<Col>
-					<Form.Select {...register(EForm.id, { required: true, min: 1 })}>
-						<option value={0}>Player</option>
+					<Form.Select
+						{...register(EForm.id, { required: true, min: 1 })}
+						disabled={isFormDisabled}
+					>
+						<option value={DEFAULT_PLAYER_VALUE}>Select Player</option>
 
-						{searchInput &&
-							players
-								?.filter((player) =>
-									player.name
-										.toLowerCase()
-										.includes(searchInput.toLocaleLowerCase())
-								)
-								.map((player) => (
-									<option key={player.id} value={player.id}>
-										{player.name}
-									</option>
-								))}
-					</Form.Select>
-				</Col>
-
-				<Col>
-					<Form.Select {...register(EForm.picker)}>
-						<option value=''>Picker</option>
-
-						{pickers.map((picker) => (
-							<option key={picker.code} value={picker.code}>
-								{picker.name}
+						{filteredPlayers.map((player) => (
+							<option key={player.id} value={player.id}>
+								{player.name}
 							</option>
 						))}
 					</Form.Select>
 				</Col>
 
 				<Col>
-					<Form.Select {...register(EForm.teamAbbrev)}>
-						<option value=''>Team</option>
+					<Form.Select {...register(EForm.picker)} disabled={isFormDisabled}>
+						<option value={EMPTY_STRING_VALUE}>Select Picker</option>
 
-						{teamValues
-							?.sort((a, b) => a.name.localeCompare(b.name))
-							.map((team) => (
-								<option key={team.abbrev} value={team.abbrev}>
-									{team.name}
-								</option>
-							))}
+						{pickerOptions.map((option) => (
+							<option key={option.value} value={option.value}>
+								{option.label}
+							</option>
+						))}
+					</Form.Select>
+				</Col>
+
+				<Col>
+					<Form.Select
+						{...register(EForm.teamAbbrev)}
+						disabled={isFormDisabled}
+					>
+						<option value={EMPTY_STRING_VALUE}>Select Team</option>
+
+						{teamOptions.map((option) => (
+							<option key={option.value} value={option.value}>
+								{option.label}
+							</option>
+						))}
 					</Form.Select>
 				</Col>
 
 				<Col>
 					<Form.Control
 						{...register(EForm.jersey)}
-						placeholder='Jersey'
+						disabled={isFormDisabled}
+						placeholder='Jersey Number'
 						type='number'
 					/>
 				</Col>
 
 				<Col>
-					<Form.Select {...register(EForm.pos)}>
-						<option value=''>Pos</option>
+					<Form.Select {...register(EForm.pos)} disabled={isFormDisabled}>
+						<option value={EMPTY_STRING_VALUE}>Select Position</option>
 
-						{Object.values(EPosition)
-							.filter((pos) => pos !== EPosition.L && pos !== EPosition.R)
-							.map((pos) => (
-								<option key={pos} value={pos}>
-									{pos}
-								</option>
-							))}
+						{positionOptions.map((option) => (
+							<option key={option.value} value={option.value}>
+								{option.label}
+							</option>
+						))}
 					</Form.Select>
 				</Col>
 
 				<Col>
 					<Button
 						className='form-control'
-						disabled={!formState.isValid || formState.isSubmitting}
+						disabled={!formState.isValid || isFormDisabled}
 						type='submit'
 						variant='outline-success'
 					>
-						+
+						{isSubmitting ? '⏳' : '+'}
 					</Button>
 				</Col>
 			</Row>

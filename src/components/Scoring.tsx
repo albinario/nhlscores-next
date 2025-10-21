@@ -1,8 +1,9 @@
 import { Goal } from '@/components/Goal'
 import { getPeriodType } from '@/helpers/getPeriodType'
+import { useMemo } from 'react'
 import type { TPlayer, TScoring } from '@/types'
 
-type TCScoring = {
+type TScoringProps = {
 	losingScore: number
 	playersPicked?: TPlayer[]
 	scoring: TScoring
@@ -12,26 +13,38 @@ type TCScoring = {
 
 export const Scoring = ({
 	losingScore,
-	playersPicked,
+	playersPicked = [],
 	scoring,
 	teamAbbrevAway,
 	winningGoalScorerId,
-}: TCScoring) => (
-	<div className='period mb-1'>
-		<div className='d-flex justify-content-center small text-muted'>
-			{getPeriodType(scoring.periodDescriptor)}
-		</div>
+}: TScoringProps) => {
+	const scoringData = useMemo(() => {
+		const isShootout = scoring.periodDescriptor.periodType === 'SO'
+		const periodType = getPeriodType(scoring.periodDescriptor)
 
-		{scoring.goals.map((goal, i) => (
-			<Goal
-				key={i}
-				away={goal.teamAbbrev.default === teamAbbrevAway}
-				goal={goal}
-				isSo={scoring.periodDescriptor.periodType === 'SO'}
-				losingScore={losingScore}
-				players={playersPicked}
-				winningGoalScorerId={winningGoalScorerId}
-			/>
-		))}
-	</div>
-)
+		return {
+			isShootout,
+			periodType,
+		}
+	}, [scoring.periodDescriptor])
+
+	return (
+		<div className='period mb-1'>
+			<div className='d-flex justify-content-center small text-muted'>
+				{scoringData.periodType}
+			</div>
+
+			{scoring.goals.map((goal, i) => (
+				<Goal
+					away={goal.teamAbbrev.default === teamAbbrevAway}
+					goal={goal}
+					isSo={scoringData.isShootout}
+					key={i}
+					losingScore={losingScore}
+					players={playersPicked}
+					winningGoalScorerId={winningGoalScorerId}
+				/>
+			))}
+		</div>
+	)
+}

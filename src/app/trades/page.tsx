@@ -1,4 +1,5 @@
 'use client'
+import { useMemo } from 'react'
 import { pickers } from '@/app/lib/globals'
 import { Missing } from './components/Missing'
 import { Picker } from './components/Picker'
@@ -10,15 +11,32 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import type { TPlayer } from '@/types'
 
+const usePlayersByPicker = (playersPicked: TPlayer[] | undefined) => {
+	return useMemo(() => {
+		if (!playersPicked) return new Map<string, TPlayer[]>()
+
+		const map = new Map<string, TPlayer[]>()
+
+		pickers.forEach((picker) => {
+			const pickerPlayers = playersPicked.filter(
+				(player) => player.picker.toLowerCase() === picker.code
+			)
+			map.set(picker.code, pickerPlayers)
+		})
+
+		return map
+	}, [playersPicked])
+}
+
 export default function Trades() {
 	const { data: players } = useFetchData<TPlayer[]>(EPath.players)
-
 	const { data: playersPicked } = useFetchData<TPlayer[]>(EPath.playersPicked)
+
+	const playersByPicker = usePlayersByPicker(playersPicked)
 
 	return (
 		<Container className='d-flex flex-column gap-3 mt-3' fluid>
 			<PlayerAddForm players={players} />
-
 			<PlayerEditForm players={players} />
 
 			<Row xs={2} md={4}>
@@ -26,9 +44,7 @@ export default function Trades() {
 					<Picker
 						key={picker.code}
 						picker={picker.name}
-						playersPicked={playersPicked?.filter(
-							(player) => player.picker.toLowerCase() === picker.code
-						)}
+						playersPicked={playersByPicker.get(picker.code)}
 					/>
 				))}
 

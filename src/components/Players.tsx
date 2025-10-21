@@ -1,12 +1,12 @@
 import { Goalies } from '@/components/Goalies'
 import { Skaters } from '@/components/Skaters'
 import { EPosition } from '@/enums'
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import type { TGameBoxscoreTeam, TPlayer } from '@/types'
 
-type TCPlayers = {
+type TPlayers = {
 	playersAway: TGameBoxscoreTeam
 	playersHome: TGameBoxscoreTeam
 	playersPicked?: TPlayer[]
@@ -18,45 +18,61 @@ type TCPlayers = {
 export const Players = ({
 	playersAway,
 	playersHome,
-	playersPicked,
+	playersPicked = [],
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
-}: TCPlayers) => (
-	<Fragment>
-		<Row xs={1} md={2}>
-			<Col md={{ offset: 3 }}>
-				<Goalies
-					goaliesAway={playersAway.goalies}
-					goaliesHome={playersHome.goalies}
-					playersPicked={playersPicked?.filter(
-						(player) => player.pos === EPosition.G
-					)}
-					teamAbbrevAway={teamAbbrevAway}
-					teamAbbrevHome={teamAbbrevHome}
-					winningGoalieId={winningGoalieId}
+}: TPlayers) => {
+	const filteredPlayers = useMemo(() => {
+		const goaliePlayers = playersPicked.filter(
+			(player) => player.pos === EPosition.G
+		)
+
+		const awayPlayers = playersPicked.filter(
+			(player) => player.teamAbbrev === teamAbbrevAway
+		)
+
+		const homePlayers = playersPicked.filter(
+			(player) => player.teamAbbrev === teamAbbrevHome
+		)
+
+		return {
+			awayPlayers,
+			goaliePlayers,
+			homePlayers,
+		}
+	}, [playersPicked, teamAbbrevAway, teamAbbrevHome])
+
+	return (
+		<Fragment>
+			<Row xs={1} md={2}>
+				<Col md={{ offset: 3 }}>
+					<Goalies
+						goaliesAway={playersAway.goalies}
+						goaliesHome={playersHome.goalies}
+						playersPicked={filteredPlayers.goaliePlayers}
+						teamAbbrevAway={teamAbbrevAway}
+						teamAbbrevHome={teamAbbrevHome}
+						winningGoalieId={winningGoalieId}
+					/>
+				</Col>
+			</Row>
+
+			<Row xs={1} md={2}>
+				<Skaters
+					defenders={playersAway.defense}
+					forwards={playersAway.forwards}
+					playersPicked={filteredPlayers.awayPlayers}
+					teamAbbrev={teamAbbrevAway}
 				/>
-			</Col>
-		</Row>
 
-		<Row xs={1} md={2}>
-			<Skaters
-				defenders={playersAway.defense}
-				forwards={playersAway.forwards}
-				playersPicked={playersPicked?.filter(
-					(player) => player.teamAbbrev === teamAbbrevAway
-				)}
-				teamAbbrev={teamAbbrevAway}
-			/>
-
-			<Skaters
-				defenders={playersHome.defense}
-				forwards={playersHome.forwards}
-				playersPicked={playersPicked?.filter(
-					(player) => player.teamAbbrev === teamAbbrevHome
-				)}
-				teamAbbrev={teamAbbrevHome}
-			/>
-		</Row>
-	</Fragment>
-)
+				<Skaters
+					defenders={playersHome.defense}
+					forwards={playersHome.forwards}
+					playersPicked={filteredPlayers.homePlayers}
+					teamAbbrev={teamAbbrevHome}
+				/>
+			</Row>
+		</Fragment>
+	)
+}

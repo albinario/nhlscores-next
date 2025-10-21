@@ -1,37 +1,58 @@
 import { Game } from '@/components/Game'
 import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
+import { useMemo } from 'react'
 import Row from 'react-bootstrap/Row'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
-type TCGames = {
+type TGames = {
 	games: TGame[]
 }
 
-export const Games = ({ games }: TCGames) => {
+export const Games = ({ games }: TGames) => {
 	const { data: playersPicked } = useFetchData<TPlayer[]>(EPath.playersPicked)
-
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>(EPath.teamRecords)
+
+	const gamesWithData = useMemo(() => {
+		if (!playersPicked || !teamRecords) return []
+
+		return games.map((game) => {
+			const relevantPlayers = playersPicked.filter(
+				(player) =>
+					player.teamAbbrev === game.awayTeam.abbrev ||
+					player.teamAbbrev === game.homeTeam.abbrev
+			)
+
+			const teamRecordAway = teamRecords.find(
+				(team) => team.teamAbbrev.default === game.awayTeam.abbrev
+			)
+
+			const teamRecordHome = teamRecords.find(
+				(team) => team.teamAbbrev.default === game.homeTeam.abbrev
+			)
+
+			return {
+				game,
+				playersPicked: relevantPlayers,
+				teamRecordAway,
+				teamRecordHome,
+			}
+		})
+	}, [games, playersPicked, teamRecords])
 
 	return (
 		<Row xs={1} className='g-2'>
-			{games.map((game) => (
-				<Game
-					key={game.id}
-					game={game}
-					playersPicked={playersPicked?.filter(
-						(player) =>
-							player.teamAbbrev === game.awayTeam.abbrev ||
-							player.teamAbbrev === game.homeTeam.abbrev
-					)}
-					teamRecordAway={teamRecords?.find(
-						(team) => team.teamAbbrev.default === game.awayTeam.abbrev
-					)}
-					teamRecordHome={teamRecords?.find(
-						(team) => team.teamAbbrev.default === game.homeTeam.abbrev
-					)}
-				/>
-			))}
+			{gamesWithData.map(
+				({ game, playersPicked, teamRecordAway, teamRecordHome }) => (
+					<Game
+						key={game.id}
+						game={game}
+						playersPicked={playersPicked}
+						teamRecordAway={teamRecordAway}
+						teamRecordHome={teamRecordHome}
+					/>
+				)
+			)}
 		</Row>
 	)
 }

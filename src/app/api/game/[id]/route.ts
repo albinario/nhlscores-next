@@ -23,7 +23,7 @@ export async function GET(_req: NextRequest, { params }: TGameRoute) {
 		}
 
 		const gameDetails: TGameDetails = await getGameDetails(Number(id))
-		const cacheMaxAge = gameDetails.landing?.gameState === 'FINAL' ? 3600 : 60
+		const cacheMaxAge = gameDetails.landing?.gameState === 'FINAL' ? 3600 : 0
 
 		return successResponse(gameDetails, { cacheMaxAge })
 	} catch (error) {

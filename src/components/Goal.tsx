@@ -47,10 +47,8 @@ export const Goal = ({
 
 	const layoutClasses = useMemo(
 		() => ({
-			assists: `d-flex small text-muted ${
-				away ? 'ms-4' : 'justify-content-end me-4'
-			}`,
-			container: `d-flex ${!away && 'flex-row-reverse'}`,
+			assists: `d-flex small text-muted${away ? '' : ' justify-content-end'}`,
+			container: `d-flex${away ? '' : ' flex-row-reverse'}`,
 			logo: away ? 'me-1' : 'ms-1',
 			score: away ? 'me-1' : 'ms-1',
 			time: `text-muted ${away ? 'me-1' : 'ms-1'}`,
@@ -66,40 +64,46 @@ export const Goal = ({
 					teamAbbrev={goal.teamAbbrev.default}
 				/>
 
-				<div className={layoutClasses.score}>
-					{goal.awayScore}-{goal.homeScore}
-				</div>
-
-				{!isSo && <div className={layoutClasses.time}>{goal.timeInPeriod}</div>}
-
 				<div>
-					<Scorer
-						firstName={goal.firstName.default}
-						isSo={isSo}
-						lastName={goal.lastName.default}
-						pickedBy={goalData.goalScorer?.picker}
-						toDate={goal.goalsToDate}
-					/>
+					<div className={layoutClasses.container}>
+						<div className={layoutClasses.score}>
+							{goal.awayScore}-{goal.homeScore}
+						</div>
 
-					{goalData.goalTypes.length > 0 && (
-						<span className='small text-muted fst-italic ms-1'>
-							{goalData.goalTypes.join(' ')}
-						</span>
-					)}
+						{!isSo && (
+							<div className={layoutClasses.time}>{goal.timeInPeriod}</div>
+						)}
+
+						<div>
+							<Scorer
+								firstName={goal.firstName.default}
+								isSo={isSo}
+								lastName={goal.lastName.default}
+								pickedBy={goalData.goalScorer?.picker}
+								toDate={goal.goalsToDate}
+							/>
+
+							{goalData.goalTypes.length > 0 && (
+								<span className='small text-muted fst-italic ms-1'>
+									{goalData.goalTypes.join(' ')}
+								</span>
+							)}
+						</div>
+					</div>
+
+					<div className={layoutClasses.assists}>
+						{goalData.assistPlayers.map(({ assist, player }, i) => (
+							<Scorer
+								firstName={assist.firstName.default}
+								key={assist.playerId}
+								lastName={assist.lastName.default}
+								pickedBy={player?.picker}
+								secondAssist={i !== 0}
+								toDate={assist.assistsToDate}
+							/>
+						))}
+					</div>
 				</div>
-			</div>
-
-			<div className={layoutClasses.assists}>
-				{goalData.assistPlayers.map(({ assist, player }, i) => (
-					<Scorer
-						firstName={assist.firstName.default}
-						key={assist.playerId}
-						lastName={assist.lastName.default}
-						pickedBy={player?.picker}
-						secondAssist={i !== 0}
-						toDate={assist.assistsToDate}
-					/>
-				))}
 			</div>
 		</div>
 	)

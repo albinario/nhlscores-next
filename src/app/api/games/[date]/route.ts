@@ -27,7 +27,7 @@ export async function GET(_req: NextRequest, { params }: TGamesRoute) {
 		const gameDate = new Date(date)
 		const today = new Date()
 		today.setHours(0, 0, 0, 0)
-		const cacheMaxAge = gameDate < today ? 86400 : 300
+		const cacheMaxAge = gameDate < today ? 86400 : 0
 
 		return successResponse(games, { cacheMaxAge })
 	} catch (error) {

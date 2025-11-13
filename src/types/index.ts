@@ -37,19 +37,21 @@ export type TGame = {
 }
 
 export type TGameBoxscore = {
+	awayTeam: TTeam
+	gameOutcome: {
+		lastPeriodType: string
+	}
+	homeTeam: TTeam
 	playerByGameStats: {
 		awayTeam: TGameBoxscoreTeam
 		homeTeam: TGameBoxscoreTeam
-	}
-	gameOutcome: {
-		lastPeriodType: string
 	}
 }
 
 export type TGameBoxscoreTeam = {
 	defense: TSkaterStats[]
-	goalies: TGoalieStats[]
 	forwards: TSkaterStats[]
+	goalies: TGoalieStats[]
 }
 
 export type TGameDetails = {

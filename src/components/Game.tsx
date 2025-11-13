@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { GameDetails } from '@/components/GameDetails'
 import { Team } from '@/components/Team'
 import { getStartTime } from '@/helpers/getStartTime'
@@ -65,35 +65,18 @@ export const Game = ({
 						/>
 					)}
 
-					<div
-						className='position-absolute start-50 translate-middle-x'
-						style={{ marginTop: '-1px' }}
-					>
-						{showResults && (
-							<Fragment>
-								<Badge
-									bg={gameStatus.ended ? 'success' : 'primary'}
-									className='me-1'
-									style={{ fontSize: '.9em' }}
-								>
-									{game.awayTeam.score}
-								</Badge>
-
-								<Badge
-									bg={gameStatus.ended ? 'success' : 'primary'}
-									style={{ fontSize: '.9em' }}
-								>
-									{game.homeTeam.score}
-								</Badge>
-							</Fragment>
-						)}
-
-						{!showResults && (
-							<Badge bg='warning' className='opacity-75' text='dark'>
+					{!showResults && (
+						<div className='position-absolute start-50 translate-middle-x'>
+							<Badge
+								bg='warning'
+								className='opacity-75'
+								text='dark'
+								style={{ fontSize: '.8em' }}
+							>
 								{gameStatus.startTime}
 							</Badge>
-						)}
-					</div>
+						</div>
+					)}
 
 					<Row>
 						<Team
@@ -103,6 +86,7 @@ export const Game = ({
 							team={game.awayTeam}
 							teamRecord={teamRecordAway}
 						/>
+
 						<Team
 							away={false}
 							playersPicked={playersByTeam.homePlayers}
@@ -115,7 +99,7 @@ export const Game = ({
 					{gameStatus.started && showResults && (
 						<GameDetails
 							key={game.id}
-							game={game}
+							gameId={game.id}
 							playersPicked={playersPicked}
 						/>
 					)}

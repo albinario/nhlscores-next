@@ -6,34 +6,43 @@ import { useFetchData } from '@/hooks/useFetchData'
 import { Fragment, useMemo } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
-import type { TGame, TGameDetails, TPlayer } from '@/types'
+import type { TGameDetails, TPlayer } from '@/types'
 
 type TGameDetailsProps = {
-	game: TGame
+	gameId: number
 	playersPicked?: TPlayer[]
+	winningGoalieId?: number
+	winningGoalScorerId?: number
 }
 
 export const GameDetails = ({
-	game,
+	gameId,
 	playersPicked = [],
+	winningGoalieId,
+	winningGoalScorerId,
 }: TGameDetailsProps) => {
 	const {
 		data: gameDetails,
 		error,
 		isLoading,
-	} = useFetchData<TGameDetails>(EPath.game + game.id)
+	} = useFetchData<TGameDetails>(EPath.game + gameId)
 
 	const gameCalculations = useMemo(() => {
-		const losingScore = Math.min(game.awayTeam.score, game.homeTeam.score)
-
 		if (!gameDetails) {
 			return {
-				losingScore,
+				awayScore: 0,
 				ended: false,
 				endType: '',
+				homeScore: 0,
+				losingScore: 0,
 				scoringData: [],
 			}
 		}
+
+		const awayScore = gameDetails.boxscore.awayTeam.score
+		const homeScore = gameDetails.boxscore.homeTeam.score
+
+		const losingScore = Math.min(awayScore, homeScore)
 
 		const ended = gameDetails.landing.gameState === 'OFF'
 		const endTypeDesc = ended
@@ -47,16 +56,18 @@ export const GameDetails = ({
 			) || []
 
 		return {
+			awayScore,
 			ended,
 			endType,
+			homeScore,
 			losingScore,
 			scoringData,
 		}
-	}, [game.awayTeam.score, game.homeTeam.score, gameDetails])
+	}, [gameDetails])
 
 	if (isLoading) {
 		return (
-			<div className='d-flex justify-content-center' role='status'>
+			<div className='position-absolute start-50 top-0 translate-middle-x mt-2'>
 				<Spinner animation='grow' size='sm' variant='warning' />
 			</div>
 		)
@@ -77,12 +88,29 @@ export const GameDetails = ({
 
 	return (
 		<Fragment>
+			<div className='position-absolute start-50 top-0 translate-middle-x mt-2'>
+				<Badge
+					bg={gameCalculations.ended ? 'success' : 'primary'}
+					className='me-1'
+					style={{ fontSize: '.9em' }}
+				>
+					{gameCalculations.awayScore}
+				</Badge>
+
+				<Badge
+					bg={gameCalculations.ended ? 'success' : 'primary'}
+					style={{ fontSize: '.9em' }}
+				>
+					{gameCalculations.homeScore}
+				</Badge>
+			</div>
+
 			{gameCalculations.endType && (
 				<Badge
 					bg='warning'
-					className='position-absolute translate-middle start-50 opacity-75'
+					className='position-absolute start-50 top-0 translate-middle-x mt-4 opacity-75'
 					pill
-					style={{ fontSize: '.6em', marginTop: '-18px' }}
+					style={{ fontSize: '.6em' }}
 					text='dark'
 				>
 					{gameCalculations.endType}
@@ -97,7 +125,7 @@ export const GameDetails = ({
 						playersPicked={playersPicked}
 						scoring={scoring}
 						teamAbbrevAway={gameDetails.landing.awayTeam.abbrev}
-						winningGoalScorerId={game.winningGoalScorer?.playerId}
+						winningGoalScorerId={winningGoalScorerId}
 					/>
 				))}
 			</div>
@@ -108,7 +136,7 @@ export const GameDetails = ({
 				playersPicked={playersPicked}
 				teamAbbrevAway={gameDetails.landing.awayTeam.abbrev}
 				teamAbbrevHome={gameDetails.landing.homeTeam.abbrev}
-				winningGoalieId={game.winningGoalie?.playerId}
+				winningGoalieId={winningGoalieId}
 			/>
 		</Fragment>
 	)

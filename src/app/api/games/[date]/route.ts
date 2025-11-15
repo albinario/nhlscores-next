@@ -24,10 +24,11 @@ export async function GET(_req: NextRequest, { params }: TGamesRoute) {
 
 		const games: TGame[] = await getGamesDate(date)
 
-		const gameDate = new Date(date)
-		const today = new Date()
-		today.setHours(0, 0, 0, 0)
-		const cacheMaxAge = gameDate < today ? 86400 : 0
+		const isFinished = games.every(
+			(game) => game.winningGoalie || game.winningGoalScorer
+		)
+
+		const cacheMaxAge = isFinished ? 86400 : 0
 
 		return successResponse(games, { cacheMaxAge })
 	} catch (error) {

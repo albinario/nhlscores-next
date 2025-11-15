@@ -19,7 +19,7 @@ export async function GET() {
 			picker: { $ne: '' },
 		}).sort('name')
 
-		return successResponse(playersPicked)
+		return successResponse(playersPicked, { cacheMaxAge: 3600 })
 	} catch (error) {
 		return errorResponse(error, 'fetching picked players', ESource.server)
 	}

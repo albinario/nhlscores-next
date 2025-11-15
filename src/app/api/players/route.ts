@@ -24,7 +24,7 @@ export async function GET() {
 
 		const players: TPlayer[] = await Player.find().sort('name')
 
-		return successResponse(players, { cacheMaxAge: 1800 })
+		return successResponse(players, { cacheMaxAge: 3600 })
 	} catch (error) {
 		return errorResponse(error, 'fetching players', ESource.server)
 	}

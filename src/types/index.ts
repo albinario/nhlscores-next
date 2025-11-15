@@ -123,6 +123,11 @@ export type TPlayerSearch = {
 	teamAbbrev: string
 }
 
+export type TPlayersPicked = {
+	away: TPlayer[]
+	home: TPlayer[]
+}
+
 export type TScoring = {
 	goals: TGoal[]
 	periodDescriptor: TPeriodDescriptor

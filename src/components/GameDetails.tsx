@@ -6,18 +6,18 @@ import { useFetchData } from '@/hooks/useFetchData'
 import { Fragment, useMemo } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
-import type { TGameDetails, TPlayer } from '@/types'
+import type { TGameDetails, TPlayersPicked } from '@/types'
 
 type TGameDetailsProps = {
 	gameId: number
-	playersPicked?: TPlayer[]
+	playersPicked: TPlayersPicked
 	winningGoalieId?: number
 	winningGoalScorerId?: number
 }
 
 export const GameDetails = ({
 	gameId,
-	playersPicked = [],
+	playersPicked,
 	winningGoalieId,
 	winningGoalScorerId,
 }: TGameDetailsProps) => {
@@ -65,9 +65,12 @@ export const GameDetails = ({
 		}
 	}, [gameDetails])
 
+	const classNameRootDiv =
+		'position-absolute start-50 top-0 translate-middle-x mt-2'
+
 	if (isLoading) {
 		return (
-			<div className='position-absolute start-50 top-0 translate-middle-x mt-2'>
+			<div className={classNameRootDiv}>
 				<Spinner animation='grow' size='sm' variant='warning' />
 			</div>
 		)
@@ -88,7 +91,7 @@ export const GameDetails = ({
 
 	return (
 		<Fragment>
-			<div className='position-absolute start-50 top-0 translate-middle-x mt-2'>
+			<div className={classNameRootDiv}>
 				<Badge
 					bg={gameCalculations.ended ? 'success' : 'primary'}
 					className='me-1'
@@ -122,7 +125,7 @@ export const GameDetails = ({
 					<Scoring
 						key={scoring.periodDescriptor.number}
 						losingScore={gameCalculations.losingScore}
-						playersPicked={playersPicked}
+						playersPicked={[...playersPicked.away, ...playersPicked.home]}
 						scoring={scoring}
 						teamAbbrevAway={gameDetails.landing.awayTeam.abbrev}
 						winningGoalScorerId={winningGoalScorerId}
@@ -133,7 +136,8 @@ export const GameDetails = ({
 			<Players
 				playersAway={gameDetails.boxscore.playerByGameStats.awayTeam}
 				playersHome={gameDetails.boxscore.playerByGameStats.homeTeam}
-				playersPicked={playersPicked}
+				playersPickedAway={playersPicked.away}
+				playersPickedHome={playersPicked.home}
 				teamAbbrevAway={gameDetails.landing.awayTeam.abbrev}
 				teamAbbrevHome={gameDetails.landing.homeTeam.abbrev}
 				winningGoalieId={winningGoalieId}

@@ -17,10 +17,11 @@ export const Games = ({ games }: TGames) => {
 		if (!playersPicked || !teamRecords) return []
 
 		return games.map((game) => {
-			const relevantPlayers = playersPicked.filter(
-				(player) =>
-					player.teamAbbrev === game.awayTeam.abbrev ||
-					player.teamAbbrev === game.homeTeam.abbrev
+			const playersPickedAway = playersPicked.filter(
+				(player) => player.teamAbbrev === game.awayTeam.abbrev
+			)
+			const playersPickedHome = playersPicked.filter(
+				(player) => player.teamAbbrev === game.homeTeam.abbrev
 			)
 
 			const teamRecordAway = teamRecords.find(
@@ -33,7 +34,10 @@ export const Games = ({ games }: TGames) => {
 
 			return {
 				game,
-				playersPicked: relevantPlayers,
+				playersPicked: {
+					away: playersPickedAway,
+					home: playersPickedHome,
+				},
 				teamRecordAway,
 				teamRecordHome,
 			}

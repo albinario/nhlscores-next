@@ -22,14 +22,11 @@ export const Goal = ({
 	winningGoalScorerId,
 }: TGoalProps) => {
 	const goalData = useMemo(() => {
-		const gameWinner =
-			goal.playerId === winningGoalScorerId &&
-			(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
+		const gameWinner = goal.playerId === winningGoalScorerId
 
 		const goalTypes = getGoalTypes(goal, gameWinner)
 
 		const playerMap = new Map(players.map((player) => [player.id, player]))
-
 		const goalScorer = playerMap.get(goal.playerId)
 
 		const assistPlayers = goal.assists.map((assist) => ({
@@ -84,7 +81,7 @@ export const Goal = ({
 							/>
 
 							{goalData.goalTypes.length > 0 && (
-								<span className='small text-muted fst-italic ms-1'>
+								<span className='fst-italic ms-1 opacity-75 small'>
 									{goalData.goalTypes.join(' ')}
 								</span>
 							)}

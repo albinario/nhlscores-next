@@ -9,7 +9,8 @@ import type { TGameBoxscoreTeam, TPlayer } from '@/types'
 type TPlayers = {
 	playersAway: TGameBoxscoreTeam
 	playersHome: TGameBoxscoreTeam
-	playersPicked?: TPlayer[]
+	playersPickedAway: TPlayer[]
+	playersPickedHome: TPlayer[]
 	teamAbbrevAway: string
 	teamAbbrevHome: string
 	winningGoalieId?: number
@@ -18,30 +19,36 @@ type TPlayers = {
 export const Players = ({
 	playersAway,
 	playersHome,
-	playersPicked = [],
+	playersPickedAway,
+	playersPickedHome,
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
 }: TPlayers) => {
-	const filteredPlayers = useMemo(() => {
-		const goaliePlayers = playersPicked.filter(
+	const playersPicked = useMemo(() => {
+		const goaliesAway = playersPickedAway.filter(
 			(player) => player.pos === EPosition.G
 		)
 
-		const awayPlayers = playersPicked.filter(
-			(player) => player.teamAbbrev === teamAbbrevAway
+		const goaliesHome = playersPickedHome.filter(
+			(player) => player.pos === EPosition.G
 		)
 
-		const homePlayers = playersPicked.filter(
-			(player) => player.teamAbbrev === teamAbbrevHome
+		const skatersAway = playersPickedAway?.filter(
+			(player) => player.pos !== EPosition.G
+		)
+
+		const skatersHome = playersPickedHome.filter(
+			(player) => player.pos !== EPosition.G
 		)
 
 		return {
-			awayPlayers,
-			goaliePlayers,
-			homePlayers,
+			goaliesAway,
+			goaliesHome,
+			skatersAway,
+			skatersHome,
 		}
-	}, [playersPicked, teamAbbrevAway, teamAbbrevHome])
+	}, [playersPickedAway, playersPickedHome])
 
 	return (
 		<Fragment>
@@ -50,7 +57,8 @@ export const Players = ({
 					<Goalies
 						goaliesAway={playersAway.goalies}
 						goaliesHome={playersHome.goalies}
-						playersPicked={filteredPlayers.goaliePlayers}
+						goaliesPickedAway={playersPicked.goaliesAway}
+						goaliesPickedHome={playersPicked.goaliesHome}
 						teamAbbrevAway={teamAbbrevAway}
 						teamAbbrevHome={teamAbbrevHome}
 						winningGoalieId={winningGoalieId}
@@ -62,14 +70,14 @@ export const Players = ({
 				<Skaters
 					defenders={playersAway.defense}
 					forwards={playersAway.forwards}
-					playersPicked={filteredPlayers.awayPlayers}
+					skatersPicked={playersPicked.skatersAway}
 					teamAbbrev={teamAbbrevAway}
 				/>
 
 				<Skaters
 					defenders={playersHome.defense}
 					forwards={playersHome.forwards}
-					playersPicked={filteredPlayers.homePlayers}
+					skatersPicked={playersPicked.skatersHome}
 					teamAbbrev={teamAbbrevHome}
 				/>
 			</Row>

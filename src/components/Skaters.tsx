@@ -8,19 +8,19 @@ import type { TPlayer, TSkaterStats } from '@/types'
 type TSkaters = {
 	defenders: TSkaterStats[]
 	forwards: TSkaterStats[]
-	playersPicked?: TPlayer[]
+	skatersPicked: TPlayer[]
 	teamAbbrev: string
 }
 
 export const Skaters = ({
 	defenders,
 	forwards,
-	playersPicked = [],
+	skatersPicked,
 	teamAbbrev,
 }: TSkaters) => {
 	const skatersWithData = useMemo(() => {
-		const playerMap = new Map(
-			playersPicked.map((player) => [player.id, player])
+		const skaterMap = new Map(
+			skatersPicked.map((skater) => [skater.id, skater])
 		)
 
 		const allSkaters = defenders.concat(forwards)
@@ -31,9 +31,9 @@ export const Skaters = ({
 
 		return sortedSkaters.map((skater) => ({
 			skater,
-			pickedBy: playerMap.get(skater.playerId)?.picker,
+			pickedBy: skaterMap.get(skater.playerId)?.picker,
 		}))
-	}, [defenders, forwards, playersPicked])
+	}, [defenders, forwards, skatersPicked])
 
 	return (
 		<Col>

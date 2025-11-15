@@ -7,18 +7,18 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
-import type { TGame, TPlayer, TTeamRecord } from '@/types'
+import type { TGame, TPlayersPicked, TTeamRecord } from '@/types'
 
 type TGameProps = {
 	game: TGame
-	playersPicked?: TPlayer[]
+	playersPicked: TPlayersPicked
 	teamRecordAway?: TTeamRecord
 	teamRecordHome?: TTeamRecord
 }
 
 export const Game = ({
 	game,
-	playersPicked = [],
+	playersPicked,
 	teamRecordAway,
 	teamRecordHome,
 }: TGameProps) => {
@@ -36,17 +36,6 @@ export const Game = ({
 			startTime: getStartTime(startDateTime),
 		}
 	}, [game.startTimeUTC, game.gameState])
-
-	const playersByTeam = useMemo(() => {
-		const awayPlayers = playersPicked.filter(
-			(player) => player.teamAbbrev === game.awayTeam.abbrev
-		)
-		const homePlayers = playersPicked.filter(
-			(player) => player.teamAbbrev === game.homeTeam.abbrev
-		)
-
-		return { awayPlayers, homePlayers }
-	}, [playersPicked, game.awayTeam.abbrev, game.homeTeam.abbrev])
 
 	const toggleResults = useCallback(() => {
 		setShowResults((prev) => !prev)
@@ -81,15 +70,14 @@ export const Game = ({
 					<Row>
 						<Team
 							away
-							playersPicked={playersByTeam.awayPlayers}
+							playersPicked={playersPicked.away}
 							showResults={showResults}
 							team={game.awayTeam}
 							teamRecord={teamRecordAway}
 						/>
 
 						<Team
-							away={false}
-							playersPicked={playersByTeam.homePlayers}
+							playersPicked={playersPicked.home}
 							showResults={showResults}
 							team={game.homeTeam}
 							teamRecord={teamRecordHome}
@@ -101,6 +89,8 @@ export const Game = ({
 							key={game.id}
 							gameId={game.id}
 							playersPicked={playersPicked}
+							winningGoalieId={game.winningGoalie?.playerId}
+							winningGoalScorerId={game.winningGoalScorer?.playerId}
 						/>
 					)}
 				</Card.Body>

@@ -35,11 +35,7 @@ export const Goalie = ({
 		[goalie.name.default, goalie.sweaterNumber, pickedBy, winningGoalie]
 	)
 
-	if (!goalieData.hasPlayed) {
-		return null
-	}
-
-	return (
+	return goalieData.hasPlayed ? (
 		<tr>
 			<td className={`text-start text-nowrap ${pickedBy || ''}`}>
 				<Logo className='me-1' teamAbbrev={teamAbbrev} />
@@ -63,5 +59,5 @@ export const Goalie = ({
 			<td>{goalie.pim}</td>
 			<td className='text-end'>{goalie.toi}</td>
 		</tr>
-	)
+	) : null
 }

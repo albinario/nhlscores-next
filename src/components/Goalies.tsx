@@ -6,7 +6,8 @@ import type { TGoalieStats, TPlayer } from '@/types'
 type TGoalies = {
 	goaliesAway: TGoalieStats[]
 	goaliesHome: TGoalieStats[]
-	playersPicked?: TPlayer[]
+	goaliesPickedAway: TPlayer[]
+	goaliesPickedHome: TPlayer[]
 	teamAbbrevAway: string
 	teamAbbrevHome: string
 	winningGoalieId?: number
@@ -15,35 +16,41 @@ type TGoalies = {
 export const Goalies = ({
 	goaliesAway,
 	goaliesHome,
-	playersPicked = [],
+	goaliesPickedAway,
+	goaliesPickedHome,
 	teamAbbrevAway,
 	teamAbbrevHome,
 	winningGoalieId,
 }: TGoalies) => {
 	const goaliesWithData = useMemo(() => {
-		const playerMap = new Map(
-			playersPicked.map((player) => [player.id, player])
+		const goalieMapAway = new Map(
+			goaliesPickedAway.map((goalie) => [goalie.id, goalie])
 		)
 
-		const awayGoalies = goaliesAway.map((goalie) => ({
+		const goalieMapHome = new Map(
+			goaliesPickedHome.map((goalie) => [goalie.id, goalie])
+		)
+
+		const away = goaliesAway.map((goalie) => ({
 			goalie,
-			pickedBy: playerMap.get(goalie.playerId)?.picker,
+			pickedBy: goalieMapAway.get(goalie.playerId)?.picker,
 			teamAbbrev: teamAbbrevAway,
 			winningGoalie: goalie.playerId === winningGoalieId,
 		}))
 
-		const homeGoalies = goaliesHome.map((goalie) => ({
+		const home = goaliesHome.map((goalie) => ({
 			goalie,
-			pickedBy: playerMap.get(goalie.playerId)?.picker,
+			pickedBy: goalieMapHome.get(goalie.playerId)?.picker,
 			teamAbbrev: teamAbbrevHome,
 			winningGoalie: goalie.playerId === winningGoalieId,
 		}))
 
-		return { awayGoalies, homeGoalies }
+		return { away, home }
 	}, [
 		goaliesAway,
 		goaliesHome,
-		playersPicked,
+		goaliesPickedAway,
+		goaliesPickedHome,
 		teamAbbrevAway,
 		teamAbbrevHome,
 		winningGoalieId,
@@ -63,7 +70,7 @@ export const Goalies = ({
 			</thead>
 
 			<tbody>
-				{goaliesWithData.awayGoalies.map(
+				{goaliesWithData.away.map(
 					({ goalie, pickedBy, teamAbbrev, winningGoalie }) => (
 						<Goalie
 							key={goalie.playerId}
@@ -75,7 +82,7 @@ export const Goalies = ({
 					)
 				)}
 
-				{goaliesWithData.homeGoalies.map(
+				{goaliesWithData.home.map(
 					({ goalie, pickedBy, teamAbbrev, winningGoalie }) => (
 						<Goalie
 							key={goalie.playerId}

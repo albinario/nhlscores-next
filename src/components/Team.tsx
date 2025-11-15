@@ -5,8 +5,8 @@ import Col from 'react-bootstrap/Col'
 import type { TPlayer, TTeamGame, TTeamRecord } from '@/types'
 
 type TTeam = {
-	away: boolean
-	playersPicked?: TPlayer[]
+	away?: boolean
+	playersPicked: TPlayer[]
 	showResults: boolean
 	team: TTeamGame
 	teamRecord?: TTeamRecord
@@ -14,7 +14,7 @@ type TTeam = {
 
 export const Team = ({
 	away,
-	playersPicked = [],
+	playersPicked,
 	showResults,
 	team,
 	teamRecord,
@@ -85,9 +85,8 @@ export const Team = ({
 			)}
 
 			{showResults && teamRecord && (
-				<span className='small'>
-					{teamData.recordDisplay}
-					<span className='text-muted ms-1'>{teamData.streakDisplay}</span>
+				<span className=' mx-3 small'>
+					{teamData.recordDisplay} {teamData.streakDisplay}
 				</span>
 			)}
 		</Col>

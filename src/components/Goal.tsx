@@ -22,7 +22,9 @@ export const Goal = ({
 	winningGoalScorerId,
 }: TGoalProps) => {
 	const goalData = useMemo(() => {
-		const gameWinner = goal.playerId === winningGoalScorerId
+		const gameWinner =
+			goal.playerId === winningGoalScorerId &&
+			(goal.awayScore === losingScore + 1 || goal.homeScore === losingScore + 1)
 
 		const goalTypes = getGoalTypes(goal, gameWinner)
 

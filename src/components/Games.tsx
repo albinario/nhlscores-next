@@ -7,27 +7,26 @@ import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
 type TGames = {
 	games: TGame[]
+	playersPicked?: TPlayer[]
 }
 
-export const Games = ({ games }: TGames) => {
-	const { data: playersPicked } = useFetchData<TPlayer[]>(EPath.playersPicked)
+export const Games = ({ games, playersPicked }: TGames) => {
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>(EPath.teamRecords)
 
 	const gamesWithData = useMemo(() => {
-		if (!playersPicked || !teamRecords) return []
+		if (!teamRecords) return []
 
 		return games.map((game) => {
-			const playersPickedAway = playersPicked.filter(
+			const playersPickedAway = playersPicked?.filter(
 				(player) => player.teamAbbrev === game.awayTeam.abbrev
 			)
-			const playersPickedHome = playersPicked.filter(
+			const playersPickedHome = playersPicked?.filter(
 				(player) => player.teamAbbrev === game.homeTeam.abbrev
 			)
 
 			const teamRecordAway = teamRecords.find(
 				(team) => team.teamAbbrev.default === game.awayTeam.abbrev
 			)
-
 			const teamRecordHome = teamRecords.find(
 				(team) => team.teamAbbrev.default === game.homeTeam.abbrev
 			)
@@ -35,8 +34,8 @@ export const Games = ({ games }: TGames) => {
 			return {
 				game,
 				playersPicked: {
-					away: playersPickedAway,
-					home: playersPickedHome,
+					away: playersPickedAway || [],
+					home: playersPickedHome || [],
 				},
 				teamRecordAway,
 				teamRecordHome,

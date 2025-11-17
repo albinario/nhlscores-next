@@ -26,21 +26,31 @@ export const Players = ({
 	winningGoalieId,
 }: TPlayers) => {
 	const playersPicked = useMemo(() => {
-		const goaliesAway = playersPickedAway.filter(
-			(player) => player.pos === EPosition.G
-		)
+		const { goalies: goaliesAway, skaters: skatersAway } =
+			playersPickedAway.reduce(
+				(acc, player) => {
+					if (player.pos === EPosition.G) {
+						acc.goalies.push(player)
+					} else {
+						acc.skaters.push(player)
+					}
+					return acc
+				},
+				{ goalies: [] as TPlayer[], skaters: [] as TPlayer[] }
+			)
 
-		const goaliesHome = playersPickedHome.filter(
-			(player) => player.pos === EPosition.G
-		)
-
-		const skatersAway = playersPickedAway?.filter(
-			(player) => player.pos !== EPosition.G
-		)
-
-		const skatersHome = playersPickedHome.filter(
-			(player) => player.pos !== EPosition.G
-		)
+		const { goalies: goaliesHome, skaters: skatersHome } =
+			playersPickedHome.reduce(
+				(acc, player) => {
+					if (player.pos === EPosition.G) {
+						acc.goalies.push(player)
+					} else {
+						acc.skaters.push(player)
+					}
+					return acc
+				},
+				{ goalies: [] as TPlayer[], skaters: [] as TPlayer[] }
+			)
 
 		return {
 			goaliesAway,

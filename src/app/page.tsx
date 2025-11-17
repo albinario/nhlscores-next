@@ -9,7 +9,7 @@ import { EPath } from '@/enums'
 import { useFetchData } from '@/hooks/useFetchData'
 import { useState, useCallback, useMemo } from 'react'
 import Container from 'react-bootstrap/Container'
-import type { TGame } from '@/types'
+import type { TGame, TPlayer } from '@/types'
 
 const useDateNavigation = (initialDate: string) => {
 	const [date, setDate] = useState(initialDate)
@@ -44,10 +44,15 @@ export default function Home() {
 	const {
 		data: games,
 		error,
-		isLoading,
+		isLoading: isLoadingGames,
 	} = useFetchData<TGame[]>(EPath.games + date)
 
 	const hasGames = useMemo(() => games && games.length > 0, [games])
+
+	const { data: playersPicked, isLoading: isLoadingPlayersPicked } =
+		useFetchData<TPlayer[]>(hasGames ? EPath.playersPicked : null)
+
+	const isLoading = isLoadingGames || isLoadingPlayersPicked
 
 	const showNoGamesAlert = useMemo(
 		() => !isLoading && !error && !hasGames,
@@ -75,7 +80,7 @@ export default function Home() {
 					/>
 				)}
 
-				{showGames && <Games games={games!} />}
+				{showGames && <Games games={games!} playersPicked={playersPicked} />}
 			</div>
 
 			<Footer />

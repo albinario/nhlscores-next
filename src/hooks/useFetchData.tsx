@@ -1,7 +1,7 @@
 import { EPath } from '@/enums'
 import useSWR from 'swr'
 
-export const useFetchData = <T,>(endpoint: string) => {
+export const useFetchData = <T,>(endpoint: string | null) => {
 	const fetcher = async (endpoint: string): Promise<T> => {
 		const res = await fetch(EPath.api + endpoint)
 

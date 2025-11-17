@@ -1,32 +1,28 @@
 import { AlertBox } from '@/components/AlertBox'
 import { Players } from '@/components/Players'
 import { Scoring } from '@/components/Scoring'
-import { EPath } from '@/enums'
-import { useFetchData } from '@/hooks/useFetchData'
 import { Fragment, useMemo } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
 import type { TGameDetails, TPlayersPicked } from '@/types'
 
 type TGameDetailsProps = {
-	gameId: number
+	error?: Error
+	gameDetails?: TGameDetails
+	isLoading: boolean
 	playersPicked: TPlayersPicked
 	winningGoalieId?: number
 	winningGoalScorerId?: number
 }
 
 export const GameDetails = ({
-	gameId,
+	error,
+	gameDetails,
+	isLoading,
 	playersPicked,
 	winningGoalieId,
 	winningGoalScorerId,
 }: TGameDetailsProps) => {
-	const {
-		data: gameDetails,
-		error,
-		isLoading,
-	} = useFetchData<TGameDetails>(EPath.game + gameId)
-
 	const gameCalculations = useMemo(() => {
 		if (!gameDetails) {
 			return {
@@ -77,7 +73,12 @@ export const GameDetails = ({
 	}
 
 	if (error) {
-		return <AlertBox heading='Error Loading Game Details' text={error} />
+		return (
+			<AlertBox
+				heading='Error Loading Game Details'
+				text={error.message || String(error)}
+			/>
+		)
 	}
 
 	if (!gameDetails || !gameDetails.boxscore.playerByGameStats) {

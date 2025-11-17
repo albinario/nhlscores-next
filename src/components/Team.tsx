@@ -6,6 +6,7 @@ import type { TPlayer, TTeamGame, TTeamRecord } from '@/types'
 
 type TTeam = {
 	away?: boolean
+	isLoading: boolean
 	playersPicked: TPlayer[]
 	showResults: boolean
 	team: TTeamGame
@@ -14,6 +15,7 @@ type TTeam = {
 
 export const Team = ({
 	away,
+	isLoading,
 	playersPicked,
 	showResults,
 	team,
@@ -54,6 +56,9 @@ export const Team = ({
 		[away]
 	)
 
+	const showPlayers = !showResults || isLoading
+	const showRecord = showResults && teamRecord && !isLoading
+
 	return (
 		<Col className={layoutClasses.container}>
 			<div className={layoutClasses.header}>
@@ -65,7 +70,7 @@ export const Team = ({
 				<Logo className={layoutClasses.logo} teamAbbrev={team.abbrev} />
 			</div>
 
-			{!showResults && (
+			{showPlayers && (
 				<Fragment>
 					{teamData.sortedPlayers.map((player) => (
 						<div className={layoutClasses.playerContainer} key={player.id}>
@@ -84,7 +89,7 @@ export const Team = ({
 				</Fragment>
 			)}
 
-			{showResults && teamRecord && (
+			{showRecord && (
 				<span className=' mx-3 small'>
 					{teamData.recordDisplay} {teamData.streakDisplay}
 				</span>

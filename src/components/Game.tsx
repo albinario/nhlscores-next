@@ -1,13 +1,15 @@
 import { useState, useMemo, useCallback } from 'react'
 import { GameDetails } from '@/components/GameDetails'
 import { Team } from '@/components/Team'
+import { EPath } from '@/enums'
+import { useFetchData } from '@/hooks/useFetchData'
 import { getStartTime } from '@/helpers/getStartTime'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
-import type { TGame, TPlayersPicked, TTeamRecord } from '@/types'
+import type { TGame, TGameDetails, TPlayersPicked, TTeamRecord } from '@/types'
 
 type TGameProps = {
 	game: TGame
@@ -36,6 +38,14 @@ export const Game = ({
 			startTime: getStartTime(startDateTime),
 		}
 	}, [game.startTimeUTC, game.gameState])
+
+	const {
+		data: gameDetails,
+		error,
+		isLoading,
+	} = useFetchData<TGameDetails>(
+		gameStatus.started && showResults ? EPath.game + game.id : null
+	)
 
 	const toggleResults = useCallback(() => {
 		setShowResults((prev) => !prev)
@@ -70,6 +80,7 @@ export const Game = ({
 					<Row>
 						<Team
 							away
+							isLoading={isLoading}
 							playersPicked={playersPicked.away}
 							showResults={showResults}
 							team={game.awayTeam}
@@ -77,6 +88,7 @@ export const Game = ({
 						/>
 
 						<Team
+							isLoading={isLoading}
 							playersPicked={playersPicked.home}
 							showResults={showResults}
 							team={game.homeTeam}
@@ -86,8 +98,9 @@ export const Game = ({
 
 					{gameStatus.started && showResults && (
 						<GameDetails
-							key={game.id}
-							gameId={game.id}
+							error={error}
+							gameDetails={gameDetails}
+							isLoading={isLoading}
 							playersPicked={playersPicked}
 							winningGoalieId={game.winningGoalie?.playerId}
 							winningGoalScorerId={game.winningGoalScorer?.playerId}

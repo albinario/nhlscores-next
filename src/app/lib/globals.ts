@@ -2,6 +2,8 @@ import { EPickerCode, EPickerName } from '@/enums'
 
 export const dateFormat = 'yyyy-MM-dd'
 
+export const fallBackLogoUrl = '/apple-touch-icon-57x57.png'
+
 type TPicker = {
 	name: string
 	code: string

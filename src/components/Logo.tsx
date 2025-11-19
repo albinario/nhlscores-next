@@ -1,3 +1,4 @@
+import { fallBackLogoUrl } from '@/app/lib/globals'
 import { getLogoUrl } from '@/helpers/getLogoUrl'
 import { useMemo, useCallback } from 'react'
 import Image from 'react-bootstrap/Image'
@@ -19,7 +20,7 @@ export const Logo = ({ className, teamAbbrev }: TLogo) => {
 	const handleError = useCallback(
 		(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
 			const target = e.target as HTMLImageElement
-			target.src = '/apple-touch-icon-57x57.png'
+			target.src = fallBackLogoUrl
 		},
 		[]
 	)

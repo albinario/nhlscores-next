@@ -103,6 +103,18 @@ export const TeamRow = ({
 				teams={teams}
 			/>
 
+			<td className='text-end'>
+				<Pickers players={primaryPickerPlayers} showPickerNames />
+			</td>
+
+			<td className='text-center'>
+				<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
+			</td>
+
+			<td>
+				<Pickers players={otherPickerPlayers} />
+			</td>
+
 			<Week
 				games={week2Games}
 				endDate={dates.week2End}
@@ -127,20 +139,6 @@ export const TeamRow = ({
 				teams={teams}
 			/>
 
-			<td className='text-end'>
-				<span className='ms-2'>
-					<Pickers players={primaryPickerPlayers} showPickerNames />
-				</span>
-			</td>
-
-			<td className='text-center'>
-				<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
-			</td>
-
-			<td>
-				<Pickers players={otherPickerPlayers} />
-			</td>
-
 			<td>{(teamRecord.pointPctg * 100).toFixed()}%</td>
 
 			<td>
@@ -149,6 +147,10 @@ export const TeamRow = ({
 
 			<td>
 				{teamRecord.goalFor}-{teamRecord.goalAgainst}
+			</td>
+
+			<td className='text-center'>
+				<Logo teamAbbrev={teamRecord.teamAbbrev.default} />
 			</td>
 
 			<td>

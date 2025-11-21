@@ -1,6 +1,8 @@
-import { Goal } from '@/components/Goal'
-import { getPeriodType } from '@/helpers/getPeriodType'
 import { useMemo } from 'react'
+
+import { Goal } from '@/components/Goal'
+
+import { getPeriodType } from '@/helpers/getPeriodType'
 import type { TPlayer, TScoring } from '@/types'
 
 type TScoringProps = {

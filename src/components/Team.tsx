@@ -1,8 +1,11 @@
-import { Logo } from './Logo'
-import { getTeamName } from '@/helpers/getTeamName'
 import { Fragment, useMemo } from 'react'
+
 import Col from 'react-bootstrap/Col'
+
+import { getTeamName } from '@/helpers/getTeamName'
 import type { TPlayer, TTeamGame, TTeamRecord } from '@/types'
+
+import { Logo } from './Logo'
 
 type TTeam = {
 	away?: boolean
@@ -53,7 +56,7 @@ export const Team = ({
 			logo: away ? 'ms-1' : 'me-1',
 			playerContainer: away ? 'text-end' : '',
 		}),
-		[away]
+		[away],
 	)
 
 	const showPlayers = !showResults || isLoading

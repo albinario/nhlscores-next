@@ -1,13 +1,16 @@
 import { useMemo } from 'react'
-import { dateFormat } from '@/app/lib/globals'
+
 import classNames from 'classnames'
-import { Logo } from '@/components/Logo'
 import { format, parse, subDays } from 'date-fns'
+
+import { Logo } from '@/components/Logo'
+
+import { dateFormat } from '@/app/lib/globals'
 import type { TGame, TTeamSchedule } from '@/types'
 
 const isConsecutiveDay = (
 	currentDate: string,
-	previousDate: string
+	previousDate: string,
 ): boolean => {
 	const current = parse(currentDate, dateFormat, new Date())
 	return format(subDays(current, 1), dateFormat) === previousDate
@@ -58,7 +61,7 @@ export const Week = ({
 
 	const totalValue = useMemo(
 		() => processedGames.reduce((sum, { teamValue }) => sum + teamValue, 0),
-		[processedGames]
+		[processedGames],
 	)
 
 	return (

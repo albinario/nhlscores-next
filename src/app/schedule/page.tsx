@@ -1,13 +1,18 @@
 'use client'
 import { useMemo } from 'react'
-import { dateFormat } from '@/app/lib/globals'
-import { TeamRow } from './components/TeamRow'
-import { addDays, format } from 'date-fns'
-import { EPath } from '@/enums'
-import { useFetchData } from '@/hooks/useFetchData'
+
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
+
+import { addDays, format } from 'date-fns'
+
+import { useFetchData } from '@/hooks/useFetchData'
+
+import { dateFormat } from '@/app/lib/globals'
+import { EPath } from '@/enums'
 import type { TDates, TPlayer, TTeamRecord } from '@/types'
+
+import { TeamRow } from './components/TeamRow'
 
 const useScheduleDates = (): TDates => {
 	return useMemo(() => {
@@ -34,7 +39,7 @@ const useProcessedTeams = (teamRecords: TTeamRecord[] | undefined) => {
 				name: teamRecord.teamName.default,
 				value: Number(teamRecord.leagueL10Sequence),
 			})) ?? [],
-		[teamRecords]
+		[teamRecords],
 	)
 }
 
@@ -43,7 +48,7 @@ const useSortedTeamRecords = (teamRecords: TTeamRecord[] | undefined) => {
 		() =>
 			teamRecords?.sort((a, b) => a.leagueL10Sequence - b.leagueL10Sequence) ??
 			[],
-		[teamRecords]
+		[teamRecords],
 	)
 }
 

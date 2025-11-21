@@ -1,5 +1,7 @@
-import { ESource } from '@/enums'
 import { NextRequest } from 'next/server'
+
+import { age } from '@/app/lib/globals'
+import { ESource } from '@/enums'
 import { getGameDetails } from '@/services/nhlApi'
 import { errorResponse, successResponse } from '@/services/responseHandler'
 import type { TGameDetails } from '@/types'
@@ -18,12 +20,13 @@ export async function GET(_req: NextRequest, { params }: TGameRoute) {
 			return errorResponse(
 				new Error('Invalid game ID'),
 				'Invalid game ID provided',
-				ESource.server
+				ESource.server,
 			)
 		}
 
 		const gameDetails: TGameDetails = await getGameDetails(Number(id))
-		const cacheMaxAge = gameDetails.landing?.gameState === 'FINAL' ? 3600 : 0
+
+		const cacheMaxAge = gameDetails.landing?.gameState === 'FINAL' ? age.day : 0
 
 		return successResponse(gameDetails, { cacheMaxAge })
 	} catch (error) {

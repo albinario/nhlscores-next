@@ -1,5 +1,6 @@
-import { EPosition } from '@/enums'
 import { model, models, Schema } from 'mongoose'
+
+import { EPosition } from '@/enums'
 import type { TPlayer } from '@/types'
 
 const PlayerSchema: Schema = new Schema<TPlayer>({

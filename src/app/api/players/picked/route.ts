@@ -11,7 +11,7 @@ export async function GET() {
 			return errorResponse(
 				new Error('Database connection failed'),
 				'Unable to connect to database',
-				ESource.server
+				ESource.server,
 			)
 		}
 
@@ -19,7 +19,7 @@ export async function GET() {
 			picker: { $ne: '' },
 		}).sort('name')
 
-		return successResponse(playersPicked, { cacheMaxAge: 3600 })
+		return successResponse(playersPicked)
 	} catch (error) {
 		return errorResponse(error, 'fetching picked players', ESource.server)
 	}

@@ -1,15 +1,19 @@
 'use client'
 import { useMemo } from 'react'
+
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+
+import { useFetchData } from '@/hooks/useFetchData'
+
 import { pickers } from '@/app/lib/globals'
+import { EPath } from '@/enums'
+import type { TPlayer } from '@/types'
+
 import { Missing } from './components/Missing'
 import { Picker } from './components/Picker'
 import { PlayerAddForm } from './components/PlayerAddForm'
 import { PlayerEditForm } from './components/PlayerEditForm'
-import { EPath } from '@/enums'
-import { useFetchData } from '@/hooks/useFetchData'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import type { TPlayer } from '@/types'
 
 const usePlayersByPicker = (playersPicked: TPlayer[] | undefined) => {
 	return useMemo(() => {
@@ -19,7 +23,7 @@ const usePlayersByPicker = (playersPicked: TPlayer[] | undefined) => {
 
 		pickers.forEach((picker) => {
 			const pickerPlayers = playersPicked.filter(
-				(player) => player.picker.toLowerCase() === picker.code
+				(player) => player.picker.toLowerCase() === picker.code,
 			)
 			map.set(picker.code, pickerPlayers)
 		})

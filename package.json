@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "caniuse-lite": "^1.0.30001750",

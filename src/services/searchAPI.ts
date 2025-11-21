@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { getData } from '@/helpers/getData'
 import type { TPlayerSearch } from '@/types'
 
@@ -14,5 +15,5 @@ const instance = axios.create({
 export const searchPlayers = async (searchInput: string) =>
 	getData<TPlayerSearch[]>(
 		`?culture=en-us&limit=20&active=true&q=${searchInput}`,
-		instance
+		instance,
 	)

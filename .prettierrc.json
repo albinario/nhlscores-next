@@ -4,5 +4,24 @@
 	"singleQuote": true,
 	"tabWidth": 2,
 	"prettier.trailingComma": "none",
-	"useTabs": true
+	"useTabs": true,
+	"plugins": ["@trivago/prettier-plugin-sort-imports"],
+	"importOrder": [
+		"^react$",
+		"^react-(.*)$",
+		"^next",
+		"^next/(.*)$",
+		"<THIRD_PARTY_MODULES>",
+		"^@/utils/(.*)$",
+		"^@/lib/(.*)$",
+		"^@/components/(.*)$",
+		"^@/ui/(.*)$",
+		"^@/hooks/(.*)$",
+		"^@/theme/(.*)$",
+		"^@/(.*)$",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrderCaseInsensitive": true
 }

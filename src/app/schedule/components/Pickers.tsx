@@ -1,4 +1,5 @@
 import { Fragment, useMemo } from 'react'
+
 import type { TPlayer } from '@/types'
 
 type TPickers = {
@@ -9,7 +10,7 @@ type TPickers = {
 export const Pickers = ({ players, showPickerNames = false }: TPickers) => {
 	const sortedPlayers = useMemo(
 		() => players.sort((a, b) => a.jersey - b.jersey),
-		[players]
+		[players],
 	)
 
 	return sortedPlayers.length > 0 ? (
@@ -19,7 +20,7 @@ export const Pickers = ({ players, showPickerNames = false }: TPickers) => {
 					(player) =>
 						`${showPickerNames ? (player.picker || '').toUpperCase() : ''}${
 							player.jersey
-						}`
+						}`,
 				)
 				.join(', ')}
 		</Fragment>

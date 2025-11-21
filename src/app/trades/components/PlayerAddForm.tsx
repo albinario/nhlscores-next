@@ -1,11 +1,13 @@
-import { pickers } from '@/app/lib/globals'
-import { EPosition } from '@/enums'
-import { useState, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { pickers } from '@/app/lib/globals'
+import { EPosition } from '@/enums'
 import { postPlayer } from '@/services/playersApi'
 import { searchPlayers } from '@/services/searchAPI'
 import type { TPlayer, TPlayerSearch } from '@/types'
@@ -29,7 +31,7 @@ const EMPTY_PICKER_VALUE = ''
 
 export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 	const [playersSearch, setPlayersSearch] = useState<TPlayerSearch[] | null>(
-		null
+		null,
 	)
 	const [searchInput, setSearchInput] = useState('')
 	const [isSearching, setIsSearching] = useState(false)
@@ -44,7 +46,7 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 		try {
 			const searchResults = await searchPlayers(searchInput)
 			const filteredPlayers = searchResults.filter(
-				(player) => player.sweaterNumber
+				(player) => player.sweaterNumber,
 			)
 			setPlayersSearch(filteredPlayers)
 		} catch (error) {
@@ -61,7 +63,7 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 
 			try {
 				const existingPlayer = players.find(
-					(player) => player.id === Number(playerToAdd.id)
+					(player) => player.id === Number(playerToAdd.id),
 				)
 				if (existingPlayer) {
 					alert('Player already exists in the system')
@@ -69,7 +71,7 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 				}
 
 				const player = playersSearch?.find(
-					(player) => player.playerId === playerToAdd.id
+					(player) => player.playerId === playerToAdd.id,
 				)
 
 				if (!player) {
@@ -104,7 +106,7 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 				setIsSubmitting(false)
 			}
 		},
-		[players, playersSearch, reset]
+		[players, playersSearch, reset],
 	)
 
 	const playerOptions = useMemo(() => {
@@ -132,6 +134,7 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 				<Col>
 					<Form.Control
 						disabled={isFormDisabled}
+						id='search-new-players-input'
 						onChange={(e) => setSearchInput(e.target.value)}
 						placeholder='Search players...'
 						type='text'

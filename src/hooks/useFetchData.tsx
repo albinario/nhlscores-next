@@ -1,5 +1,6 @@
-import { EPath } from '@/enums'
 import useSWR from 'swr'
+
+import { EPath } from '@/enums'
 
 export const useFetchData = <T,>(endpoint: string | null) => {
 	const fetcher = async (endpoint: string): Promise<T> => {
@@ -15,12 +16,8 @@ export const useFetchData = <T,>(endpoint: string | null) => {
 
 	return useSWR(endpoint, fetcher, {
 		revalidateOnFocus: false,
-		revalidateOnMount: true,
-		// SWR handles client-side caching and deduplication
-		dedupingInterval: 2000, // Dedupe requests within 2 seconds
 		errorRetryCount: 3,
 		errorRetryInterval: 5000,
-		// Let server cache headers control data freshness
 		revalidateIfStale: true,
 		revalidateOnReconnect: true,
 	})

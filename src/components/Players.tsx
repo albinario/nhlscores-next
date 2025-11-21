@@ -1,9 +1,12 @@
-import { Goalies } from '@/components/Goalies'
-import { Skaters } from '@/components/Skaters'
-import { EPosition } from '@/enums'
 import { Fragment, useMemo } from 'react'
+
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+
+import { Goalies } from '@/components/Goalies'
+import { Skaters } from '@/components/Skaters'
+
+import { EPosition } from '@/enums'
 import type { TGameBoxscoreTeam, TPlayer } from '@/types'
 
 type TPlayers = {
@@ -36,7 +39,7 @@ export const Players = ({
 					}
 					return acc
 				},
-				{ goalies: [] as TPlayer[], skaters: [] as TPlayer[] }
+				{ goalies: [] as TPlayer[], skaters: [] as TPlayer[] },
 			)
 
 		const { goalies: goaliesHome, skaters: skatersHome } =
@@ -49,7 +52,7 @@ export const Players = ({
 					}
 					return acc
 				},
-				{ goalies: [] as TPlayer[], skaters: [] as TPlayer[] }
+				{ goalies: [] as TPlayer[], skaters: [] as TPlayer[] },
 			)
 
 		return {

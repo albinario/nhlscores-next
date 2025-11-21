@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { getData } from '@/helpers/getData'
 import type {
 	TGame,
@@ -20,12 +21,12 @@ export const instance = axios.create({
 export const getGameDetails = async (gameId: number) => {
 	const boxscore = await getData<TGameBoxscore>(
 		`/gamecenter/${gameId}/boxscore`,
-		instance
+		instance,
 	)
 
 	const landing = await getData<TGameLanding>(
 		`/gamecenter/${gameId}/landing`,
-		instance
+		instance,
 	)
 
 	const gameDetails: TGameDetails = { boxscore, landing }
@@ -50,7 +51,7 @@ type TScheduleResponse = {
 export const getScheduleTeam = async (teamAbbrev: string) => {
 	const response = await getData<TScheduleResponse>(
 		`/club-schedule-season/${teamAbbrev}/now`,
-		instance
+		instance,
 	)
 	return response.games
 }

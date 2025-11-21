@@ -1,8 +1,11 @@
-import { Logo } from './Logo'
-import { Scorer } from '@/components/Scorer'
-import { getGoalTypes } from '@/helpers/getGoalTypes'
 import { useMemo } from 'react'
+
+import { Scorer } from '@/components/Scorer'
+
+import { getGoalTypes } from '@/helpers/getGoalTypes'
 import type { TGoal, TPlayer } from '@/types'
+
+import { Logo } from './Logo'
 
 type TGoalProps = {
 	away: boolean
@@ -52,7 +55,7 @@ export const Goal = ({
 			score: away ? 'me-1' : 'ms-1',
 			time: `text-muted ${away ? 'me-1' : 'ms-1'}`,
 		}),
-		[away]
+		[away],
 	)
 
 	return (

@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+
 import { EPosition } from '@/enums'
 import type { TPlayer } from '@/types'
 
@@ -26,7 +27,7 @@ export const Missing = ({ isAll, playersPicked = [] }: TMissing) => {
 					: POSITION_LIMITS[position as keyof typeof POSITION_LIMITS].partial
 
 				const currentCount = playersPicked.filter(
-					(p) => p.pos === position
+					(p) => p.pos === position,
 				).length
 				counts[position] = limit - currentCount
 			}

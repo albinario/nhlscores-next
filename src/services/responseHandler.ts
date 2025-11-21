@@ -1,10 +1,11 @@
-import { ESource } from '@/enums'
 import { NextResponse } from 'next/server'
+
+import { ESource } from '@/enums'
 
 export const errorResponse = (
 	error: Error | unknown,
 	errorMessage: string,
-	source: ESource
+	source: ESource,
 ) => {
 	const errorMessageFull = `${source} error when ${errorMessage}: `
 	const status = source === ESource.server ? 500 : 400
@@ -16,7 +17,7 @@ export const errorResponse = (
 			error: errorMessageFull + error,
 			details: error instanceof Error ? error.message : error,
 		},
-		{ status }
+		{ status },
 	)
 }
 
@@ -27,7 +28,7 @@ export const successResponse = <T>(
 	data?: T,
 	options?: {
 		cacheMaxAge?: number
-	}
+	},
 ) => {
 	const response = NextResponse.json(data || { success: true }, {
 		status: 200,
@@ -36,7 +37,9 @@ export const successResponse = <T>(
 	if (options?.cacheMaxAge !== undefined) {
 		response.headers.set(
 			'Cache-Control',
-			`public, max-age=${options.cacheMaxAge}`
+			options.cacheMaxAge === 0
+				? 'no-store, no-cache, must-revalidate'
+				: `public, max-age=${options.cacheMaxAge}`,
 		)
 	}
 

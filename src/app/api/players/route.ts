@@ -1,8 +1,10 @@
+import { NextRequest } from 'next/server'
+
+import mongoose from 'mongoose'
+
 import { connectMongo } from '@/app/lib/database'
 import { ESource } from '@/enums'
 import { Player } from '@/models/player'
-import mongoose from 'mongoose'
-import { NextRequest } from 'next/server'
 import {
 	errorResponse,
 	response,
@@ -18,13 +20,13 @@ export async function GET() {
 			return errorResponse(
 				new Error('Database connection failed'),
 				'Unable to connect to database',
-				ESource.server
+				ESource.server,
 			)
 		}
 
 		const players: TPlayer[] = await Player.find().sort('name')
 
-		return successResponse(players, { cacheMaxAge: 3600 })
+		return successResponse(players)
 	} catch (error) {
 		return errorResponse(error, 'fetching players', ESource.server)
 	}
@@ -42,7 +44,7 @@ export async function PATCH(req: NextRequest) {
 			return errorResponse(
 				new Error('Database connection failed'),
 				'Unable to connect to database',
-				ESource.server
+				ESource.server,
 			)
 		}
 
@@ -83,7 +85,7 @@ export async function POST(req: NextRequest) {
 			return errorResponse(
 				new Error('Database connection failed'),
 				'Unable to connect to database',
-				ESource.server
+				ESource.server,
 			)
 		}
 

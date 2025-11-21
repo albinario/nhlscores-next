@@ -1,6 +1,8 @@
-import { Logo } from './Logo'
 import { useMemo } from 'react'
+
 import type { TGoalieStats } from '@/types'
+
+import { Logo } from './Logo'
 
 type TGoalie = {
 	goalie: TGoalieStats
@@ -32,7 +34,7 @@ export const Goalie = ({
 			pickerDisplay: pickedBy ? ` ${pickedBy.toUpperCase()}` : '',
 			winningDisplay: winningGoalie ? ' W' : '',
 		}),
-		[goalie.name.default, goalie.sweaterNumber, pickedBy, winningGoalie]
+		[goalie.name.default, goalie.sweaterNumber, pickedBy, winningGoalie],
 	)
 
 	return goalieData.hasPlayed ? (

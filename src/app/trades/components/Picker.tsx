@@ -1,10 +1,14 @@
-import { useMemo, useCallback } from 'react'
-import { Missing } from './Missing'
+import { useCallback, useMemo } from 'react'
+
 import Col from 'react-bootstrap/Col'
+
 import { Logo } from '@/components/Logo'
+
 import { EPosition } from '@/enums'
 import { patchPlayer } from '@/services/playersApi'
 import type { TPlayer } from '@/types'
+
+import { Missing } from './Missing'
 
 type TPicker = {
 	picker: string

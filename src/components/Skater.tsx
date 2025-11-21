@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+
 import type { TSkaterStats } from '@/types'
 
 type TSkater = {

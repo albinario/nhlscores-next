@@ -1,12 +1,15 @@
-import { pickers } from '@/app/lib/globals'
-import { EPath, EPosition } from '@/enums'
-import { useFetchData } from '@/hooks/useFetchData'
-import { useState, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { useFetchData } from '@/hooks/useFetchData'
+
+import { pickers } from '@/app/lib/globals'
+import { EPath, EPosition } from '@/enums'
 import { patchPlayer } from '@/services/playersApi'
 import type { TPlayer, TTeamRecord } from '@/types'
 
@@ -27,7 +30,7 @@ type TPlayerToEdit = Omit<TPlayer, 'name'>
 const DEFAULT_PLAYER_VALUE = 0
 const EMPTY_STRING_VALUE = ''
 const VALID_POSITIONS = Object.values(EPosition).filter(
-	(pos) => pos !== EPosition.L && pos !== EPosition.R
+	(pos) => pos !== EPosition.L && pos !== EPosition.R,
 )
 
 export const PlayerEditForm = ({ players = [] }: TPlayerEditForm) => {
@@ -51,7 +54,7 @@ export const PlayerEditForm = ({ players = [] }: TPlayerEditForm) => {
 				setIsSubmitting(false)
 			}
 		},
-		[reset]
+		[reset],
 	)
 
 	const { data: teamRecords } = useFetchData<TTeamRecord[]>(EPath.teamRecords)
@@ -61,7 +64,7 @@ export const PlayerEditForm = ({ players = [] }: TPlayerEditForm) => {
 
 		const searchTerm = searchInput.toLowerCase()
 		return players.filter((player) =>
-			player.name.toLowerCase().includes(searchTerm)
+			player.name.toLowerCase().includes(searchTerm),
 		)
 	}, [players, searchInput])
 
@@ -98,6 +101,7 @@ export const PlayerEditForm = ({ players = [] }: TPlayerEditForm) => {
 				<Col>
 					<Form.Control
 						disabled={isFormDisabled}
+						id='search-existing-players-input'
 						onChange={(e) => setSearchInput(e.target.value)}
 						placeholder='Search players...'
 						type='text'

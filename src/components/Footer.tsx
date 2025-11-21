@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+
 import Link from 'next/link'
 
 export const Footer = () => {

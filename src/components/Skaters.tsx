@@ -1,9 +1,13 @@
-import { Logo } from './Logo'
-import { Skater } from '@/components/Skater'
 import { useMemo } from 'react'
+
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
+
+import { Skater } from '@/components/Skater'
+
 import type { TPlayer, TSkaterStats } from '@/types'
+
+import { Logo } from './Logo'
 
 type TSkaters = {
 	defenders: TSkaterStats[]
@@ -20,13 +24,13 @@ export const Skaters = ({
 }: TSkaters) => {
 	const skatersWithData = useMemo(() => {
 		const skaterMap = new Map(
-			skatersPicked.map((skater) => [skater.id, skater])
+			skatersPicked.map((skater) => [skater.id, skater]),
 		)
 
 		const allSkaters = defenders.concat(forwards)
 
 		const sortedSkaters = allSkaters.sort(
-			(a, b) => a.sweaterNumber - b.sweaterNumber
+			(a, b) => a.sweaterNumber - b.sweaterNumber,
 		)
 
 		return sortedSkaters.map((skater) => ({

@@ -1,9 +1,12 @@
+import { Fragment, useMemo } from 'react'
+
+import Badge from 'react-bootstrap/Badge'
+import Spinner from 'react-bootstrap/Spinner'
+
 import { AlertBox } from '@/components/AlertBox'
 import { Players } from '@/components/Players'
 import { Scoring } from '@/components/Scoring'
-import { Fragment, useMemo } from 'react'
-import Badge from 'react-bootstrap/Badge'
-import Spinner from 'react-bootstrap/Spinner'
+
 import type { TGameDetails, TPlayersPicked } from '@/types'
 
 type TGameDetailsProps = {
@@ -48,7 +51,7 @@ export const GameDetails = ({
 
 		const scoringData =
 			gameDetails.landing.summary?.scoring?.filter(
-				(s) => s.goals && s.goals.length > 0
+				(s) => s.goals && s.goals.length > 0,
 			) || []
 
 		return {

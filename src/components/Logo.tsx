@@ -1,7 +1,9 @@
+import { useCallback, useMemo } from 'react'
+
+import Image from 'react-bootstrap/Image'
+
 import { fallBackLogoUrl } from '@/app/lib/globals'
 import { getLogoUrl } from '@/helpers/getLogoUrl'
-import { useMemo, useCallback } from 'react'
-import Image from 'react-bootstrap/Image'
 
 type TLogo = {
 	className?: string
@@ -14,7 +16,7 @@ export const Logo = ({ className, teamAbbrev }: TLogo) => {
 			altText: `${teamAbbrev} team logo`,
 			logoUrl: getLogoUrl(teamAbbrev),
 		}),
-		[teamAbbrev]
+		[teamAbbrev],
 	)
 
 	const handleError = useCallback(
@@ -22,7 +24,7 @@ export const Logo = ({ className, teamAbbrev }: TLogo) => {
 			const target = e.target as HTMLImageElement
 			target.src = fallBackLogoUrl
 		},
-		[]
+		[],
 	)
 
 	return (

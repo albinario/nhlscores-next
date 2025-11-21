@@ -1,8 +1,12 @@
-import { Game } from '@/components/Game'
-import { EPath } from '@/enums'
-import { useFetchData } from '@/hooks/useFetchData'
 import { useMemo } from 'react'
+
 import Row from 'react-bootstrap/Row'
+
+import { Game } from '@/components/Game'
+
+import { useFetchData } from '@/hooks/useFetchData'
+
+import { EPath } from '@/enums'
 import type { TGame, TPlayer, TTeamRecord } from '@/types'
 
 type TGames = {
@@ -18,17 +22,17 @@ export const Games = ({ games, playersPicked }: TGames) => {
 
 		return games.map((game) => {
 			const playersPickedAway = playersPicked?.filter(
-				(player) => player.teamAbbrev === game.awayTeam.abbrev
+				(player) => player.teamAbbrev === game.awayTeam.abbrev,
 			)
 			const playersPickedHome = playersPicked?.filter(
-				(player) => player.teamAbbrev === game.homeTeam.abbrev
+				(player) => player.teamAbbrev === game.homeTeam.abbrev,
 			)
 
 			const teamRecordAway = teamRecords.find(
-				(team) => team.teamAbbrev.default === game.awayTeam.abbrev
+				(team) => team.teamAbbrev.default === game.awayTeam.abbrev,
 			)
 			const teamRecordHome = teamRecords.find(
-				(team) => team.teamAbbrev.default === game.homeTeam.abbrev
+				(team) => team.teamAbbrev.default === game.homeTeam.abbrev,
 			)
 
 			return {
@@ -54,7 +58,7 @@ export const Games = ({ games, playersPicked }: TGames) => {
 						teamRecordAway={teamRecordAway}
 						teamRecordHome={teamRecordHome}
 					/>
-				)
+				),
 			)}
 		</Row>
 	)

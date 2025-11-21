@@ -1,14 +1,18 @@
-import { useState, useMemo, useCallback } from 'react'
-import { GameDetails } from '@/components/GameDetails'
-import { Team } from '@/components/Team'
-import { EPath } from '@/enums'
-import { useFetchData } from '@/hooks/useFetchData'
-import { getStartTime } from '@/helpers/getStartTime'
+import { useCallback, useMemo, useState } from 'react'
+
 import Badge from 'react-bootstrap/Badge'
-import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+
+import { GameDetails } from '@/components/GameDetails'
+import { Team } from '@/components/Team'
+
+import { useFetchData } from '@/hooks/useFetchData'
+
+import { EPath } from '@/enums'
+import { getStartTime } from '@/helpers/getStartTime'
 import type { TGame, TGameDetails, TPlayersPicked, TTeamRecord } from '@/types'
 
 type TGameProps = {
@@ -44,7 +48,7 @@ export const Game = ({
 		error,
 		isLoading,
 	} = useFetchData<TGameDetails>(
-		gameStatus.started && showResults ? EPath.game + game.id : null
+		gameStatus.started && showResults ? EPath.game + game.id : null,
 	)
 
 	const toggleResults = useCallback(() => {

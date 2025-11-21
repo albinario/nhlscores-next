@@ -1,5 +1,7 @@
-import { ESource } from '@/enums'
 import { NextRequest } from 'next/server'
+
+import { age } from '@/app/lib/globals'
+import { ESource } from '@/enums'
 import { getGamesDate } from '@/services/nhlApi'
 import { errorResponse, successResponse } from '@/services/responseHandler'
 import type { TGame } from '@/types'
@@ -18,17 +20,17 @@ export async function GET(_req: NextRequest, { params }: TGamesRoute) {
 			return errorResponse(
 				new Error('Invalid date format'),
 				'Date must be in YYYY-MM-DD format',
-				ESource.server
+				ESource.server,
 			)
 		}
 
 		const games: TGame[] = await getGamesDate(date)
 
 		const isFinished = games.every(
-			(game) => game.winningGoalie || game.winningGoalScorer
+			(game) => game.winningGoalie || game.winningGoalScorer,
 		)
 
-		const cacheMaxAge = isFinished ? 86400 : 0
+		const cacheMaxAge = isFinished ? age.day : 0
 
 		return successResponse(games, { cacheMaxAge })
 	} catch (error) {

@@ -1,6 +1,9 @@
-import { Goalie } from '@/components/Goalie'
 import { useMemo } from 'react'
+
 import Table from 'react-bootstrap/Table'
+
+import { Goalie } from '@/components/Goalie'
+
 import type { TGoalieStats, TPlayer } from '@/types'
 
 type TGoalies = {
@@ -24,11 +27,11 @@ export const Goalies = ({
 }: TGoalies) => {
 	const goaliesWithData = useMemo(() => {
 		const goalieMapAway = new Map(
-			goaliesPickedAway.map((goalie) => [goalie.id, goalie])
+			goaliesPickedAway.map((goalie) => [goalie.id, goalie]),
 		)
 
 		const goalieMapHome = new Map(
-			goaliesPickedHome.map((goalie) => [goalie.id, goalie])
+			goaliesPickedHome.map((goalie) => [goalie.id, goalie]),
 		)
 
 		const away = goaliesAway.map((goalie) => ({
@@ -79,7 +82,7 @@ export const Goalies = ({
 							pickedBy={pickedBy}
 							winningGoalie={winningGoalie}
 						/>
-					)
+					),
 				)}
 
 				{goaliesWithData.home.map(
@@ -91,7 +94,7 @@ export const Goalies = ({
 							pickedBy={pickedBy}
 							winningGoalie={winningGoalie}
 						/>
-					)
+					),
 				)}
 			</tbody>
 		</Table>

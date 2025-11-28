@@ -14,7 +14,7 @@
     "bootstrap": "^5.3.3",
     "caniuse-lite": "^1.0.30001750",
     "date-fns": "^4.1.0",
-    "mongoose": "^8.6.1",
+    "mongoose": "^9.0.0",
     "next": "^16.0.1",
     "react": "^19.0.0-rc-fb9a90fa48-20240614",
     "react-bootstrap": "^2.10.4",

@@ -1,10 +1,5 @@
 import { EPickerCode, EPickerName } from '@/enums'
 
-export const age = {
-	day: 86400,
-	week: 604800,
-}
-
 export const dateFormat = 'yyyy-MM-dd'
 
 export const fallBackLogoUrl = '/apple-touch-icon-57x57.png'

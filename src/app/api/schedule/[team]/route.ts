@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server'
 
-import { age } from '@/app/lib/globals'
 import { ESource } from '@/enums'
 import { getScheduleTeam } from '@/services/nhlApi'
 import { errorResponse, successResponse } from '@/services/responseHandler'
@@ -18,7 +17,7 @@ export async function GET(_req: NextRequest, { params }: TScheduleRoute) {
 	try {
 		const scheduleTeam: TGame[] = await getScheduleTeam(team)
 
-		return successResponse(scheduleTeam, { cacheMaxAge: age.day })
+		return successResponse(scheduleTeam)
 	} catch (error) {
 		return errorResponse(
 			error,

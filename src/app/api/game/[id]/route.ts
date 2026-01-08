@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server'
 
-import { age } from '@/app/lib/globals'
 import { ESource } from '@/enums'
 import { getGameDetails } from '@/services/nhlApi'
 import { errorResponse, successResponse } from '@/services/responseHandler'
@@ -26,9 +25,7 @@ export async function GET(_req: NextRequest, { params }: TGameRoute) {
 
 		const gameDetails: TGameDetails = await getGameDetails(Number(id))
 
-		const cacheMaxAge = gameDetails.landing?.gameState === 'FINAL' ? age.day : 0
-
-		return successResponse(gameDetails, { cacheMaxAge })
+		return successResponse(gameDetails)
 	} catch (error) {
 		const { id } = await params
 		return errorResponse(error, `fetching game ${id}`, ESource.server)

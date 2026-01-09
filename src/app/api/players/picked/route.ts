@@ -7,6 +7,7 @@ import type { TPlayer } from '@/types'
 export async function GET() {
 	try {
 		const isConnected = await connectMongo()
+
 		if (!isConnected) {
 			return errorResponse(
 				new Error('Database connection failed'),

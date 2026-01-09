@@ -14,7 +14,7 @@ import { useFetchData } from '@/hooks/useFetchData'
 
 import { dateFormat } from '@/app/lib/globals'
 import { EPath } from '@/enums'
-import { useDateNavigation } from '@/helpers/page'
+import { useDateNavigation } from '@/helpers/date'
 import type { TGame, TPlayer } from '@/types'
 
 export default function Home() {

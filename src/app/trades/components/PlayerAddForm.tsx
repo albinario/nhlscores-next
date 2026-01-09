@@ -7,35 +7,22 @@ import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { pickers } from '@/app/lib/globals'
-import { EPosition } from '@/enums'
+import { EPlayerAddForm, EPosition } from '@/enums'
 import { postPlayer } from '@/services/playersApi'
 import { searchPlayers } from '@/services/searchAPI'
-import type { TPlayer, TPlayerSearch } from '@/types'
-
-enum EForm {
-	id = 'id',
-	picker = 'picker',
-}
+import type { TPlayer, TPlayerSearch, TPlayerToAdd } from '@/types'
 
 type TPlayerAddForm = {
 	players?: TPlayer[]
 }
 
-type TPlayerToAdd = {
-	id: string
-	picker: string
-}
-
-const DEFAULT_PLAYER_OPTION_VALUE = '0'
-const EMPTY_PICKER_VALUE = ''
-
 export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
+	const [isSearching, setIsSearching] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [playersSearch, setPlayersSearch] = useState<TPlayerSearch[] | null>(
 		null,
 	)
 	const [searchInput, setSearchInput] = useState('')
-	const [isSearching, setIsSearching] = useState(false)
-	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { formState, handleSubmit, register, reset } = useForm<TPlayerToAdd>()
 
@@ -156,10 +143,11 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 
 				<Col>
 					<Form.Select
-						{...register(EForm.id, { required: true, min: 1 })}
+						{...register(EPlayerAddForm.id, { required: true, min: 1 })}
 						disabled={isFormDisabled}
 					>
-						<option value={DEFAULT_PLAYER_OPTION_VALUE}>Select Player</option>
+						<option value={0}>Select Player</option>
+
 						{playerOptions.map((option) => (
 							<option key={option.value} value={option.value}>
 								{option.label}
@@ -169,8 +157,12 @@ export const PlayerAddForm = ({ players = [] }: TPlayerAddForm) => {
 				</Col>
 
 				<Col>
-					<Form.Select {...register(EForm.picker)} disabled={isFormDisabled}>
-						<option value={EMPTY_PICKER_VALUE}>Select Picker</option>
+					<Form.Select
+						{...register(EPlayerAddForm.picker)}
+						disabled={isFormDisabled}
+					>
+						<option value=''>Select Picker</option>
+
 						{pickerOptions.map((option) => (
 							<option key={option.value} value={option.value}>
 								{option.label}

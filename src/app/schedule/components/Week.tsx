@@ -1,20 +1,11 @@
 import { useMemo } from 'react'
 
 import classNames from 'classnames'
-import { format, parse, subDays } from 'date-fns'
 
 import { Logo } from '@/components/Logo'
 
-import { dateFormat } from '@/app/lib/globals'
+import { isConsecutiveDay } from '@/helpers/date'
 import type { TGame, TTeamSchedule } from '@/types'
-
-const isConsecutiveDay = (
-	currentDate: string,
-	previousDate: string,
-): boolean => {
-	const current = parse(currentDate, dateFormat, new Date())
-	return format(subDays(current, 1), dateFormat) === previousDate
-}
 
 type TWeek = {
 	endDate: string
@@ -51,9 +42,9 @@ export const Week = ({
 
 			return {
 				game,
-				opponent,
-				isHome,
 				isBackToBack,
+				isHome,
+				opponent,
 				teamValue,
 			}
 		})
@@ -66,7 +57,7 @@ export const Week = ({
 
 	return (
 		<td className='text-end'>
-			{processedGames.map(({ game, opponent, isHome, isBackToBack }) => (
+			{processedGames.map(({ game, isBackToBack, isHome, opponent }) => (
 				<Logo
 					className={classNames({
 						back: isBackToBack,

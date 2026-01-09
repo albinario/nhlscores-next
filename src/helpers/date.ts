@@ -4,6 +4,38 @@ import { addDays, format, parse, subDays } from 'date-fns'
 
 import { dateFormat } from '@/app/lib/globals'
 
+const getDates = () => {
+	const now = new Date()
+
+	return {
+		today: format(now, dateFormat),
+		tomorrow: format(addDays(now, 1), dateFormat),
+		yesterday: format(subDays(now, 1), dateFormat),
+	}
+}
+
+export const getDateTitle = (date: string) => {
+	const { today, tomorrow, yesterday } = getDates()
+
+	switch (date) {
+		case today:
+			return 'Tonight'
+		case tomorrow:
+			return 'Tomorrow night'
+		case yesterday:
+			return 'Last night'
+		default:
+			return date
+	}
+}
+
+export const isConsecutiveDay = (
+	currentDate: string,
+	previousDate: string,
+): boolean =>
+	format(subDays(parse(currentDate, dateFormat, new Date()), 1), dateFormat) ===
+	previousDate
+
 export const useDateNavigation = (initialDate: string) => {
 	const [date, setDate] = useState(initialDate)
 

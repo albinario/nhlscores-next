@@ -128,6 +128,12 @@ export type TPlayersPicked = {
 	home: TPlayer[]
 }
 
+export type TPlayerToAdd = Pick<TPlayer, 'picker'> & {
+	id: string
+}
+
+export type TPlayerToEdit = Omit<TPlayer, 'name'>
+
 export type TScoring = {
 	goals: TGoal[]
 	periodDescriptor: TPeriodDescriptor

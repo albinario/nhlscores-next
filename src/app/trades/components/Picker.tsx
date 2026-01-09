@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col'
 
 import { Logo } from '@/components/Logo'
 
-import { EPosition } from '@/enums'
+import { positionOrder } from '@/app/lib/globals'
 import { patchPlayer } from '@/services/playersApi'
 import type { TPlayer } from '@/types'
 
@@ -15,20 +15,13 @@ type TPicker = {
 	playersPicked?: TPlayer[]
 }
 
-const POSITION_ORDER = [
-	EPosition.C,
-	EPosition.W,
-	EPosition.D,
-	EPosition.G,
-] as const
-
 export const Picker = ({ picker, playersPicked = [] }: TPicker) => {
 	const sortedPlayers = useMemo(() => {
 		if (!playersPicked.length) return []
 
 		return [...playersPicked].sort((a, b) => {
-			const aPosIndex = POSITION_ORDER.indexOf(a.pos as any)
-			const bPosIndex = POSITION_ORDER.indexOf(b.pos as any)
+			const aPosIndex = positionOrder.indexOf(a.pos as any)
+			const bPosIndex = positionOrder.indexOf(b.pos as any)
 			const posDiff = aPosIndex - bPosIndex
 			if (posDiff !== 0) return posDiff
 

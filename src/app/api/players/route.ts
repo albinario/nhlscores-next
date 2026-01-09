@@ -35,7 +35,6 @@ export async function GET() {
 export async function PATCH(req: NextRequest) {
 	try {
 		const body: Partial<TPlayer> = await req.json()
-
 		if (!body.id) return response('Player ID is required', 400)
 
 		const isConnected = await connectMongo()
@@ -49,11 +48,9 @@ export async function PATCH(req: NextRequest) {
 		}
 
 		const player = await Player.findOne({ id: body.id })
-
 		if (!player) return response('No player with this id', 404)
 
 		const updates: Partial<TPlayer> = {}
-
 		if (body.picker) updates.picker = body.picker
 		if (body.jersey) updates.jersey = body.jersey
 		if (body.pos) updates.pos = body.pos

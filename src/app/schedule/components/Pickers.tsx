@@ -4,10 +4,10 @@ import type { TPlayer } from '@/types'
 
 type TPickers = {
 	players: TPlayer[]
-	showPickerNames?: boolean
+	showPicker?: boolean
 }
 
-export const Pickers = ({ players, showPickerNames = false }: TPickers) => {
+export const Pickers = ({ players, showPicker = false }: TPickers) => {
 	const sortedPlayers = useMemo(
 		() => players.sort((a, b) => a.jersey - b.jersey),
 		[players],
@@ -18,7 +18,7 @@ export const Pickers = ({ players, showPickerNames = false }: TPickers) => {
 			{sortedPlayers
 				.map(
 					(player) =>
-						`${showPickerNames ? (player.picker || '').toUpperCase() : ''}${
+						`${showPicker ? (player.picker || '').toUpperCase() : ''}${
 							player.jersey
 						}`,
 				)

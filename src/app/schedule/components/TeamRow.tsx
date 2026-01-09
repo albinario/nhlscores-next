@@ -1,47 +1,11 @@
-import { useMemo } from 'react'
-
 import { Logo } from '@/components/Logo'
 
-import { useFetchData } from '@/hooks/useFetchData'
+import { useTeamRow } from '@/hooks/useTeamRow'
 
-import { pickers } from '@/app/lib/globals'
-import { EPath } from '@/enums'
-import type {
-	TDates,
-	TGame,
-	TPlayer,
-	TTeamRecord,
-	TTeamSchedule,
-} from '@/types'
+import type { TDates, TPlayer, TTeamRecord, TTeamSchedule } from '@/types'
 
 import { Pickers } from './Pickers'
 import { Week } from './Week'
-
-const useWeekGames = (games: TGame[], startDate: string, endDate: string) => {
-	return useMemo(
-		() =>
-			games.filter(
-				(game) => game.gameDate >= startDate && game.gameDate <= endDate,
-			),
-		[games, startDate, endDate],
-	)
-}
-
-const usePickerPlayers = (
-	players: TPlayer[],
-	pickerCode: string,
-	exclude = false,
-) => {
-	return useMemo(
-		() =>
-			players.filter((player) =>
-				exclude
-					? player.picker.toLowerCase() !== pickerCode
-					: player.picker.toLowerCase() === pickerCode,
-			),
-		[players, pickerCode, exclude],
-	)
-}
 
 type TTeamRow = {
 	dates: TDates
@@ -56,24 +20,15 @@ export const TeamRow = ({
 	teamRecord,
 	teams,
 }: TTeamRow) => {
-	const { data: games } = useFetchData<TGame[]>(
-		EPath.schedule + teamRecord.teamAbbrev.default,
-	)
-
-	const week1Games = useWeekGames(games || [], dates.week1Start, dates.week1End)
-	const week2Games = useWeekGames(games || [], dates.week2Start, dates.week2End)
-	const week3Games = useWeekGames(games || [], dates.week3Start, dates.week3End)
-	const week4Games = useWeekGames(games || [], dates.week4Start, dates.week4End)
-
-	const primaryPickerPlayers = usePickerPlayers(
-		playersPicked || [],
-		pickers[0].code,
-	)
-	const otherPickerPlayers = usePickerPlayers(
-		playersPicked || [],
-		pickers[0].code,
-		true,
-	)
+	const {
+		games,
+		otherPickerPlayers,
+		primaryPickerPlayers,
+		week1Games,
+		week2Games,
+		week3Games,
+		week4Games,
+	} = useTeamRow(dates, playersPicked, teamRecord)
 
 	return games ? (
 		<tr>
@@ -108,7 +63,7 @@ export const TeamRow = ({
 			/>
 
 			<td className='text-end'>
-				<Pickers players={primaryPickerPlayers} showPickerNames />
+				<Pickers players={primaryPickerPlayers} />
 			</td>
 
 			<td className='text-center'>
@@ -116,7 +71,7 @@ export const TeamRow = ({
 			</td>
 
 			<td>
-				<Pickers players={otherPickerPlayers} />
+				<Pickers players={otherPickerPlayers} showPicker />
 			</td>
 
 			<Week

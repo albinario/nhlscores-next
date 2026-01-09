@@ -7,7 +7,6 @@ export const connectMongo = async (): Promise<boolean> => {
 
 	if (!uri || uri.trim() === '') {
 		console.error('Error: MONGODB_URI is not defined or empty.')
-
 		return false
 	}
 
@@ -21,7 +20,6 @@ export const connectMongo = async (): Promise<boolean> => {
 		return true
 	} catch (error) {
 		console.error('Error connecting to MongoDB: ', error)
-
 		return false
 	}
 }

@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import Spinner from 'react-bootstrap/Spinner'
 
-import { getDateTitle } from '@/helpers/getDateTitle'
+import { getDateTitle } from '@/helpers/date'
 
 type THeader = {
 	date: string

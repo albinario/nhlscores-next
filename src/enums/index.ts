@@ -1,3 +1,16 @@
+export enum EPlayerAddForm {
+	id = 'id',
+	picker = 'picker',
+}
+
+export enum EPlayerEditForm {
+	id = EPlayerAddForm.id,
+	jersey = 'jersey',
+	picker = EPlayerAddForm.picker,
+	pos = 'pos',
+	teamAbbrev = 'teamAbbrev',
+}
+
 export enum EPickerCode {
 	A = 'a',
 	J = 'j',
